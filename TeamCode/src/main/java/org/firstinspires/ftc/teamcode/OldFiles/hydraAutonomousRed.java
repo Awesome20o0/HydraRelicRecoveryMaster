@@ -138,11 +138,9 @@ public class hydraAutonomousRed extends LinearOpMode {
     } catch (InterruptedException e) {
       Log.i(LOG_TAG, e.toString());
     }
-    try {
-      waitForStart();
-    } catch (InterruptedException e) {
-      Log.i(LOG_TAG, e.toString());
-    }
+
+    waitForStart();
+
     int distance1 = 5000; // TODO: 11/19/2015 CORRECT VALUES
     int distance2 = 7075; // TODO: 11/19/2015 CORRECT VALUES
     int distance3 = 12750; // TODO: 11/19/2015 CORRECT VALUES

@@ -35,7 +35,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 
-import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 
 /*
@@ -141,8 +140,6 @@ public class AdafruitRGBExample extends AutoMode {
       if (bCurrState == true && bCurrState != bPrevState)  {
         // button is transitioning to a pressed state.
 
-        // print a debug statement.
-        DbgLog.msg("MY_DEBUG - x button was pressed!");
 
         // update previous state variable.
         bPrevState = bCurrState;
@@ -155,9 +152,6 @@ public class AdafruitRGBExample extends AutoMode {
 
       } else if (bCurrState == false && bCurrState != bPrevState)  {
         // button is transitioning to a released state.
-
-        // print a debug statement.
-        DbgLog.msg("MY_DEBUG - x button was released!");
 
         // update previous state variable.
         bPrevState = bCurrState;
