@@ -10,14 +10,27 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
     @Override
     public void loop() {
-        powerR = gamepad1.right_stick_y;
-        powerL = gamepad1.left_stick_y;
-
-        slowingFactor = 1 - ((gamepad1.right_trigger * .5) + (gamepad1.left_trigger * .25));
 
         if(gamepad1.a) {
             reverse();
             while(gamepad1.a);
+        }
+
+        if(((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
+                Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
+            double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+            double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            double rightX = gamepad1.right_stick_x;
+            final double FL = r * Math.cos(robotAngle) + rightX;
+            final double FR = r * Math.sin(robotAngle) - rightX;
+            final double BL = r * Math.sin(robotAngle) + rightX;
+            final double BR = r * Math.cos(robotAngle) - rightX;
+
+            motorFL.setPower(FL);
+            motorFR.setPower(FR);
+            motorBL.setPower(BL);
+            motorBR.setPower(BR);
+
         }
 
         //if none of our motors are running, get the voltage
@@ -28,10 +41,5 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
         telemetry.update();
 
-        if (Math.abs(powerR) > .05 || (Math.abs(powerL) > .05)) {
-            startMotors(powerR, powerL);
-        } else {
-            stopMotors();
-        }
     }
 }

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by Varun on 9/10/2017.
  */
 
-@Autonomous(name = "Red Autonomous", group = "LinearOpMode")
+@Autonomous(name = "Red Auto", group = "LinearOpMode")
 public class RedAuto extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Test";
