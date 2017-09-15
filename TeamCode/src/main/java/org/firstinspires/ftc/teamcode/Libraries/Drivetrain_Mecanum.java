@@ -18,12 +18,44 @@ public class Drivetrain_Mecanum{
 
     LinearOpMode opMode;
 
-    public void move(double pow, double turn, double direction) {
+    public void resetEncoders() throws InterruptedException {
 
-        final double FL = pow * Math.cos(direction) + turn;
-        final double FR = pow * Math.sin(direction) - turn;
-        final double BL = pow * Math.sin(direction) + turn;
-        final double BR = pow * Math.cos(direction) - turn;
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        opMode.idle();
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        opMode.idle();
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        opMode.idle();
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        opMode.idle();
+
+        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        opMode.idle();
+        motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        opMode.idle();
+        motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        opMode.idle();
+        motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        opMode.idle();
+
+    }
+    public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double turn, double direction) throws InterruptedException {
+        double error;
+        double inte = 0;
+        double der;
+
+        resetEncoders();
+
+        int startEncoder = Math.abs(motorFL.getCurrentPosition());
+
+        int endEncoder;
+    }
+    public void move(double pow, double rotation, double direction) {
+
+        final double FL = pow * Math.cos(direction) + rotation;
+        final double FR = pow * Math.sin(direction) - rotation;
+        final double BL = pow * Math.sin(direction) + rotation;
+        final double BR = pow * Math.cos(direction) - rotation;
 
         motorFL.setPower(FL);
         motorBL.setPower(BL);
@@ -65,7 +97,7 @@ public class Drivetrain_Mecanum{
             error = Math.abs(angleTo) - Math.abs(currentAngle);
 
             power = ( power * (error) * kP) + floor;
-            inte = ((opMode.getRuntime()) * kI);
+            inte += ((opMode.getRuntime()) * error * kI);
             der = (error - previousError) / opMode.getRuntime() * kD;
 
             power = power + inte + der;
