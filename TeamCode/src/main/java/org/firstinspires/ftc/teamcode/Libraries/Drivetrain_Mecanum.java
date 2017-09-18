@@ -53,29 +53,47 @@ public class Drivetrain_Mecanum{
         double error;
         double inte = 0;
         double der;
+        double previousRunTime;
 
-        opMode.telemetry.addData("distance left", error + "");
+        resetEncoders();
+
+        double previousError = distance - getEncoderAvg();
+
+        opMode.telemetry.addData("distance left", distance + "");
+        opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
         opMode.telemetry.update();
 
         opMode.resetStartTime();
 
-        //asdfsd
-        resetEncoders();
-
-        while(getEncoderAvg() < distance) {
-            error = Math.abs(distance) - Math.abs();
-
-            power = ( power * (error) * kP) + floor;
+        while(getEncoderAvg() < (distance - accuracy)) {
+            error = Math.abs(distance) - Math.abs(getEncoderAvg());
+            previousRunTime = opMode.getRuntime();
+            power = (power * (error) * kP) + floor;
             inte += ((opMode.getRuntime()) * error * kI);
-            der = (error - previousError) / opMode.getRuntime() * kD;
+            der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
 
             power = power + inte + der;
+
+            Range.clip(power, -1, 1);
+            move(power, turn, direction);
+
+            opMode.telemetry.addData("error", error);
+            opMode.telemetry.addData("PID", power);
+//            opMode.telemetry.addData("integral", inte);
+            opMode.telemetry.addData("integral", inte);
+            opMode.telemetry.addData("Encoder", getEncoderAvg());
+
+            opMode.telemetry.update();
+            previousError = error;
+            opMode.idle();
         }
 
+        opMode.telemetry.update();
+        stopMotors();
     }
 
-    public void move(double pow, double rotation, double direction) {
-
+    public void move(double pow, double rotation, double direction, int encoder) {
+        
         final double FL = pow * Math.cos(direction) + rotation;
         final double FR = pow * Math.sin(direction) - rotation;
         final double BL = pow * Math.sin(direction) + rotation;
