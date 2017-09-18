@@ -39,17 +39,40 @@ public class Drivetrain_Mecanum{
         opMode.idle();
 
     }
+
+    public int getEncoderAvg() {
+        return ((Math.abs(motorBR.getCurrentPosition())) +
+                Math.abs(motorBL.getCurrentPosition()) +
+                (Math.abs(motorFR.getCurrentPosition())) +
+                Math.abs(motorFL.getCurrentPosition())) / 4;
+    }
+
+
+
     public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double turn, double direction) throws InterruptedException {
         double error;
         double inte = 0;
         double der;
 
+        opMode.telemetry.addData("distance left", error + "");
+        opMode.telemetry.update();
+
+        opMode.resetStartTime();
+
         resetEncoders();
 
-        int startEncoder = Math.abs(motorFL.getCurrentPosition());
+        while(getEncoderAvg() < distance) {
+            error = Math.abs(distance) - Math.abs();
 
-        int endEncoder;
+            power = ( power * (error) * kP) + floor;
+            inte += ((opMode.getRuntime()) * error * kI);
+            der = (error - previousError) / opMode.getRuntime() * kD;
+
+            power = power + inte + der;
+        }
+
     }
+
     public void move(double pow, double rotation, double direction) {
 
         final double FL = pow * Math.cos(direction) + rotation;
