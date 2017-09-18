@@ -92,8 +92,8 @@ public class Drivetrain_Mecanum{
         stopMotors();
     }
 
-    public void move(double pow, double rotation, double direction, int encoder) {
-        
+    public void move(double pow, double rotation, double direction) {
+
         final double FL = pow * Math.cos(direction) + rotation;
         final double FR = pow * Math.sin(direction) - rotation;
         final double BL = pow * Math.sin(direction) + rotation;
@@ -103,6 +103,21 @@ public class Drivetrain_Mecanum{
         motorBL.setPower(BL);
         motorBR.setPower(BR);
         motorFR.setPower(FR);
+    }
+
+    public void move(double pow, double rotation, double direction, int encoder) {
+
+        final double FL = pow * Math.cos(direction) + rotation;
+        final double FR = pow * Math.sin(direction) - rotation;
+        final double BL = pow * Math.sin(direction) + rotation;
+        final double BR = pow * Math.cos(direction) - rotation;
+
+        while (getEncoderAvg() < encoder) {
+            motorFL.setPower(FL);
+            motorBL.setPower(BL);
+            motorBR.setPower(BR);
+            motorFR.setPower(FR);
+        }
     }
 
     public void startMotors(double ri, double le) throws InterruptedException {
