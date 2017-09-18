@@ -59,6 +59,7 @@ public class Drivetrain_Mecanum{
 
         opMode.resetStartTime();
 
+        //asdfsd
         resetEncoders();
 
         while(getEncoderAvg() < distance) {
