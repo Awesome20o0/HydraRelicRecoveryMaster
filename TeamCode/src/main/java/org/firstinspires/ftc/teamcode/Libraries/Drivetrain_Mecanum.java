@@ -16,7 +16,22 @@ public class Drivetrain_Mecanum{
 
     public Sensor sensor;
 
+    int nullValue;
     LinearOpMode opMode;
+
+    public Drivetrain_Mecanum(LinearOpMode opMode)throws InterruptedException {
+        this.opMode = opMode;
+        nullValue = 0;
+        motorBL = this.opMode.hardwareMap.dcMotor.get("BL");
+        motorBR = this.opMode.hardwareMap.dcMotor.get("BR");
+        motorFL = this.opMode.hardwareMap.dcMotor.get("FL");
+        motorFR = this.opMode.hardwareMap.dcMotor.get("FR");
+        this.opMode.telemetry.addData("init", "finished drivetrain init");
+        this.opMode.telemetry.update();
+        sensor = new Sensor(opMode);
+        this.opMode.telemetry.addData("init", "init finished");
+        this.opMode.telemetry.update();
+    }
 
     public void resetEncoders() throws InterruptedException {
 
