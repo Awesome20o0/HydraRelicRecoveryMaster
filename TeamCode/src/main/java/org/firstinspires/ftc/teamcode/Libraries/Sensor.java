@@ -6,7 +6,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -23,8 +23,10 @@ public class Sensor {
     Orientation angles;
     Acceleration gravity;
     BNO055IMU.Parameters parameters;
+    ColorSensor jewelSensor;
     public Sensor(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
+        jewelSensor = opMode.hardwareMap.colorSensor.get("jewelSensor");
         right = opMode.hardwareMap.opticalDistanceSensor.get("odsR");
         left = opMode.hardwareMap.opticalDistanceSensor.get("odsL");
 
@@ -53,7 +55,12 @@ public class Sensor {
         gravity  = gyro.getGravity();
 
     }
-
+    public int getBlue() {
+        return jewelSensor.blue();
+    }
+    public int getRed(){
+        return jewelSensor.red();
+    }
     public double getGyroYaw() {
         updateValues();
         double value = angles.firstAngle * -1;
