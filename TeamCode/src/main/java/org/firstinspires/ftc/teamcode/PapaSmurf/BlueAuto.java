@@ -102,18 +102,18 @@ public class BlueAuto extends LinearOpMode{
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 
             // 4. Turn left in place
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, Math.PI/2, Math.PI/2);
+            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI/2);
 
             // 5. Drive forward 24 inches towards cryptobox
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 
             // 6. Move left depending on VuMark value
             if (right) {
-                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, Math.PI/2, Math.PI/2);
+                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, Math.PI, 0);
             } else if (center) {
-                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, Math.PI/2, Math.PI/2);
+                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, Math.PI, 0);
             } else if (left) {
-                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, Math.PI/2, Math.PI/2);
+                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, Math.PI, 0);
             }
         }
     }

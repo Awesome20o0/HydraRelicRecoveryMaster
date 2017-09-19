@@ -64,7 +64,7 @@ public class Drivetrain_Mecanum{
 
 
 
-    public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double turn, double direction) throws InterruptedException {
+    public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double rotation, double direction) throws InterruptedException {
         double error;
         double inte = 0;
         double der;
@@ -90,7 +90,7 @@ public class Drivetrain_Mecanum{
             power = power + inte + der;
 
             Range.clip(power, -1, 1);
-            move(power, turn, direction);
+            move(power, rotation, direction);
 
             opMode.telemetry.addData("error", error);
             opMode.telemetry.addData("PID", power);
@@ -109,10 +109,10 @@ public class Drivetrain_Mecanum{
 
     public void move(double pow, double rotation, double direction) {
 
-        final double FL = pow * Math.cos(direction) + rotation;
-        final double FR = pow * Math.sin(direction) - rotation;
-        final double BL = pow * Math.sin(direction) + rotation;
-        final double BR = pow * Math.cos(direction) - rotation;
+        final double FL = pow * Math.cos(direction - Math.PI/4) + rotation;
+        final double FR = pow * Math.sin(direction - Math.PI/4) - rotation;
+        final double BL = pow * Math.sin(direction - Math.PI/4) + rotation;
+        final double BR = pow * Math.cos(direction - Math.PI/4) - rotation;
 
         motorFL.setPower(FL);
         motorBL.setPower(BL);
@@ -122,10 +122,10 @@ public class Drivetrain_Mecanum{
 
     public void move(double pow, double rotation, double direction, int encoder) {
 
-        final double FL = pow * Math.cos(direction) + rotation;
-        final double FR = pow * Math.sin(direction) - rotation;
-        final double BL = pow * Math.sin(direction) + rotation;
-        final double BR = pow * Math.cos(direction) - rotation;
+        final double FL = pow * Math.cos(direction - Math.PI/4) + rotation;
+        final double FR = pow * Math.sin(direction - Math.PI/4) - rotation;
+        final double BL = pow * Math.sin(direction - Math.PI/4) + rotation;
+        final double BR = pow * Math.cos(direction - Math.PI/4) - rotation;
 
         while (getEncoderAvg() < encoder) {
             motorFL.setPower(FL);
