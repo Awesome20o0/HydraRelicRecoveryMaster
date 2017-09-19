@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -16,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Libraries.Drivetrain_Mecanum;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 /**
  * Created by Varun on 9/11/2017.
@@ -25,6 +28,8 @@ public class BlueAuto extends LinearOpMode{
 
     private Drivetrain_Mecanum drivetrainM;
     private String version;
+
+    public static ColorSensor jewelSensor;
 
     public static final String TAG = "Vuforia VuMark Sample";
 
@@ -37,6 +42,8 @@ public class BlueAuto extends LinearOpMode{
     VuforiaLocalizer vuforia;
 
     @Override public void runOpMode() throws InterruptedException {
+
+        jewelSensor = hardwareMap.colorSensor.get("jewelSensor");
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -97,6 +104,14 @@ public class BlueAuto extends LinearOpMode{
             telemetry.update();
 
             // 2. Knock ball off
+            if (jewelSensor.blue()) { //have no idea what im doing
+            } else {
+                //move arm other way
+            }
+            if (jewelSensor.red())
+            {
+                //move arm this way
+            }
 
             // 3. Drive 24 inches off of balancing stone
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
