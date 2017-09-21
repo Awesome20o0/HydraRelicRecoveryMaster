@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.Libraries;
 
-import android.graphics.Color;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -23,10 +21,13 @@ public class Sensor {
     Orientation angles;
     Acceleration gravity;
     BNO055IMU.Parameters parameters;
-    ColorSensor jewelSensor;
+    ColorSensor jewelSensorLeft;
+    ColorSensor jewelSensorRight;
+
     public Sensor(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-        jewelSensor = opMode.hardwareMap.colorSensor.get("jewelSensor");
+        jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
+        jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
         right = opMode.hardwareMap.opticalDistanceSensor.get("odsR");
         left = opMode.hardwareMap.opticalDistanceSensor.get("odsL");
 
@@ -54,12 +55,15 @@ public class Sensor {
         angles   = gyro.getAngularOrientation();
         gravity  = gyro.getGravity();
 
+
+
+
     }
     public int getBlue() {
-        return jewelSensor.blue();
+        return jewelSensorLeft.blue();
     }
     public int getRed(){
-        return jewelSensor.red();
+        return jewelSensorLeft.red();
     }
     public double getGyroYaw() {
         updateValues();
@@ -67,6 +71,20 @@ public class Sensor {
         if(angles.firstAngle < -180)
             value -= 360;
         return value;
+    }
+
+    private int comparativeAlgorithmValue() {
+        double blueBeacon = 0;
+
+        double bluebeaconL = jewelSensorLeft.blue();
+        double bluebeaconR = jewelSensorRight.blue();
+        double redbeaconL = jewelSensorLeft.red();
+        double redbeaconR = jewelSensorRight.red();
+
+        blueBeacon += bluebeaconR - bluebeaconL;
+        blueBeacon += redbeaconL - redbeaconR;
+
+        return (int) blueBeacon;
     }
 
     public double getGyroPitch() {

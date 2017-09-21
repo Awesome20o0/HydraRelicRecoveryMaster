@@ -11,6 +11,8 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
     @Override
     public void loop() {
 
+        //color sensor stuff
+
         if(gamepad1.a) {
             reverse();
             while(gamepad1.a);

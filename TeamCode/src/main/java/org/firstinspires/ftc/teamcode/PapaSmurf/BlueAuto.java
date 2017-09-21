@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -18,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Libraries.Drivetrain_Mecanum;
-import org.firstinspires.ftc.teamcode.Libraries.Sensor;
 
 /**
  * Created by Varun on 9/11/2017.
@@ -28,8 +25,6 @@ public class BlueAuto extends LinearOpMode{
 
     private Drivetrain_Mecanum drivetrainM;
     private String version;
-
-    public Sensor sensors;
 
     public static final String TAG = "Vuforia VuMark Sample";
 
@@ -102,11 +97,11 @@ public class BlueAuto extends LinearOpMode{
             telemetry.update();
 
             // 2. Knock ball off
-            if (sensors.getBlue()>=3) {
+            if (drivetrainM.sensor.getBlue()>= 3) {
                 //move arm other way than blue ball
             }
 
-            if (sensors.getRed()>=3){
+            if (drivetrainM.sensor.getRed()>= 3){
                 //move arm this way
             }
 
@@ -128,6 +123,7 @@ public class BlueAuto extends LinearOpMode{
                 drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, Math.PI, 0);
             }
         }
+
     }
 
     String format(OpenGLMatrix transformationMatrix){

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -50,6 +51,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
         motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        ColorSensor colorSensor = hardwareMap.colorSensor.get("color");
+
     }
 
     public void reverse() {
