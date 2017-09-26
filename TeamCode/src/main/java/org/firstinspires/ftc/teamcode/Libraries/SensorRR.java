@@ -4,19 +4,16 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
- * Created by Arib on 10/10/2016.
+ * Created by Varun on 09/25/2017.
  */
-public class Sensor {
+public class SensorRR {
 
     public BNO055IMU gyro;
-    OpticalDistanceSensor left;
-    OpticalDistanceSensor right;
     LinearOpMode opMode;
     Orientation angles;
     Acceleration gravity;
@@ -24,12 +21,10 @@ public class Sensor {
     ColorSensor jewelSensorLeft;
     ColorSensor jewelSensorRight;
 
-    public Sensor(LinearOpMode opMode) throws InterruptedException {
+    public SensorRR(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
         jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
         jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
-        right = opMode.hardwareMap.opticalDistanceSensor.get("odsR");
-        left = opMode.hardwareMap.opticalDistanceSensor.get("odsL");
 
         parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -55,23 +50,20 @@ public class Sensor {
         angles   = gyro.getAngularOrientation();
         gravity  = gyro.getGravity();
 
-
-
-
     }
     public int getColorValue(){
-            double colorVal = 0;
+        double colorVal = 0;
 
-            double blueLeft = jewelSensorLeft.blue();
-            double blueRight = jewelSensorRight.blue();
-            double redLeft = jewelSensorLeft.red();
-            double redRight = jewelSensorRight.red();
+        double blueLeft = jewelSensorLeft.blue();
+        double blueRight = jewelSensorRight.blue();
+        double redLeft = jewelSensorLeft.red();
+        double redRight = jewelSensorRight.red();
 
-            colorVal += blueRight - blueLeft;
-            colorVal += redLeft - redRight;
+        colorVal += blueRight - blueLeft;
+        colorVal += redLeft - redRight;
 
-            return (int) colorVal;
-        }
+        return (int) colorVal;
+    }
 
     public int getBlue() {
         return jewelSensorLeft.blue();
@@ -91,22 +83,6 @@ public class Sensor {
     public double getGyroPitch() {
         updateValues();
         return (angles.thirdAngle);
-    }
-
-    public boolean isRightLine() throws InterruptedException {
-        return right.getRawLightDetected() > 2;
-    }
-
-    public boolean isLeftLine() throws InterruptedException {
-        return left.getRawLightDetected() > 1;
-    }
-
-    public double rightODS() {
-        return right.getRawLightDetected();
-    }
-
-    public double leftODS() {
-        return left.getRawLightDetected();
     }
 
     public boolean resetGyro() {

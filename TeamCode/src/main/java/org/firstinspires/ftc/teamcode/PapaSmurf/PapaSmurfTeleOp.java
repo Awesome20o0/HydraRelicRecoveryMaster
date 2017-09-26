@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by Varun on 9/2/2017.
@@ -28,6 +29,11 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             final double BL = r * Math.sin(robotAngle) + rightX;
             final double BR = r * Math.cos(robotAngle) - rightX;
 
+            Range.clip(FL, -1, 1);
+            Range.clip(FR, -1, 1);
+            Range.clip(BL, -1, 1);
+            Range.clip(BR, -1, 1);
+
             motorFL.setPower(FL);
             motorFR.setPower(FR);
             motorBL.setPower(BL);
@@ -36,10 +42,10 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         }
 
         //if none of our motors are running, get the voltage
-        if(motorBL.getPower() == 0 && motorBR.getPower() == 0 && motorFL.getPower() == 0 &&
-                motorFR.getPower() == 0) {
-            voltage = getVoltage();
-        }
+//        if(motorBL.getPower() == 0 && motorBR.getPower() == 0 && motorFL.getPower() == 0 &&
+//                motorFR.getPower() == 0) {
+//            voltage = getVoltage();
+//        }
 
         telemetry.update();
 

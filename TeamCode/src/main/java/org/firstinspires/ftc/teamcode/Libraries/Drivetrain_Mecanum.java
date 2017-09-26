@@ -14,7 +14,8 @@ public class Drivetrain_Mecanum{
     public DcMotor motorBR;
     public DcMotor motorFR;
 
-    public Sensor sensor;
+
+    public SensorRR sensor;
 
     int nullValue;
     LinearOpMode opMode;
@@ -22,13 +23,11 @@ public class Drivetrain_Mecanum{
     public Drivetrain_Mecanum(LinearOpMode opMode)throws InterruptedException {
         this.opMode = opMode;
         nullValue = 0;
-        motorBL = this.opMode.hardwareMap.dcMotor.get("BL");
-        motorBR = this.opMode.hardwareMap.dcMotor.get("BR");
         motorFL = this.opMode.hardwareMap.dcMotor.get("FL");
         motorFR = this.opMode.hardwareMap.dcMotor.get("FR");
         this.opMode.telemetry.addData("init", "finished drivetrain init");
         this.opMode.telemetry.update();
-        sensor = new Sensor(opMode);
+        sensor = new SensorRR(opMode);
         this.opMode.telemetry.addData("init", "init finished");
         this.opMode.telemetry.update();
     }
@@ -65,6 +64,7 @@ public class Drivetrain_Mecanum{
 
 
     public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double rotation, double direction) throws InterruptedException {
+
         double error;
         double inte = 0;
         double der;
@@ -73,6 +73,8 @@ public class Drivetrain_Mecanum{
         resetEncoders();
 
         double previousError = distance - getEncoderAvg();
+
+
 
         opMode.telemetry.addData("distance left", distance + "");
         opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
@@ -94,11 +96,11 @@ public class Drivetrain_Mecanum{
 
             opMode.telemetry.addData("error", error);
             opMode.telemetry.addData("PID", power);
-//            opMode.telemetry.addData("integral", inte);
             opMode.telemetry.addData("integral", inte);
             opMode.telemetry.addData("Encoder", getEncoderAvg());
 
             opMode.telemetry.update();
+//            opMode.telemetry.addData("integral", inte);
             previousError = error;
             opMode.idle();
         }
@@ -122,17 +124,8 @@ public class Drivetrain_Mecanum{
 
     public void move(double pow, double rotation, double direction, int encoder) {
 
-        final double FL = pow * Math.cos(direction - Math.PI/4) + rotation;
-        final double FR = pow * Math.sin(direction - Math.PI/4) - rotation;
-        final double BL = pow * Math.sin(direction - Math.PI/4) + rotation;
-        final double BR = pow * Math.cos(direction - Math.PI/4) - rotation;
-
-        while (getEncoderAvg() < encoder) {
-            motorFL.setPower(FL);
-            motorBL.setPower(BL);
-            motorBR.setPower(BR);
-            motorFR.setPower(FR);
-        }
+        while (getEncoderAvg() < encoder)
+            move(pow, rotation, direction);
     }
 
     public void startMotors(double ri, double le) throws InterruptedException {

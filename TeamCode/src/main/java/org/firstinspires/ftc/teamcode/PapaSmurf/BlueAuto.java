@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -16,6 +17,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Libraries.Drivetrain_Mecanum;
+import org.firstinspires.ftc.teamcode.Libraries.JewelArm;
+import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 
 /**
  * Created by Varun on 9/11/2017.
@@ -25,7 +28,8 @@ public class BlueAuto extends LinearOpMode{
 
     private Drivetrain_Mecanum drivetrainM;
     private String version;
-
+    private SensorRR sensors;
+    private JewelArm arm;
     public static final String TAG = "Vuforia VuMark Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -57,6 +61,9 @@ public class BlueAuto extends LinearOpMode{
         boolean left = false;
         boolean center = false;
 
+        ElapsedTime time = new ElapsedTime();
+
+
         waitForStart();
 
         relicTrackables.activate();
@@ -64,7 +71,8 @@ public class BlueAuto extends LinearOpMode{
         while (opModeIsActive()) {
 
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
+            time.startTime();
+            while ((vuMark == RelicRecoveryVuMark.UNKNOWN) && (time.milliseconds() < 2000)) {
             }
 
             telemetry.addData("VuMark", "%s visible", vuMark);
@@ -95,32 +103,38 @@ public class BlueAuto extends LinearOpMode{
             }
 
             telemetry.update();
-
-            // 2. Knock ball off
-            if (drivetrainM.sensor.getBlue()>= 3) {
-                //move arm other way than blue ball
+            // 2. Extend arm
+            arm.armOut();
+            // 3. Knock ball off
+            if (sensors.getColorValue() > 0){
+                //turn 15 degrees clockwise
+                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+            }else{
+                //turn 15 degrees counterclockwise
+                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
             }
-
-            if (drivetrainM.sensor.getRed()>= 3){
-                //move arm this way
-            }
-
-            // 3. Drive 24 inches off of balancing stone
+            arm.armIn();
+            // 4. Drive 24 inches off of balancing stone
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 
-            // 4. Turn left in place
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI/2);
+            // 5. Turn left in place
+            drivetrainM.pid(1, -90, .1, 0, 0, 0, 0);
 
-            // 5. Drive forward 24 inches towards cryptobox
+            // 6. Drive forward 24 inches towards cryptobox
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 
-            // 6. Move left depending on VuMark value
-            if (right) {
-                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, Math.PI, 0);
-            } else if (center) {
-                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, Math.PI, 0);
-            } else if (left) {
+            // 7. Move left depending on VuMark value
+            if (left) {
+                //rotate manipulator wheels
                 drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, Math.PI, 0);
+
+            } else if (center) {
+                //rotate manipulator wheels
+                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, Math.PI, 0);
+
+            } else {
+                //rotate manipulator wheels
+                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, Math.PI, 0);
             }
         }
 
@@ -159,6 +173,12 @@ public class BlueAuto extends LinearOpMode{
                 .addData("motorRPower", new Func<String>() {
                     @Override public String value() {
                         return "rightPower: " + drivetrainM.motorBR.getPower();
+                    }
+                });
+        telemetry.addLine()
+                .addData("colorVal", new Func<String>() {
+                    @Override public String value(){
+                        return "colorValue: "  + sensors.getColorValue();
                     }
                 });
 
