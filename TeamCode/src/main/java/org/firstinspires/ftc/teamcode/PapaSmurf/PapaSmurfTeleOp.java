@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
 
 /**
  * Created by Varun on 9/2/2017.
  */
 @TeleOp(name = "PSTeleOp", group = "opMode")
 public class PapaSmurfTeleOp extends PapaSmurfOpMode {
-
+    private GlyphScorer glyph;
     @Override
     public void loop() {
 
@@ -38,9 +39,52 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             motorFR.setPower(FR);
             motorBL.setPower(BL);
             motorBR.setPower(BR);
-
         }
 
+        if (gamepad1.right_bumper)
+        {
+            glyph.intakeIn();
+        }
+
+        if (gamepad1.left_bumper)
+        {
+            glyph.intakeOut();
+        }
+
+        if (gamepad2.b) {
+            reverse();
+            while (gamepad1.b);
+        }
+
+        if (gamepad2.left_bumper)
+        {
+            glyph.elevateUp();
+        }
+
+        if (gamepad2.left_trigger>0)
+        {
+            glyph.elevateDown();
+        }
+
+        if (gamepad2.right_bumper)
+        {
+            glyph.liftUp();
+        }
+
+        if (gamepad2.right_trigger>0)
+        {
+            glyph.liftDown();
+        }
+
+        if (gamepad2.x)
+        {
+            glyph.outputOut();
+        }
+
+        if (gamepad2.b)
+        {
+            glyph.outputIn();
+        }
         //if none of our motors are running, get the voltage
 //        if(motorBL.getPower() == 0 && motorBR.getPower() == 0 && motorFL.getPower() == 0 &&
 //                motorFR.getPower() == 0) {
@@ -50,4 +94,6 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         telemetry.update();
 
     }
+
+
 }
