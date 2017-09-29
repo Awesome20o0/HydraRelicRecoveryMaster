@@ -152,12 +152,6 @@ public class BlueAuto extends LinearOpMode{
                     }
                 });
         telemetry.addLine()
-                .addData("ods", new Func<String>() {
-                    @Override public String value() {
-                        return "ods: " + drivetrainM.sensor.leftODS() + " " + drivetrainM.sensor.rightODS();
-                    }
-                });
-        telemetry.addLine()
                 .addData("gyro", new Func<String>() {
                     @Override public String value() {
                         return "gyro: " + drivetrainM.sensor.getGyroYaw();

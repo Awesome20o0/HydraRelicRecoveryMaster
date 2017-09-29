@@ -15,6 +15,7 @@ public class GlyphScorer {
     Servo elevatorR;
     DcMotor liftL;
     DcMotor liftR;
+    Servo funnel;
     LinearOpMode opMode;
 
     private final String LOG_TAG = "DriveTrain";
@@ -27,6 +28,7 @@ public class GlyphScorer {
         elevatorR = this.opMode.hardwareMap.servo.get("elevatorR");
         liftR = this.opMode.hardwareMap.dcMotor.get("liftR");
         liftL = this.opMode.hardwareMap.dcMotor.get("liftL");
+        funnel = this.opMode.hardwareMap.servo.get("funnerl");
         this.opMode.telemetry.addData(LOG_TAG + "init", "finished drivetrain init");
         this.opMode.telemetry.update();
     }
@@ -67,5 +69,13 @@ public class GlyphScorer {
     public void liftDown(){
         liftL.setPower(-1);
         liftR.setPower(1);
+    }
+
+    public void funnelIn(){
+        funnel.setPosition(1);
+    }
+
+    public void funnelOut(){
+        funnel.setPosition(0);
     }
 }

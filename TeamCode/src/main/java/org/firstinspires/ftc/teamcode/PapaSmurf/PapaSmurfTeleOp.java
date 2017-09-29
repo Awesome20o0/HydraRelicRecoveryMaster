@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
 
 /**
@@ -25,22 +25,25 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
             double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
             double rightX = gamepad1.right_stick_x;
-            final double FL = r * Math.cos(robotAngle) + rightX;
-            final double FR = r * Math.sin(robotAngle) - rightX;
-            final double BL = r * Math.sin(robotAngle) + rightX;
-            final double BR = r * Math.cos(robotAngle) - rightX;
+            double FL = r * Math.cos(robotAngle) + rightX;
+            double FR = r * Math.sin(robotAngle) - rightX;
+            double BL = r * Math.sin(robotAngle) + rightX;
+            double BR = r * Math.cos(robotAngle) - rightX;
 
-            Range.clip(FL, -1, 1);
-            Range.clip(FR, -1, 1);
-            Range.clip(BL, -1, 1);
-            Range.clip(BR, -1, 1);
+
+            if(((Math.abs(FL) > 1) || (Math.abs(BL) > 1 )) || ((Math.abs(FR) > 1) || (Math.abs(BR) > 1 ))) {
+                FL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+                BL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+                FR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+                BR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+            }
 
             motorFL.setPower(FL);
-            motorFR.setPower(FR);
+            motorFR.setPower(-FR);
             motorBL.setPower(BL);
-            motorBR.setPower(BR);
+            motorBR.setPower(-BR);
         }
-
+R
         if (gamepad1.right_bumper)
         {
             glyph.intakeIn();
@@ -49,6 +52,14 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         if (gamepad1.left_bumper)
         {
             glyph.intakeOut();
+        }
+
+        if (gamepad1.y){
+            glyph.funnelIn();
+        }
+
+        if (gamepad1.a){
+            glyph.funnelOut();
         }
 
         if (gamepad2.b) {
