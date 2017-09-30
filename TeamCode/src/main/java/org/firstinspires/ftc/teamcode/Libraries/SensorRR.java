@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
@@ -47,9 +50,9 @@ public class SensorRR {
 //
 //        gyro.writeCalibrationData(calibrationData);
 
-        angles   = gyro.getAngularOrientation();
+    public void composeTelemetry(){
+        angles   = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         gravity  = gyro.getGravity();
-
     }
     public int getColorValue(){
         double colorVal = 0;
@@ -68,21 +71,30 @@ public class SensorRR {
     public int getBlue() {
         return jewelSensorLeft.blue();
     }
+
     public int getRed(){
         return jewelSensorLeft.red();
     }
+
     public double getGyroYaw() {
         updateValues();
-        double value = angles.firstAngle * -1;
+        double yaw = angles.firstAngle * -1;
         if(angles.firstAngle < -180)
-            value -= 360;
-        return value;
+            yaw -= 360;
+        return yaw;
     }
 
 
     public double getGyroPitch() {
         updateValues();
-        return (angles.thirdAngle);
+        double pitch = angles.thirdAngle;
+        return pitch;
+    }
+
+    public double getGyroRoll(){
+        updateValues();
+        double roll = angles.secondAngle;
+        return roll;
     }
 
     public boolean resetGyro() {
