@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorBNO055IMU;
 import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 /**
@@ -19,10 +24,10 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
     PapaSmurfOpMode opMode;
 
-//    public BNO055IMU gyro;
-//    private Orientation angles;
-//    private Acceleration gravity;
-//    private BNO055IMU.Parameters parameters;
+    public BNO055IMU gyro;
+    private Orientation angles;
+    private Acceleration gravity;
+    private BNO055IMU.Parameters parameters;
 
     // To monitor current voltage
     double voltage = 0.0;
@@ -34,6 +39,7 @@ public abstract class PapaSmurfOpMode extends OpMode {
     double slowingFactor;
     double powerL;
     double powerR;
+
 
     @Override
     public void init() {
@@ -47,7 +53,7 @@ public abstract class PapaSmurfOpMode extends OpMode {
         motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        // ColorSensor colorSensor = hardwareMap.colorSensor.get("color");
+        ColorSensor colorSensor = hardwareMap.colorSensor.get("color");
 
     }
 
@@ -120,22 +126,24 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
 
 
-//    // Gyro Stuff
-//    private void updateValues() {
-//        angles = gyro.getAngularOrientation();
-//    }
-//
-//    public double getGyroYaw() {
-//        updateValues();
-//        double value = angles.firstAngle * -1;
-//        if(angles.firstAngle < -180)
-//            value -= 360;
-//        return value;
-//    }
+    // Gyro Stuff
+    private void updateValues() {
+        angles = gyro.getAngularOrientation();
+    }
 
-//    public double getVoltage() {
-//        return hardwareMap.voltageSensor.get("Motor Controller 5").getVoltage();
-//    }
+    public double getGyroYaw() {
+        updateValues();
+        double value = angles.firstAngle * -1;
+        if(angles.firstAngle < -180)
+            value -= 360;
+        return value;
+    }
+
+
+
+    public double getVoltage() {
+        return hardwareMap.voltageSensor.get("Motor Controller 5").getVoltage();
+    }
 
     private void composeTelemetry() {
 

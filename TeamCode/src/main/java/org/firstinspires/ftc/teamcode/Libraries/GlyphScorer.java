@@ -58,6 +58,11 @@ public class GlyphScorer {
         outputR.setPosition(1);
     }
 
+    public void stopOutput(){
+        outputL.setPosition(0);
+        outputR.setPosition(0);
+    }
+
     public void elevateUp(){
         elevatorL.setPosition(1);
         elevatorR.setPosition(-1);

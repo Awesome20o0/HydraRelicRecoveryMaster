@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Libraries.Drivetrain_Mecanum;
+import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
 import org.firstinspires.ftc.teamcode.Libraries.JewelArm;
 import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 
@@ -24,8 +25,8 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
  * Created by Varun on 9/11/2017.
  */
 
-public class BlueAuto extends LinearOpMode{
-
+public class BlueSideAuto extends LinearOpMode{
+    private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
     private String version;
     private SensorRR sensors;
@@ -109,11 +110,15 @@ public class BlueAuto extends LinearOpMode{
             if (sensors.getColorValue() > 0){
                 //turn 15 degrees clockwise
                 drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+                arm.armIn();
+                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
             }else{
                 //turn 15 degrees counterclockwise
                 drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                arm.armIn();
+                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
             }
-            arm.armIn();
+
             // 4. Drive 24 inches off of balancing stone
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 
@@ -126,16 +131,25 @@ public class BlueAuto extends LinearOpMode{
             // 7. Move left depending on VuMark value
             if (left) {
                 //rotate manipulator wheels
-                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, Math.PI, 0);
+                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, Math.PI);
 
             } else if (center) {
                 //rotate manipulator wheels
-                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, Math.PI, 0);
+                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
 
             } else {
                 //rotate manipulator wheels
-                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, Math.PI, 0);
+                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, Math.PI);
             }
+
+            // 8. Manipulator deposits the glyphs into the cryptobox
+            glyphScorer.outputOut();
+
+            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+            Thread.sleep(1500);
+
+            // 10. Stop the manipulator
+            glyphScorer.stopOutput();
         }
 
     }
