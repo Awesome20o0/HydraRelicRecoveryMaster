@@ -43,7 +43,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             motorBL.setPower(BL);
             motorBR.setPower(-BR);
         }
-R
+
         if (gamepad1.right_bumper)
         {
             glyph.intakeIn();
@@ -52,6 +52,11 @@ R
         if (gamepad1.left_bumper)
         {
             glyph.intakeOut();
+        }
+
+        if (gamepad1.b)
+        {
+            glyph.intakeSpin();
         }
 
         if (gamepad1.y){
