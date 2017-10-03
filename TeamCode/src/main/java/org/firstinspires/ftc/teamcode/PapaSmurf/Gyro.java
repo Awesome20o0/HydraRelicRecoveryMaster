@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 
 /**
@@ -14,7 +13,6 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 public class Gyro extends LinearOpMode {
 
     public SensorRR gyro;
-    OpMode opmode;
     String version;
 
 
@@ -28,10 +26,11 @@ public class Gyro extends LinearOpMode {
 
         waitForStart();
 
+        gyro.composeTelemetry();
         gyro.updateValues();
 
         while (opModeIsActive()) {
-            gyro.composeTelemetry();
+
             telemetry.addData("Yaw: ", gyro.getGyroYaw());
             telemetry.addData("Roll: ", gyro.getGyroRoll());
             telemetry.addData("Pitch: ", gyro.getGyroPitch());

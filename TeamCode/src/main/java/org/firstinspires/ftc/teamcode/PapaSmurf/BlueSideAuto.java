@@ -160,37 +160,35 @@ public class BlueSideAuto extends LinearOpMode{
 
     private void composeTelemetry() {
         telemetry.addLine()
-                .addData("Avg", new Func<String>() {
+                .addData("AVg", new Func<String>() {
                     @Override public String value() {
                         return "avg: " + drivetrainM.getEncoderAvg();
                     }
                 });
         telemetry.addLine()
-                .addData("gyro", new Func<String>() {
+                .addData("gyroYaw", new Func<String>() {
                     @Override public String value() {
-                        return "gyro: " + drivetrainM.sensor.getGyroYaw();
+                        return "gyro yaw: " + drivetrainM.sensor.getGyroYaw();
                     }
                 });
         telemetry.addLine()
-                .addData("motorLPower", new Func<String>() {
+                .addData("Color", new Func<String>() {
                     @Override public String value() {
-                        return "leftPower: " + drivetrainM.motorBL.getPower();
+                        return "Color: " + sensors.getColorValue();
                     }
                 });
         telemetry.addLine()
-                .addData("motorRPower", new Func<String>() {
+                .addData("gyroPitch", new Func<String>() {
                     @Override public String value() {
-                        return "rightPower: " + drivetrainM.motorBR.getPower();
+                        return "gyro pitch: " + drivetrainM.sensor.getGyroPitch();
                     }
                 });
         telemetry.addLine()
-                .addData("colorVal", new Func<String>() {
-                    @Override public String value(){
-                        return "colorValue: "  + sensors.getColorValue();
+                .addData("gyroRoll", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro roll: " + drivetrainM.sensor.getGyroRoll();
                     }
                 });
-
-
     }
 
 }

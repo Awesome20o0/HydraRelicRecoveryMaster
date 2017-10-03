@@ -28,24 +28,24 @@ public class GlyphScorer {
         elevatorR = this.opMode.hardwareMap.servo.get("elevatorR");
         intakeR = this.opMode.hardwareMap.dcMotor.get("intakeR");
         lift = this.opMode.hardwareMap.dcMotor.get("lift");
-        funnel = this.opMode.hardwareMap.servo.get("funnerl");
+        funnel = this.opMode.hardwareMap.servo.get("funnel");
         this.opMode.telemetry.addData(LOG_TAG + "init", "finished drivetrain init");
         this.opMode.telemetry.update();
     }
 
     public void intakeIn(){
-        intakeL.setPower(-1);
-        intakeR.setPower(1);
-    }
-
-    public void intakeOut(){
         intakeL.setPower(1);
         intakeR.setPower(-1);
     }
 
-    public void intakeSpin(){
-        intakeL.setPower(1);
+    public void intakeOut(){
+        intakeL.setPower(-1);
         intakeR.setPower(1);
+    }
+
+    public void intakeSpin(){
+        intakeL.setPower(-1);
+        intakeR.setPower(-1);
     }
 
     public void outputOut(){
