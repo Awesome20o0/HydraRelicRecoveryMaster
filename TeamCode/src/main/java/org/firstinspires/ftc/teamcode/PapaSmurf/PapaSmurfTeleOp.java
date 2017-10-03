@@ -9,7 +9,9 @@ import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
  */
 @TeleOp(name = "PSTeleOp", group = "opMode")
 public class PapaSmurfTeleOp extends PapaSmurfOpMode {
+
     private GlyphScorer glyph;
+
     @Override
     public void loop() {
 
@@ -101,11 +103,12 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         {
             glyph.outputIn();
         }
+
         //if none of our motors are running, get the voltage
-//        if(motorBL.getPower() == 0 && motorBR.getPower() == 0 && motorFL.getPower() == 0 &&
-//                motorFR.getPower() == 0) {
-//            voltage = getVoltage();
-//        }
+        if(motorBL.getPower() == 0 && motorBR.getPower() == 0 && motorFL.getPower() == 0 &&
+                motorFR.getPower() == 0) {
+            voltage = getVoltage();
+        }
 
         telemetry.update();
 

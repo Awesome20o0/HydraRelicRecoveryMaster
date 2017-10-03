@@ -104,8 +104,10 @@ public class BlueSideAuto extends LinearOpMode{
             }
 
             telemetry.update();
+
             // 2. Extend arm
             arm.armOut();
+
             // 3. Knock ball off
             if (sensors.getColorValue() > 0){
                 //turn 15 degrees clockwise
@@ -128,17 +130,14 @@ public class BlueSideAuto extends LinearOpMode{
             // 6. Drive forward 24 inches towards cryptobox
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 
-            // 7. Move left depending on VuMark value
+            // 7. Move horizontally depending on VuMark value
             if (left) {
-                //rotate manipulator wheels
                 drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, Math.PI);
 
             } else if (center) {
-                //rotate manipulator wheels
                 drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
 
             } else {
-                //rotate manipulator wheels
                 drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, Math.PI);
             }
 
@@ -160,7 +159,7 @@ public class BlueSideAuto extends LinearOpMode{
 
     private void composeTelemetry() {
         telemetry.addLine()
-                .addData("AVg", new Func<String>() {
+                .addData("Avg", new Func<String>() {
                     @Override public String value() {
                         return "avg: " + drivetrainM.getEncoderAvg();
                     }

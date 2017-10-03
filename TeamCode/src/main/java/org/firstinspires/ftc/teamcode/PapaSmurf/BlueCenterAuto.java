@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -106,8 +107,10 @@ public class BlueCenterAuto extends LinearOpMode {
             }
 
             telemetry.update();
+
             // 2. Extend arm
             arm.armOut();
+
             // 3. Knock ball off
             if (sensors.getColorValue() > 0){
                 //turn 15 degrees clockwise
@@ -127,8 +130,72 @@ public class BlueCenterAuto extends LinearOpMode {
             // 5. Turn 180 degress in place
             drivetrainM.pid(1, -180, .1, 0, 0, 0, 0);
 
-            // 6. Move horizontally depending on vuMark value
-            if(left)
+            // 6. Move forward 20 inches towards cryptobox
+            drivetrainM.movepid(1, 2500, .1, 0, 0, 0, 100, 0, 0);
+
+            // 7. Move horizontally depending on vuMark value
+            if(left){
+                //rotate manipulator wheels
+                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, 0);
+
+            } else if (center) {
+                //rotate manipulator wheels
+                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+
+            } else {
+                //rotate manipulator wheels
+                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, 0);
+            }
+
+            // 8. Manipulator deposits the glyphs into the cryptobox
+            glyphScorer.outputOut();
+
+            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+            Thread.sleep(1500);
+
+            // 10. Stop the manipulator
+            glyphScorer.stopOutput();
+
+            }
         }
+
+    String format(OpenGLMatrix transformationMatrix){
+        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
+
+    // Telemetry stuff
+    private void composeTelemetry() {
+        telemetry.addLine()
+                .addData("Avg", new Func<String>() {
+                    @Override public String value() {
+                        return "avg: " + drivetrainM.getEncoderAvg();
+                    }
+                });
+        telemetry.addLine()
+                .addData("gyroYaw", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro yaw: " + drivetrainM.sensor.getGyroYaw();
+                    }
+                });
+        telemetry.addLine()
+                .addData("Color", new Func<String>() {
+                    @Override public String value() {
+                        return "Color: " + sensors.getColorValue();
+                    }
+                });
+        telemetry.addLine()
+                .addData("gyroPitch", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro pitch: " + drivetrainM.sensor.getGyroPitch();
+                    }
+                });
+        telemetry.addLine()
+                .addData("gyroRoll", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro roll: " + drivetrainM.sensor.getGyroRoll();
+                    }
+                });
+    }
+
 }
+

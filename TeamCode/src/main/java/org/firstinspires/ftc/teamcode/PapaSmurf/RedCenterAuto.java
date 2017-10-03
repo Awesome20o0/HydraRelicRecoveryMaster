@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,12 +22,10 @@ import org.firstinspires.ftc.teamcode.Libraries.JewelArm;
 import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 
 /**
- * Created by Varun on 9/10/2017.
+ * Created by Avi on 10/2/2017.
  */
 
-@Autonomous(name = "Red Auto", group = "LinearOpMode")
-public class RedSideAuto extends LinearOpMode {
-
+public class RedCenterAuto extends LinearOpMode {
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
     private String version;
@@ -44,7 +41,8 @@ public class RedSideAuto extends LinearOpMode {
      */
     VuforiaLocalizer vuforia;
 
-    @Override public void runOpMode() throws InterruptedException {
+    @Override
+    public void runOpMode() throws InterruptedException {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -81,9 +79,9 @@ public class RedSideAuto extends LinearOpMode {
 
             telemetry.addData("VuMark", "%s visible", vuMark);
 
-            if(vuMark == RelicRecoveryVuMark.CENTER)
+            if (vuMark == RelicRecoveryVuMark.CENTER)
                 center = true;
-            else if(vuMark == RelicRecoveryVuMark.LEFT)
+            else if (vuMark == RelicRecoveryVuMark.LEFT)
                 left = true;
             else
                 right = true;
@@ -124,27 +122,24 @@ public class RedSideAuto extends LinearOpMode {
                 drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
             }
 
-            // 4. Drive 24 inches off of balancing stone
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+            // 4. Move left off the platform
+            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
 
-            // 5. Turn right in place
-            drivetrainM.pid(1, 90, .1, 0, 0, 0, 0);
+            // 5. Turn 180 degress in place
+            drivetrainM.pid(1, 180, .1, 0, 0, 0, 0);
 
-            // 6. Drive forward 24 inches towards cryptobox
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+            // 6. Move forward 20 inches towards cryptobox
+            drivetrainM.movepid(1, 2500, .1, 0, 0, 0, 100, 0, 0);
 
-            // 7. Move right depending on VuMark value
-            if (left) {
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, 0);
+            // 7. Move horizontally depending on vuMark value
+            if(left){
+                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, 0);
 
             } else if (center) {
-                //rotate manipulator wheels
                 drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 
             } else {
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, 0);
+                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, 0);
             }
 
             // 8. Manipulator deposits the glyphs into the cryptobox
@@ -155,14 +150,15 @@ public class RedSideAuto extends LinearOpMode {
 
             // 10. Stop the manipulator
             glyphScorer.stopOutput();
-        }
 
+        }
     }
 
     String format(OpenGLMatrix transformationMatrix){
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
 
+    // Telemetry stuff
     private void composeTelemetry() {
         telemetry.addLine()
                 .addData("Avg", new Func<String>() {
@@ -171,32 +167,32 @@ public class RedSideAuto extends LinearOpMode {
                     }
                 });
         telemetry.addLine()
-                .addData("gyro", new Func<String>() {
+                .addData("gyroYaw", new Func<String>() {
                     @Override public String value() {
-                        return "gyro: " + drivetrainM.sensor.getGyroYaw();
+                        return "gyro yaw: " + drivetrainM.sensor.getGyroYaw();
                     }
                 });
         telemetry.addLine()
-                .addData("motorLPower", new Func<String>() {
+                .addData("Color", new Func<String>() {
                     @Override public String value() {
-                        return "leftPower: " + drivetrainM.motorBL.getPower();
+                        return "Color: " + sensors.getColorValue();
                     }
                 });
         telemetry.addLine()
-                .addData("motorRPower", new Func<String>() {
+                .addData("gyroPitch", new Func<String>() {
                     @Override public String value() {
-                        return "rightPower: " + drivetrainM.motorBR.getPower();
+                        return "gyro pitch: " + drivetrainM.sensor.getGyroPitch();
                     }
                 });
         telemetry.addLine()
-                .addData("colorVal", new Func<String>() {
-                    @Override public String value(){
-                        return "colorValue: "  + sensors.getColorValue();
+                .addData("gyroRoll", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro roll: " + drivetrainM.sensor.getGyroRoll();
                     }
                 });
-
-
     }
 
 }
+
+
 
