@@ -9,16 +9,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public final class JewelArm {
     private final LinearOpMode opMode;
-    Servo jewelArm;
-    Servo jewelHinge;
+    Servo jewelHour;
+    Servo jewelMinute;
 
     public SensorRR jewelColor;
 
     public JewelArm(LinearOpMode opMode)throws InterruptedException {
 
         this.opMode = opMode;
-        jewelArm = this.opMode.hardwareMap.servo.get("jewelArm");
-        jewelHinge = this.opMode.hardwareMap.servo.get("jewelHinge");
+        jewelHour = this.opMode.hardwareMap.servo.get("jewelHour");
+        jewelMinute = this.opMode.hardwareMap.servo.get("jewelMinute");
         this.opMode.telemetry.addData("init", "finished drivetrain init");
         this.opMode.telemetry.update();
         this.opMode.telemetry.addData("init", "init finished");
@@ -27,14 +27,14 @@ public final class JewelArm {
     }
 
     public void armOut() throws InterruptedException {
-        jewelArm.setPosition(.67);
+        jewelHour.setPosition(.67);
         Thread.sleep(500);
-        jewelHinge.setPosition(1);
+        jewelMinute.setPosition(1);
     }
 
     public void armIn() throws InterruptedException {
-        jewelHinge.setPosition(0);
+        jewelMinute.setPosition(0);
         Thread.sleep(100);
-        jewelArm.setPosition(0);
+        jewelHour.setPosition(0);
     }
 }

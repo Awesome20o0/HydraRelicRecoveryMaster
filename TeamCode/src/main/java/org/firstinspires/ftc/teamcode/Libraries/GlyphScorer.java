@@ -9,13 +9,13 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 public class GlyphScorer {
     DcMotor intakeL;
+    DcMotor intakeR;
+    DcMotor lift;
     Servo outputL;
     Servo outputR;
     Servo elevatorL;
     Servo elevatorR;
-    DcMotor lift;
-    DcMotor intakeR;
-    Servo funnel;
+    Servo gate;
     LinearOpMode opMode;
 
     private final String LOG_TAG = "DriveTrain";
@@ -28,7 +28,7 @@ public class GlyphScorer {
         elevatorR = this.opMode.hardwareMap.servo.get("elevatorR");
         intakeR = this.opMode.hardwareMap.dcMotor.get("intakeR");
         lift = this.opMode.hardwareMap.dcMotor.get("lift");
-        funnel = this.opMode.hardwareMap.servo.get("funnel");
+        gate = this.opMode.hardwareMap.servo.get("funnel");
         this.opMode.telemetry.addData(LOG_TAG + "init", "finished drivetrain init");
         this.opMode.telemetry.update();
     }
@@ -82,10 +82,10 @@ public class GlyphScorer {
     }
 
     public void funnelIn(){
-        funnel.setPosition(1);
+        gate.setPosition(1);
     }
 
     public void funnelOut(){
-        funnel.setPosition(0);
+        gate.setPosition(0);
     }
 }

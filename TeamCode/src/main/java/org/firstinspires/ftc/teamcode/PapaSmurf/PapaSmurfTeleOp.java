@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.PapaSmurf;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
+import org.firstinspires.ftc.teamcode.Libraries.pushers;
 
 /**
  * Created by Varun on 9/2/2017.
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
 public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
     private GlyphScorer glyph;
+    private pushers pushers;
 
     @Override
     public void loop() {
@@ -67,6 +69,14 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
         if (gamepad1.a){
             glyph.funnelOut();
+        }
+
+        if (gamepad1.left_stick_button){
+            pushers.pusherIn();
+        }
+
+        if (gamepad1.right_stick_button){
+            pushers.pusherOut();
         }
 
         if (gamepad2.b) {
