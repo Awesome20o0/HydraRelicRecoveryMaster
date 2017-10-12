@@ -26,7 +26,6 @@ public class Gyro extends LinearOpMode {
 
         waitForStart();
 
-        gyro.composeTelemetry();
         gyro.updateValues();
 
         while (opModeIsActive()) {
@@ -38,5 +37,4 @@ public class Gyro extends LinearOpMode {
         }
     }
 }
-
 

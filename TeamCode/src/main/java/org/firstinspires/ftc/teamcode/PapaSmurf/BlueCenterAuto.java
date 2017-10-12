@@ -21,8 +21,6 @@ import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
 import org.firstinspires.ftc.teamcode.Libraries.JewelArm;
 import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 
-import static com.sun.tools.javac.util.Constants.format;
-
 /**
  * Created by Varun on 10/2/2017.
  */
@@ -67,6 +65,7 @@ public class BlueCenterAuto extends LinearOpMode {
 
         ElapsedTime time = new ElapsedTime();
 
+        composeTelemetry();
 
         waitForStart();
 
