@@ -48,14 +48,16 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             motorBR.setPower(-BR);
         }
 
-        if (gamepad1.right_bumper)
+
+
+        if (gamepad1.right_trigger > .1)
         {
-            glyph.intakeIn();
+            glyph.intakeIn(gamepad1.right_trigger);
         }
 
-        if (gamepad1.left_bumper)
+        if (gamepad1.left_trigger > .1)
         {
-            glyph.intakeOut();
+            glyph.intakeOut(gamepad1.left_trigger);
         }
 
         if (gamepad1.b)
@@ -84,35 +86,35 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             while (gamepad1.b);
         }
 
-        if (gamepad2.left_bumper)
-        {
-            glyph.elevateUp();
-        }
-
-        if (gamepad2.left_trigger>0)
-        {
-            glyph.elevateDown();
-        }
-
-        if (gamepad2.right_bumper)
-        {
-            glyph.liftUp();
-        }
-
-        if (gamepad2.right_trigger>0)
-        {
-            glyph.liftDown();
-        }
-
-        if (gamepad2.x)
-        {
-            glyph.outputOut();
-        }
-
-        if (gamepad2.b)
-        {
-            glyph.outputIn();
-        }
+//        if (gamepad2.left_bumper)
+//        {
+//            glyph.elevateUp();
+//        }
+//
+//        if (gamepad2.left_trigger>0)
+//        {
+//            glyph.elevateDown();
+//        }
+//
+//        if (gamepad2.right_bumper)
+//        {
+//            glyph.liftUp();
+//        }
+//
+//        if (gamepad2.right_trigger>0)
+//        {
+//            glyph.liftDown();
+//        }
+//
+//        if (gamepad2.x)
+//        {
+//            glyph.outputOut();
+//        }
+//
+//        if (gamepad2.b)
+//        {
+//            glyph.outputIn();
+//        }
 
         //if none of our motors are running, get the voltage
         if(motorBL.getPower() == 0 && motorBR.getPower() == 0 && motorFL.getPower() == 0 &&

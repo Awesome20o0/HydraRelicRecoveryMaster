@@ -141,14 +141,14 @@ public class BlueSideAuto extends LinearOpMode{
                 drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, Math.PI);
             }
 
-            // 8. Manipulator deposits the glyphs into the cryptobox
-            glyphScorer.outputOut();
-
-            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
-            Thread.sleep(1500);
-
-            // 10. Stop the manipulator
-            glyphScorer.stopOutput();
+//            // 8. Manipulator deposits the glyphs into the cryptobox
+//            glyphScorer.outputOut();
+//
+//            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+//            Thread.sleep(1500);
+//
+//            // 10. Stop the manipulator
+//            glyphScorer.stopOutput();
         }
 
     }
