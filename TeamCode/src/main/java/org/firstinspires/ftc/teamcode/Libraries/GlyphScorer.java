@@ -11,22 +11,25 @@ public class GlyphScorer {
     DcMotor intakeL;
     DcMotor intakeR;
 //    DcMotor lift;
-//    Servo outputL;
-//    Servo outputR
-//    Servo elevatorL;
-//    Servo elevatorR;
+    Servo outputL;
+    Servo outputR;
+    DcMotor lift;
     Servo gate;
     LinearOpMode opMode;
+    DcMotor relic;
+
 
     private final String LOG_TAG = "DriveTrain";
     public GlyphScorer (LinearOpMode opMode){
         this.opMode = opMode;
         intakeL = this.opMode.hardwareMap.dcMotor.get("intakeL");
-//        outputL = this.opMode.hardwareMap.servo.get("outputL");
-//        outputR = this.opMode.hardwareMap.servo.get("outputR");
-//        elevatorL = this.opMode.hardwareMap.servo.get("elevatorL");
-//        elevatorR = this.opMode.hardwareMap.servo.get("elevatorR");
+        outputL = this.opMode.hardwareMap.servo.get("outputL");
+        outputR = this.opMode.hardwareMap.servo.get("outputR");
+//        liftL = this.opMode.hardwareMap.servo.get("liftL");
+//        liftR = this.opMode.hardwareMap.servo.get("liftR");
         intakeR = this.opMode.hardwareMap.dcMotor.get("intakeR");
+        lift = this.opMode.hardwareMap.dcMotor.get("lift");
+        relic = this.opMode.hardwareMap.dcMotor.get("relic");
 //        lift = this.opMode.hardwareMap.dcMotor.get("lift");
 //        gate = this.opMode.hardwareMap.servo.get("gate");
         this.opMode.telemetry.addData(LOG_TAG + "init", "finished drivetrain init");
@@ -48,31 +51,46 @@ public class GlyphScorer {
         intakeR.setPower(-1);
     }
 
-//    public void outputOut(){
-//        outputL.setPosition(1);
-//        outputR.setPosition(-1);
-//    }
-//
-//    public void outputIn(){
-//        outputL.setPosition(-1);
-//        outputR.setPosition(1);
-//    }
-//
-//    public void stopOutput(){
-//        outputL.setPosition(0);
-//        outputR.setPosition(0);
-//    }
-//
-//    public void elevateUp(){
-//        elevatorL.setPosition(1);
-//        elevatorR.setPosition(-1);
-//    }
-//
-//    public void elevateDown(){
-//        elevatorL.setPosition(-1);
-//        elevatorR.setPosition(1);
-//    }
-//
+
+    public void outputOut(){
+        outputL.setPosition(1);
+        outputR.setPosition(-1);
+    }
+
+    public void outputIn(){
+        outputL.setPosition(-1);
+        outputR.setPosition(1);
+    }
+
+    public void stopOutput(){
+        outputL.setPosition(0);
+        outputR.setPosition(0);
+    }
+
+    public void liftUp() throws InterruptedException {
+        lift.setPower(1);
+        Thread.sleep(1000);
+        lift.setPower(0);
+    }
+
+    public void liftDown() throws InterruptedException {
+        lift.setPower(-1);
+        Thread.sleep(1000);
+        lift.setPower(0);
+    }
+
+    public void relicOut() throws InterruptedException {
+        relic.setPower(1);
+        Thread.sleep(2000);
+        relic.setPower(0);
+    }
+
+    public void relicIn() throws InterruptedException {
+        relic.setPower(-1);
+        Thread.sleep(2000);
+        relic.setPower(0);
+    }
+
 //    public void liftUp(){
 //        lift.setPower(1);
 //    }
@@ -80,7 +98,7 @@ public class GlyphScorer {
 //    public void liftDown(){
 //        lift.setPower(-1);
 //    }
-//
+
     public void funnelIn(){
         gate.setPosition(1);
     }

@@ -1,13 +1,18 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.util.Locale;
 
 
 /**
@@ -21,41 +26,183 @@ public abstract class PapaSmurfOpMode extends OpMode {
     DcMotor motorFR;
     DcMotor motorBR;
 
+    DcMotor intakeL;
+    DcMotor intakeR;
+//    Servo omnipL;
+//    Servo omnipR;
+
+    DcMotor lift;
+    DcMotor relic;
+    Servo gate;
+
+    Servo pusherR;
+    Servo pusherL;
+
+    Servo outputR;
+    Servo outputL;
+
     PapaSmurfOpMode opMode;
 
-    public BNO055IMU gyro;
-    private Orientation angles;
-    private Acceleration gravity;
-    private BNO055IMU.Parameters parameters;
+    Servo hour;
+    Servo minute;
 
     // To monitor current voltage
     double voltage = 0.0;
 
     //For reversing which side is "forward" during the match
-    boolean reversed;
+    boolean reversed = true;
 
     //To be accessed by the actual opMode
     double slowingFactor;
     double powerL;
     double powerR;
+    public BNO055IMU gyro;
+    Orientation angles;
+    Acceleration gravity;
+    BNO055IMU.Parameters parameters;
+    ColorSensor jewelSensorLeft;
+    ColorSensor jewelSensorRight;
 
 
+// Hardware map and update telemetry
     @Override
     public void init() {
+
         opMode = this;
         composeTelemetry();
+
         motorBL = hardwareMap.dcMotor.get("BL");
         motorBR = hardwareMap.dcMotor.get("BR");
         motorFR = hardwareMap.dcMotor.get("FR");
         motorFL = hardwareMap.dcMotor.get("FL");
 
+//        omnipL = this.opMode.hardwareMap.servo.get("omnipL");
+//        omnipR = this.opMode.hardwareMap.servo.get("omnipR");
+        intakeL = hardwareMap.dcMotor.get("intakeL");
+        intakeR = hardwareMap.dcMotor.get("intakeR");
+
+        outputL = hardwareMap.servo.get("outputL");
+        outputR = hardwareMap.servo.get("outputR");
+
+        lift = hardwareMap.dcMotor.get("lift");
+        relic = hardwareMap.dcMotor.get("relic");
+        gate = this.opMode.hardwareMap.servo.get("gate");
+        hour = hardwareMap.servo.get("hour");
+//      minute = hardwareMap.servo.get("minute");
+
+        pusherR = hardwareMap.servo.get("pushR");
+        pusherL = hardwareMap.servo.get("pushL");
+
+        // jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
+        // jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
+
+        //REV Expansion Hub Gyro Code
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        gyro = opMode.hardwareMap.get(BNO055IMU.class, "imu");
+        gyro.initialize(parameters);
+
         motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    }
+    public void balance() throws InterruptedException {
 
-        ColorSensor colorSensor = hardwareMap.colorSensor.get("color");
+        double tangent = 0;
+        double pitch = getGyroPitch();
+        double roll = getGyroRoll();
 
+        //Push downwards on balancing stone
+        pushersOut();
+        Thread.sleep(300);
+
+        // Move forward
+        startMotors(1, 1);
+        Thread.sleep(1200);
+
+        int quadrant = 1;
+
+        if(roll > 0 && pitch > 0) {
+
+            quadrant = 1;
+        }
+
+        if(roll < 0 && pitch > 0) {
+
+            quadrant = 2;
+        }
+
+        if(roll < 0 && pitch < 0) {
+
+            quadrant = 3;
+        }
+
+        if(roll > 0 && pitch < 0) {
+
+            quadrant = 4;
+        }
+
+        if (roll == 0){
+            if (pitch > 0){
+                while (Math.abs(pitch) > 3){
+                    startMotors(-1, -1);
+                }
+            }else {
+                while (Math.abs(pitch) > 3){
+                    startMotors(1, 1);
+                }
+            }
+        }
+
+        if (pitch == 0){
+            if (roll > 0){
+                while (Math.abs(roll) > 3){
+                    move(1, 0, Math.PI/2);
+                }
+            }else {
+                while (Math.abs(roll) > 3){
+                    move(1, 0, 0);
+                }
+            }
+        }
+        while((Math.abs(pitch) > 7) && (Math.abs(roll)  > 7)) {
+
+            tangent = Math.atan(roll/pitch);
+            if(quadrant == 1) {
+                move(1, 0, (tangent - Math.PI));
+            } else if (quadrant == 2){
+                move(1, 0, tangent);
+            } else if (quadrant == 3){
+                move(1, 0, tangent);
+            } else if (quadrant == 4){
+                move(1, 0, (tangent - Math.PI));
+            }
+        }
+
+    }
+
+
+    public void move(double pow, double rotation, double direction) {
+
+        final double FL = pow * Math.cos(direction - Math.PI/4) + rotation;
+        final double FR = pow * Math.sin(direction - Math.PI/4) - rotation;
+        final double BL = pow * Math.sin(direction - Math.PI/4) + rotation;
+        final double BR = pow * Math.cos(direction - Math.PI/4) - rotation;
+
+        motorFL.setPower(FL);
+        motorBL.setPower(BL);
+        motorBR.setPower(BR);
+        motorFR.setPower(FR);
     }
 
     public void reverse() {
@@ -63,7 +210,7 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
 
     public void startMotors(double r, double l) {
-        if(reversed) {
+        if (reversed) {
             motorFL.setPower(l * slowingFactor);
             motorBL.setPower(l * slowingFactor);
             motorFR.setPower(-r * slowingFactor);
@@ -132,15 +279,164 @@ public abstract class PapaSmurfOpMode extends OpMode {
         angles = gyro.getAngularOrientation();
     }
 
+    public void intakeIn(){
+        intakeL.setPower(-1);
+        intakeR.setPower(1);
+    }
+
+    public void intakeOut(){
+        intakeL.setPower(1);
+        intakeR.setPower(-1);
+    }
+
+    public void intakeStop(){
+        intakeL.setPower(0);
+        intakeR.setPower(0);
+    }
+
+    public void intakeSpin(){
+        intakeL.setPower(-1);
+        intakeR.setPower(-1);
+    }
+
+    public void outputOut(){
+        outputL.setPosition(1);
+        outputR.setPosition(0);
+    }
+
+    public void outputIn(){
+        outputL.setPosition(0);
+        outputR.setPosition(1);
+    }
+
+    public void stopOutput(){
+        outputL.setPosition(.5);
+        outputR.setPosition(.5);
+    }
+//
+//    public void omnipUp() {
+//        omnipR.setPosition(0);
+//        omnipL.setPosition(1);
+//    }
+//
+//    public void omnipDown() {
+//        omnipR.setPosition(1);
+//        omnipL.setPosition(0);
+//    }
+//
+//    public void omnipStop() {
+//        omnipR.setPosition(.5);
+//        omnipL.setPosition(.5);
+//    }
+
+    public void relicOut() throws InterruptedException {
+        relic.setPower(1);
+        Thread.sleep(2000);
+        relic.setPower(0);
+    }
+
+    public void relicIn() throws InterruptedException {
+        relic.setPower(-1);
+        Thread.sleep(2000);
+        relic.setPower(0);
+    }
+
+    public void liftUp(double power){
+        lift.setPower(power);
+    }
+
+    public void liftDown(double power){
+        lift.setPower(-power);
+    }
+
+    public void liftStop() {
+        lift.setPower(0);
+    }
+
+    public void funnelIn(){
+        gate.setPosition(0);
+    }
+
+    public void funnelOut() {
+        gate.setPosition(1);
+    }
+
+    public void armOut() throws InterruptedException {
+        hour.setPosition(.67);
+        Thread.sleep(500);
+        minute.setPosition(1);
+    }
+
+    public void armIn() throws InterruptedException {
+        minute.setPosition(0);
+        Thread.sleep(100);
+        hour.setPosition(0);
+    }
+
+    public void pushersOut(){
+        pusherR.setPosition(-1);
+        pusherL.setPosition(1);
+    }
+
+    public void pushersIn(){
+        pusherR.setPosition(1);
+        pusherL.setPosition(-1);
+    }
+
+    public int getColorValue(){
+        double colorVal = 0;
+
+        double blueLeft = jewelSensorLeft.blue();
+        double blueRight = jewelSensorRight.blue();
+        double redLeft = jewelSensorLeft.red();
+        double redRight = jewelSensorRight.red();
+
+        colorVal += blueRight - blueLeft;
+        colorVal += redLeft - redRight;
+
+        return (int) colorVal;
+    }
+
+    public int getBlue() {
+        return jewelSensorLeft.blue();
+    }
+
+    public int getRed(){
+        return jewelSensorLeft.red();
+    }
+
     public double getGyroYaw() {
         updateValues();
-        double value = angles.firstAngle * -1;
+        double yaw = angles.firstAngle * -1;
         if(angles.firstAngle < -180)
-            value -= 360;
-        return value;
+            yaw -= 360;
+        return yaw;
     }
 
 
+    public double getGyroPitch() {
+        updateValues();
+        double pitch = angles.secondAngle;
+        return pitch;
+    }
+
+    public double getGyroRoll(){
+        updateValues();
+        double roll = angles.thirdAngle;
+        return roll;
+    }
+
+    public boolean resetGyro() {
+        return gyro.initialize(parameters);
+    }
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
 
     public double getVoltage() {
         return hardwareMap.voltageSensor.get("Motor Controller 5").getVoltage();
@@ -178,5 +474,6 @@ public abstract class PapaSmurfOpMode extends OpMode {
                         return "FR: " + motorFR.getCurrentPosition();
                     }
                 });
+
     }
 }

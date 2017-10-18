@@ -26,8 +26,8 @@ public class SensorRR {
 
     public SensorRR(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-        jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
-        jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
+        // jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
+        // jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -40,7 +40,7 @@ public class SensorRR {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        gyro = opMode.hardwareMap.get(BNO055IMU.class, "gyro");
+        gyro = opMode.hardwareMap.get(BNO055IMU.class, "imu");
         gyro.initialize(parameters);
 
     }

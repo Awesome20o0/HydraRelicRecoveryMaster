@@ -14,9 +14,7 @@ public class Drivetrain_Mecanum{
     public DcMotor motorBR;
     public DcMotor motorFR;
 
-
     public SensorRR sensor;
-
     int nullValue;
     LinearOpMode opMode;
 
@@ -25,6 +23,8 @@ public class Drivetrain_Mecanum{
         nullValue = 0;
         motorFL = this.opMode.hardwareMap.dcMotor.get("FL");
         motorFR = this.opMode.hardwareMap.dcMotor.get("FR");
+        motorBL = this.opMode.hardwareMap.dcMotor.get("BL");
+        motorBR = this.opMode.hardwareMap.dcMotor.get("BR");
         this.opMode.telemetry.addData("init", "finished drivetrain init");
         this.opMode.telemetry.update();
         sensor = new SensorRR(opMode);
