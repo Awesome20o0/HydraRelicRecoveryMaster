@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.PapaSmurf;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -38,8 +39,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
     Servo pusherR;
     Servo pusherL;
 
-    Servo outputR;
-    Servo outputL;
+    CRServo outputR;
+    CRServo outputL;
 
     PapaSmurfOpMode opMode;
 
@@ -81,8 +82,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
         intakeL = hardwareMap.dcMotor.get("intakeL");
         intakeR = hardwareMap.dcMotor.get("intakeR");
 
-        outputL = hardwareMap.servo.get("outputL");
-        outputR = hardwareMap.servo.get("outputR");
+        outputL = hardwareMap.crservo.get("outputL");
+        outputR = hardwareMap.crservo.get("outputR");
 
         lift = hardwareMap.dcMotor.get("lift");
         relic = hardwareMap.dcMotor.get("relic");
@@ -300,18 +301,18 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
 
     public void outputOut(){
-        outputL.setPosition(1);
-        outputR.setPosition(0);
+        outputL.setPower(1);
+        outputR.setPower(-1);
     }
 
     public void outputIn(){
-        outputL.setPosition(0);
-        outputR.setPosition(1);
+        outputL.setPower(-1);
+        outputR.setPower(1);
     }
 
     public void stopOutput(){
-        outputL.setPosition(.5);
-        outputR.setPosition(.5);
+        outputL.setPower(0);
+        outputR.setPower(0);
     }
 //
 //    public void omnipUp() {
