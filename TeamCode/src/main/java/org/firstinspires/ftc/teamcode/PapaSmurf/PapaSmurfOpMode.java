@@ -50,11 +50,12 @@ public abstract class PapaSmurfOpMode extends OpMode {
     // To monitor current voltage
     double voltage = 0.0;
 
+
     //For reversing which side is "forward" during the match
     boolean reversed = true;
 
     //To be accessed by the actual opMode
-    double slowingFactor;
+    double slowingFactor = 1;
     double powerL;
     double powerR;
     public BNO055IMU gyro;
@@ -71,6 +72,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
         opMode = this;
         composeTelemetry();
+
+        int slowFactor = 1;
 
         motorBL = hardwareMap.dcMotor.get("BL");
         motorBR = hardwareMap.dcMotor.get("BR");
@@ -300,14 +303,14 @@ public abstract class PapaSmurfOpMode extends OpMode {
         intakeR.setPower(-1);
     }
 
-    public void outputOut(){
-        outputL.setPower(1);
-        outputR.setPower(-1);
+    public void outputOut(double power){
+        outputL.setPower(power);
+        outputR.setPower(-power);
     }
 
-    public void outputIn(){
-        outputL.setPower(-1);
-        outputR.setPower(1);
+    public void outputIn(double power){
+        outputL.setPower(-power);
+        outputR.setPower(power);
     }
 
     public void stopOutput(){
@@ -375,13 +378,13 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
 
     public void pushersOut(){
-        pusherR.setPosition(-1);
-        pusherL.setPosition(1);
+        pusherR.setPosition(1);
+        pusherL.setPosition(-1);
     }
 
     public void pushersIn(){
-        pusherR.setPosition(1);
-        pusherL.setPosition(-1);
+        pusherR.setPosition(-1);
+        pusherL.setPosition(1);
     }
 
     public int getColorValue(){
