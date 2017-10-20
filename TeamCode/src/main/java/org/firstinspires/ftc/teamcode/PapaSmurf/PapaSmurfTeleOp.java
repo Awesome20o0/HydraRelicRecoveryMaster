@@ -28,6 +28,9 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             slowingFactor = 1;
         }
 
+        if (gamepad1.y)
+            tank = !tank;
+
 
         if (gamepad1.a) {
             reverse();
