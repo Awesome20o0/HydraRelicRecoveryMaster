@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by willi on 10/23/2017.
  */
 
-@TeleOp(name = "PSTeleOp", group = "opMode")
+@TeleOp(name = "PSTeleOpCole", group = "opMode")
 public class PapaSmurfTeleOpCole extends PapaSmurfOpMode {
 
     //Used to keep track of mode

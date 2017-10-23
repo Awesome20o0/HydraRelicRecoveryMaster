@@ -183,16 +183,16 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
 
             if (gamepad2.right_trigger > .1) {
-                while (gamepad2.right_trigger > .1)
-                    liftUp(gamepad2.right_trigger);
-                liftStop();
-            }
+
+                    liftUp(1);
+
+            } else liftStop();
 
             if (gamepad2.left_trigger > .1) {
-                while (gamepad2.left_trigger > .1)
-                    liftDown(gamepad2.left_trigger);
-                liftStop();
-            }
+
+                    liftDown(.5);
+            }  else liftStop();
+
         } else {
             if (gamepad2.right_trigger > 0.1) {
                 try {
