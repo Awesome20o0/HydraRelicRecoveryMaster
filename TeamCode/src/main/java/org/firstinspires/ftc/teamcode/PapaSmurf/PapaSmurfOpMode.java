@@ -29,8 +29,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
     DcMotor intakeL;
     DcMotor intakeR;
-//    Servo omnipL;
-//    Servo omnipR;
+    CRServo omnipL;
+    CRServo omnipR;
 
     DcMotor lift;
     DcMotor relic;
@@ -80,8 +80,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
         motorFR = hardwareMap.dcMotor.get("FR");
         motorFL = hardwareMap.dcMotor.get("FL");
 
-//        omnipL = this.opMode.hardwareMap.servo.get("omnipL");
-//        omnipR = this.opMode.hardwareMap.servo.get("omnipR");
+        omnipL = hardwareMap.crservo.get("omnipL");
+        omnipR = hardwareMap.crservo.get("omnipR");
         intakeL = hardwareMap.dcMotor.get("intakeL");
         intakeR = hardwareMap.dcMotor.get("intakeR");
 
@@ -90,7 +90,7 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
         lift = hardwareMap.dcMotor.get("lift");
         relic = hardwareMap.dcMotor.get("relic");
-        gate = this.opMode.hardwareMap.servo.get("gate");
+        gate = hardwareMap.servo.get("gate");
         hour = hardwareMap.servo.get("hour");
 //      minute = hardwareMap.servo.get("minute");
 
@@ -128,11 +128,12 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
         //Push downwards on balancing stone
         pushersOut();
-        Thread.sleep(300);
+        Thread.sleep(500);
 
         // Move forward
-        startMotors(1, 1);
-        Thread.sleep(1200);
+        startMotors(.5, .5);
+        Thread.sleep(2000);
+        pushersIn();
 
         int quadrant = 1;
 
@@ -159,11 +160,11 @@ public abstract class PapaSmurfOpMode extends OpMode {
         if (roll == 0){
             if (pitch > 0){
                 while (Math.abs(pitch) > 3){
-                    startMotors(-1, -1);
+                    startMotors(-.3, -.3);
                 }
             }else {
                 while (Math.abs(pitch) > 3){
-                    startMotors(1, 1);
+                    startMotors(.3, .3);
                 }
             }
         }
@@ -171,11 +172,11 @@ public abstract class PapaSmurfOpMode extends OpMode {
         if (pitch == 0){
             if (roll > 0){
                 while (Math.abs(roll) > 3){
-                    move(1, 0, Math.PI/2);
+                    move(.3, 0, Math.PI/2);
                 }
             }else {
                 while (Math.abs(roll) > 3){
-                    move(1, 0, 0);
+                    move(.3, 0, 0);
                 }
             }
         }
@@ -183,13 +184,13 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
             tangent = Math.atan(roll/pitch);
             if(quadrant == 1) {
-                move(1, 0, (tangent - Math.PI));
+                move(.4, 0, (tangent - Math.PI));
             } else if (quadrant == 2){
-                move(1, 0, tangent);
+                move(.4, 0, tangent);
             } else if (quadrant == 3){
-                move(1, 0, tangent);
+                move(.4, 0, tangent);
             } else if (quadrant == 4){
-                move(1, 0, (tangent - Math.PI));
+                move(.4, 0, (tangent - Math.PI));
             }
         }
 
@@ -316,22 +317,23 @@ public abstract class PapaSmurfOpMode extends OpMode {
     public void stopOutput(){
         outputL.setPower(0);
         outputR.setPower(0);
+        //herro
     }
-//
-//    public void omnipUp() {
-//        omnipR.setPosition(0);
-//        omnipL.setPosition(1);
-//    }
-//
-//    public void omnipDown() {
-//        omnipR.setPosition(1);
-//        omnipL.setPosition(0);
-//    }
-//
-//    public void omnipStop() {
-//        omnipR.setPosition(.5);
-//        omnipL.setPosition(.5);
-//    }
+
+    public void omnipUp() {
+        omnipR.setPower(-.85);
+        omnipL.setPower(.85);
+    }
+
+    public void omnipDown() {
+        omnipR.setPower(.85);
+        omnipL.setPower(-.85);
+    }
+
+    public void omnipStop() {
+        omnipR.setPower(0);
+        omnipL.setPower(0);
+    }
 
     public void relicOut() throws InterruptedException {
         relic.setPower(1);
@@ -346,23 +348,20 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
 
     public void liftUp(double power){
-        lift.setPower(power);
+        lift.setPower(-power);
     }
 
     public void liftDown(double power){
-        lift.setPower(-power);
+        lift.setPower(power);
     }
 
     public void liftStop() {
         lift.setPower(0);
     }
 
-    public void funnelIn(){
-        gate.setPosition(0);
-    }
 
-    public void funnelOut() {
-        gate.setPosition(1);
+    public void gate() {
+        gate.setPosition(0);
     }
 
     public void armOut() throws InterruptedException {
