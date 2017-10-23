@@ -3,10 +3,11 @@ package org.firstinspires.ftc.teamcode.PapaSmurf;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
- * Created by Varun on 9/2/2017.
+ * Created by willi on 10/23/2017.
  */
+
 @TeleOp(name = "PSTeleOp", group = "opMode")
-public class PapaSmurfTeleOp extends PapaSmurfOpMode {
+public class PapaSmurfTeleOpCole extends PapaSmurfOpMode {
 
     //Used to keep track of mode
     boolean endGame = false;
@@ -17,6 +18,12 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
     @Override
     public void loop() {
+
+        if(gamepad2.right_trigger > .1){
+            tank = false;
+        }else{
+            tank = true;
+        }
 
         //Changes endGame boolean on button press
         if (gamepad2.back)
@@ -30,20 +37,17 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             slowingFactor = 1;
         }
 
-        if (gamepad1.b)
-            tank = !tank;
-
         if (!reversed && !tank) {
             //Code for mecanum drive when not reversed
-            if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
-                    Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
-                double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-                double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-                double rightX = -gamepad1.right_stick_x;
-                double FL = r * Math.cos(robotAngle) + rightX;
-                double FR = r * Math.sin(robotAngle) - rightX;
-                double BL = r * Math.sin(robotAngle) + rightX;
-                double BR = r * Math.cos(robotAngle) - rightX;
+            if (((Math.abs(Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y))) > .1) ||
+                    Math.abs(Math.atan2(gamepad1.right_stick_x, gamepad1.right_stick_y) - Math.PI / 4) > .1) {
+                double r = Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y);
+                double robotAngle = Math.atan2(gamepad1.right_stick_x, -gamepad1.right_stick_y) - Math.PI / 4;
+                //double rightX = -gamepad1.right_stick_x;
+                double FL = r * Math.cos(robotAngle); //+ rightX;
+                double FR = r * Math.sin(robotAngle); //- rightX;
+                double BL = r * Math.sin(robotAngle); //+ rightX;
+                double BR = r * Math.cos(robotAngle); //- rightX;
 
 
                 if (((Math.abs(FL) > 1) || (Math.abs(BL) > 1)) || ((Math.abs(FR) > 1) || (Math.abs(BR) > 1))) {
@@ -63,15 +67,15 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         }
         if (reversed && !tank){
             //Code for mecanum drive when reversed
-            if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
-                    Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
-                double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-                double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-                double rightX = -gamepad1.right_stick_x;
-                double FL = r * Math.cos(robotAngle) + rightX;
-                double FR = r * Math.sin(robotAngle) - rightX;
-                double BL = r * Math.sin(robotAngle) + rightX;
-                double BR = r * Math.cos(robotAngle) - rightX;
+            if (((Math.abs(Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y))) > .1) ||
+                    Math.abs(Math.atan2(gamepad1.right_stick_x, gamepad1.right_stick_y) - Math.PI / 4) > .1) {
+                double r = Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y);
+                double robotAngle = Math.atan2(gamepad1.right_stick_x, -gamepad1.right_stick_y) - Math.PI / 4;
+                //double rightX = -gamepad1.right_stick_x;
+                double FL = r * Math.cos(robotAngle); //+ rightX;
+                double FR = r * Math.sin(robotAngle); //- rightX;
+                double BL = r * Math.sin(robotAngle); //+ rightX;
+                double BR = r * Math.cos(robotAngle); //- rightX;
 
 
                 if (((Math.abs(FL) > 1) || (Math.abs(BL) > 1)) || ((Math.abs(FR) > 1) || (Math.abs(BR) > 1))) {
@@ -155,22 +159,21 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 }
             }
 
+
             if (gamepad2.dpad_down) {
                 gate();
             }
 
-            if (gamepad1.left_trigger > .1 && gamepad1.right_trigger > .1) {
-                outputIn(.85);
-            } else if (gamepad1.right_trigger > .1) {
-                outputOut(.85);
-            } else if (gamepad1.left_trigger > .1) {
+            if (gamepad1.left_trigger > .1) {
+                outputOut(gamepad1.left_trigger);
+            }else{
                 stopOutput();
                 //yay, nick chan can comment stuff
             }
 
             if (gamepad2.x) {
-                omnipUp();
 
+                omnipUp();
             }
 
             if (gamepad2.b) {
@@ -180,7 +183,6 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
             if (!(gamepad2.x || gamepad2.b))
                 omnipStop();
-
 
             if (gamepad2.right_trigger > .1) {
                 while (gamepad2.right_trigger > .1)
