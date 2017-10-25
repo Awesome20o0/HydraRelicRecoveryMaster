@@ -26,7 +26,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             slowingFactor = .5;
         }
 
-        if (gamepad1.dpad_up && slowingFactor == .5){
+        if (gamepad1.dpad_up && slowingFactor == .5) {
             slowingFactor = 1;
         }
 
@@ -61,7 +61,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 stopMotors();
             }
         }
-        if (reversed && !tank){
+        if (reversed && !tank) {
             //Code for mecanum drive when reversed
             if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
                     Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
@@ -121,11 +121,11 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             }
         }
 
-        if(gamepad2.right_bumper && gamepad2.left_bumper) {
+        if (gamepad2.right_bumper && gamepad2.left_bumper) {
             intakeOut();
-        } else if(gamepad2.right_bumper) {
+        } else if (gamepad2.right_bumper) {
             intakeIn();
-        } else if(gamepad2.left_bumper) {
+        } else if (gamepad2.left_bumper) {
             intakeStop();
         }
 
@@ -165,7 +165,6 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 outputOut(.85);
             } else if (gamepad1.left_trigger > .1) {
                 stopOutput();
-                //yay, nick chan can comment stuff
             }
 
             if (gamepad2.x) {
@@ -183,15 +182,17 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
 
             if (gamepad2.right_trigger > .1) {
+                liftUp(1);
+            }
 
-                    liftUp(1);
-
-            } else liftStop();
+            if (!(gamepad2.right_trigger > .1 || gamepad2.left_trigger > .1) ){
+                liftStop();
+            }
 
             if (gamepad2.left_trigger > .1) {
 
-                    liftDown(.5);
-            }  else liftStop();
+                liftDown(1);
+            }
 
         } else {
             if (gamepad2.right_trigger > 0.1) {

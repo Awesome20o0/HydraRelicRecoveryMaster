@@ -113,8 +113,8 @@ public class Drivetrain_Mecanum{
 
         final double FL = pow * Math.cos(direction - Math.PI/4) + rotation;
         final double FR = pow * Math.sin(direction - Math.PI/4) - rotation;
-        final double BL = pow * Math.sin(direction - Math.PI/4) + rotation;
-        final double BR = pow * Math.cos(direction - Math.PI/4) - rotation;
+        final double BL = pow * Math.cos(direction - Math.PI/4) + rotation;
+        final double BR = pow * Math.sin(direction - Math.PI/4) - rotation;
 
         motorFL.setPower(FL);
         motorBL.setPower(BL);
@@ -130,8 +130,8 @@ public class Drivetrain_Mecanum{
 
     public void startMotors(double ri, double le) throws InterruptedException {
             motorBL.setPower(-le);
-            motorFL.setPower(le);
-            motorBR.setPower(-ri);
+            motorFL.setPower(-le);
+            motorBR.setPower(ri);
             motorFR.setPower(ri);
         }
     public void stopMotors() throws InterruptedException {

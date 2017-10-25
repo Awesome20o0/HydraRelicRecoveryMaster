@@ -115,37 +115,37 @@ public class BlueSideAuto extends LinearOpMode{
 
             telemetry.update();
 
-            glyphScorer.liftUp();
-            Thread.sleep(400);
-            glyphScorer.liftStop();
+            /*glyphScorer.liftUp();
+            Thread.sleep(200);
+            glyphScorer.liftStop();*/
 
-            // 2. Extend arm
-            arm.armOut();
+//            // 2. Extend arm
+//            arm.armOut();
+//
+//            int color = sensors.getColorValue();
+//
+//            Thread.sleep(1000);
+//
+//
+//            // 3. Knock ball off
+//            if (color < 0){
+//                //turn 15 degrees clockwise
+//                drivetrainM.pid(.5, 7, .1, .009, 0.045 , 0.02, 1);
+//                Thread.sleep(1000);
+//                arm.armIn();
+//                Thread.sleep(1000);
+//                drivetrainM.pid(.5, -7, .1, .009, 0.045 , 0.02, 1);
+//            }else{
+//                //turn 15 degrees counterclockwise
+//                drivetrainM.pid(.5, -7, .1, .009, 0.045 , 0.02, 1);
+//                Thread.sleep(1000);
+//                arm.armIn();
+//                Thread.sleep(1000);
+//                drivetrainM.pid(.5, 7, .1, .009, 0.045 , 0.02, 1);
+//            }
 
-            int color = sensors.getColorValue();
-
-            Thread.sleep(1000);
-
-
-            // 3. Knock ball off
-            if (color < 0){
-                //turn 15 degrees clockwise
-                drivetrainM.pid(.5, 15, .1, .009, 0.045 , 0.02, 1);
-                Thread.sleep(200);
-                arm.armIn();
-                Thread.sleep(200);
-                drivetrainM.pid(1, -15, .1, .009, 0.045 , 0.02, 1);
-            }else{
-                //turn 15 degrees counterclockwise
-                drivetrainM.pid(1, -15, .1, .009, 0.045 , 0.02, 1);
-                Thread.sleep(200);
-                arm.armIn();
-                Thread.sleep(200);
-                drivetrainM.pid(1, 15, .1, .009, 0.045 , 0.02, 1);
-            }
-
-//            // 4. Drive 24 inches off of balancing stone
-//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+            // 4. Drive 24 inches off of balancing stone
+            drivetrainM.move(1, 0, Math.PI/2);
 //
 //            // 5. Turn left in place
 //            drivetrainM.pid(1, -90, .1, 0, 0, 0, 0);
