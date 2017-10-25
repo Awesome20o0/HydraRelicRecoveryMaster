@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -25,6 +26,7 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
  * Created by Varun on 9/11/2017.
  */
 
+@Autonomous(name = "Blue Side Auto", group = "LinearOpMode")
 public class BlueSideAuto extends LinearOpMode{
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
@@ -32,6 +34,7 @@ public class BlueSideAuto extends LinearOpMode{
     private SensorRR sensors;
     private JewelArm arm;
     public static final String TAG = "Vuforia VuMark Sample";
+
 
     OpenGLMatrix lastLocation = null;
 
@@ -43,12 +46,19 @@ public class BlueSideAuto extends LinearOpMode{
 
     @Override public void runOpMode() throws InterruptedException {
 
+        drivetrainM = new Drivetrain_Mecanum(this);
+        glyphScorer = new GlyphScorer(this);
+        sensors = new SensorRR(this);
+        arm = new JewelArm(this);
+
+        composeTelemetry();
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = "AYPVi+D/////AAAAGWcdhlXrGkdFvb06tBr5+AFjSDfw/YB3Am9Am/B21oh9Jy6CyrZzHhH1A7ssJo723Ha+8w0KNhmv38iW3hieiGS3ww/zbK7RgfMDhlAN5Ky/BZ2s2NUfKLIt32e9E6O23jOumaRs1Tw6BrIpfi0HnCjUwmkVi/Jd2FXUTvWOCPRiJ+Sm7J10sdb4612yzZnx/GpwnFsT9AtKamYqDzHs4CYDXlBJXetnon03SnnZjUxK/8NYbFRRIgKE+N/u3qCwSzus8GJkfwPbxMok9xIWwzrDnko2yiKqYb5wZlmZBYI722gR6IOmK8qlGJ+f+stBPQyseR7Q468By8u6WcucjveY3gVWh3uGbmzRE0BUTNkV";
 
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
@@ -105,52 +115,65 @@ public class BlueSideAuto extends LinearOpMode{
 
             telemetry.update();
 
+            glyphScorer.liftUp();
+            Thread.sleep(400);
+            glyphScorer.liftStop();
+
             // 2. Extend arm
             arm.armOut();
 
+            int color = sensors.getColorValue();
+
+            Thread.sleep(1000);
+
+
             // 3. Knock ball off
-            if (sensors.getColorValue() > 0){
+            if (color < 0){
                 //turn 15 degrees clockwise
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(.5, 15, .1, .009, 0.045 , 0.02, 1);
+                Thread.sleep(200);
                 arm.armIn();
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                Thread.sleep(200);
+                drivetrainM.pid(1, -15, .1, .009, 0.045 , 0.02, 1);
             }else{
                 //turn 15 degrees counterclockwise
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, -15, .1, .009, 0.045 , 0.02, 1);
+                Thread.sleep(200);
                 arm.armIn();
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+                Thread.sleep(200);
+                drivetrainM.pid(1, 15, .1, .009, 0.045 , 0.02, 1);
             }
 
-            // 4. Drive 24 inches off of balancing stone
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-
-            // 5. Turn left in place
-            drivetrainM.pid(1, -90, .1, 0, 0, 0, 0);
-
-            // 6. Drive forward 24 inches towards cryptobox
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-
-
-            // 7. Move horizontally depending on VuMark value
-            if (left) {
-                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, Math.PI);
-
-            } else if (center) {
-                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
-
-            } else {
-                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, Math.PI);
-            }
-
-            // 8. Manipulator deposits the glyphs into the cryptobox
-            glyphScorer.outputOut();
-
-            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
-            Thread.sleep(1500);
-
-            // 10. Stop the manipulator
-            glyphScorer.stopOutput();
-        }
+//            // 4. Drive 24 inches off of balancing stone
+//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+//
+//            // 5. Turn left in place
+//            drivetrainM.pid(1, -90, .1, 0, 0, 0, 0);
+//
+//            // 6. Drive forward 24 inches towards cryptobox
+//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+//
+//
+//            // 7. Move horizontally depending on VuMark value
+//            if (left) {
+//                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, Math.PI);
+//
+//            } else if (center) {
+//                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
+//
+//            } else {
+//                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, Math.PI);
+//            }
+//
+//            // 8. Manipulator deposits the glyphs into the cryptobox
+//            glyphScorer.outputOut();
+//
+//            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+//            Thread.sleep(1500);
+//
+//            // 10. Stop the manipulator
+//            glyphScorer.stopOutput();
+    }
 
     }
 

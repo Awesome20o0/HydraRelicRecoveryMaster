@@ -129,8 +129,8 @@ public class Drivetrain_Mecanum{
     }
 
     public void startMotors(double ri, double le) throws InterruptedException {
-            motorBL.setPower(le);
-            motorFL.setPower(-le);
+            motorBL.setPower(-le);
+            motorFL.setPower(le);
             motorBR.setPower(-ri);
             motorFR.setPower(ri);
         }
@@ -140,11 +140,18 @@ public class Drivetrain_Mecanum{
         motorFL.setPower(0);
         motorFR.setPower(0);
     }
+
+    public void setNullValue() {
+        nullValue = getEncoderAvg();
+    }
+
     public void pid(double power, int angleTo, double floor, double kP, double kI, double kD, int accuracy) throws InterruptedException {
 
         double error;
         double inte = 0;
         double der;
+
+        setNullValue();
 
         double currentAngle = sensor.getGyroYaw();
         double previousError = angleTo - currentAngle;

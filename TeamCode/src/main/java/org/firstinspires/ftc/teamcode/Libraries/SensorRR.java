@@ -26,8 +26,8 @@ public class SensorRR {
 
     public SensorRR(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
-        // jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
-        // jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
+        jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
+        jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -58,6 +58,7 @@ public class SensorRR {
         colorVal += redLeft - redRight;
 
         return (int) colorVal;
+
     }
 
     public int getBlue() {

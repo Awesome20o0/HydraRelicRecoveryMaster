@@ -311,24 +311,6 @@ public class BlueAutonomous extends LinearOpMode {
 
         if(parkCenter) {
 
-            //move forward a bit
-            drivetrain.moveForward(-.75, 833, 1000);
-
-            //turn away from the wall
-            while (opModeIsActive() && Math.abs(drivetrain.sensor.getGyroYaw()) > 85) {
-                drivetrain.startMotors(-.6, 0);
-                idle();
-            }
-            drivetrain.stopMotors();
-
-            drivetrain.moveForward(-.8, -1, 4000, 5000);
-
-            //move to the center zone push and park
-            //replaced this with more drift (above)
-            //drivetrain.moveBackward(-1, 6000, 5000);
-
-            //turn to make sure we knock off cap ball
-            drivetrain.moveForward(-1, 0, 400, 2000);
         } else {
             drivetrain.startMotors(-1, 0);
 

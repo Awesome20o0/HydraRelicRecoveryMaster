@@ -18,7 +18,7 @@ public class JewelArm {
 
         this.opMode = opMode;
         hour = this.opMode.hardwareMap.servo.get("hour");
-        // minute = this.opMode.hardwareMap.servo.get("minute");
+        minute = this.opMode.hardwareMap.servo.get("minute");
         this.opMode.telemetry.addData("init", "finished drivetrain init");
         this.opMode.telemetry.update();
         this.opMode.telemetry.addData("init", "init finished");
@@ -27,14 +27,22 @@ public class JewelArm {
     }
 
     public void armOut() throws InterruptedException {
-        hour.setPosition(.67);
-        Thread.sleep(500);
-        minute.setPosition(1);
+
+        minute.setPosition(.55);
+        Thread.sleep(200);
+        hour.setPosition(.85);
     }
 
     public void armIn() throws InterruptedException {
+
+        hour.setPosition(1);
+        Thread.sleep(200);
         minute.setPosition(0);
-        Thread.sleep(100);
-        hour.setPosition(0);
+    }
+
+    public void armUp() throws InterruptedException {
+        hour.setPosition(-.5);
+        Thread.sleep(200);
+        minute.setPosition(.5);
     }
 }

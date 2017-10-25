@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
  * Created by Varun on 9/10/2017.
  */
 
-@Autonomous(name = "Red Auto", group = "LinearOpMode")
+@Autonomous(name = "Red Side Auto", group = "LinearOpMode")
 public class RedSideAuto extends LinearOpMode {
 
     private GlyphScorer glyphScorer;
@@ -115,6 +115,9 @@ public class RedSideAuto extends LinearOpMode {
             if (sensors.getColorValue() > 0){
                 //turn 15 degrees clockwise
                 drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+
+                drivetrainM.pid(1,15,.1,.009,.045, .02, 1);
+
                 arm.armIn();
                 drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
             }else{
@@ -124,37 +127,37 @@ public class RedSideAuto extends LinearOpMode {
                 drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
             }
 
-            // 4. Drive 24 inches off of balancing stone
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-
-            // 5. Turn right in place
-            drivetrainM.pid(1, 90, .1, 0, 0, 0, 0);
-
-            // 6. Drive forward 24 inches towards cryptobox
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-
-            // 7. Move right depending on VuMark value
-            if (left) {
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, 0);
-
-            } else if (center) {
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-
-            } else {
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, 0);
-            }
-
-            // 8. Manipulator deposits the glyphs into the cryptobox
-            glyphScorer.outputOut();
-
-            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
-            Thread.sleep(1500);
-
-            // 10. Stop the manipulator
-            glyphScorer.stopOutput();
+//            // 4. Drive 24 inches off of balancing stone
+//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+//
+//            // 5. Turn right in place
+//            drivetrainM.pid(1, 90, .1, 0, 0, 0, 0);
+//
+//            // 6. Drive forward 24 inches towards cryptobox
+//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+//
+//            // 7. Move right depending on VuMark value
+//            if (left) {
+//                //rotate manipulator wheels
+//                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, 0);
+//
+//            } else if (center) {
+//                //rotate manipulator wheels
+//                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+//
+//            } else {
+//                //rotate manipulator wheels
+//                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, 0);
+//            }
+//
+//            // 8. Manipulator deposits the glyphs into the cryptobox
+//            glyphScorer.outputOut();
+//
+//            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+//            Thread.sleep(1500);
+//
+//            // 10. Stop the manipulator
+//            glyphScorer.stopOutput();
         }
 
     }

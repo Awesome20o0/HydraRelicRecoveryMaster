@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -25,6 +26,7 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
  * Created by Varun on 10/2/2017.
  */
 
+@Autonomous(name = "Blue Center Auto", group = "LinearOpMode")
 public class BlueCenterAuto extends LinearOpMode {
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
@@ -43,6 +45,13 @@ public class BlueCenterAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        drivetrainM = new Drivetrain_Mecanum(this);
+        glyphScorer = new GlyphScorer(this);
+        sensors = new SensorRR(this);
+        arm = new JewelArm(this);
+
+        composeTelemetry();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -123,37 +132,37 @@ public class BlueCenterAuto extends LinearOpMode {
                 drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
             }
 
-            // 4. Move right off the platform
-            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-
-            // 5. Turn 180 degress in place
-            drivetrainM.pid(1, -180, .1, 0, 0, 0, 0);
-
-            // 6. Move forward 20 inches towards cryptobox
-            drivetrainM.movepid(1, 2500, .1, 0, 0, 0, 100, 0, 0);
-
-            // 7. Move horizontally depending on vuMark value
-            if(left){
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, 0);
-
-            } else if (center) {
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-
-            } else {
-                //rotate manipulator wheels
-                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, 0);
-            }
-
-            // 8. Manipulator deposits the glyphs into the cryptobox
-            glyphScorer.outputOut();
+//            // 4. Move right off the platform
+//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
 //
-            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
-            Thread.sleep(1500);
+//            // 5. Turn 180 degress in place
+//            drivetrainM.pid(1, -180, .1, 0, 0, 0, 0);
 //
-            // 10. Stop the manipulator
-            glyphScorer.stopOutput();
+//            // 6. Move forward 20 inches towards cryptobox
+//            drivetrainM.movepid(1, 2500, .1, 0, 0, 0, 100, 0, 0);
+//
+//            // 7. Move horizontally depending on vuMark value
+//            if(left){
+//                //rotate manipulator wheels
+//                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, 0);
+//
+//            } else if (center) {
+//                //rotate manipulator wheels
+//                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+//
+//            } else {
+//                //rotate manipulator wheels
+//                drivetrainM.movepid(1, 4000, .1, 0, 0, 0, 100, 0, 0);
+//            }
+//
+//            // 8. Manipulator deposits the glyphs into the cryptobox
+//            glyphScorer.outputOut();
+////
+//            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+//            Thread.sleep(1500);
+////
+//            // 10. Stop the manipulator
+//            glyphScorer.stopOutput();
 
             }
         }

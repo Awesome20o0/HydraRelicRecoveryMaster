@@ -84,6 +84,10 @@ public class GlyphScorer {
         lift.setPower(0);
     }
 
+    public void liftStop() {
+        lift.setPower(0);
+    }
+
     public void relicOut() throws InterruptedException {
         relic.setPower(1);
         Thread.sleep(2000);

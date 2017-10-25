@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -25,6 +26,7 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
  * Created by Avi on 10/2/2017.
  */
 
+@Autonomous(name = "Red Center Auto", group = "LinearOpMode")
 public class RedCenterAuto extends LinearOpMode {
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
