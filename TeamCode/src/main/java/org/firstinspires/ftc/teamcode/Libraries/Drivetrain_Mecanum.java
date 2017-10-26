@@ -111,10 +111,10 @@ public class Drivetrain_Mecanum{
 
     public void move(double pow, double rotation, double direction) {
 
-        final double FL = pow * Math.cos(direction - Math.PI/4) + rotation;
-        final double FR = pow * Math.sin(direction - Math.PI/4) - rotation;
-        final double BL = pow * Math.cos(direction - Math.PI/4) + rotation;
-        final double BR = pow * Math.sin(direction - Math.PI/4) - rotation;
+        final double FL = pow * Math.sin(direction - Math.PI/4) + rotation;
+        final double FR = pow * Math.cos(direction - Math.PI/4) - rotation;
+        final double BL = pow * Math.sin(direction - Math.PI/4) + rotation;
+        final double BR = pow * Math.cos(direction - Math.PI/4) - rotation;
 
         motorFL.setPower(FL);
         motorBL.setPower(BL);
