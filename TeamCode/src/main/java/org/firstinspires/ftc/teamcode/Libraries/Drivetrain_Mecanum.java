@@ -122,6 +122,19 @@ public class Drivetrain_Mecanum{
         motorFR.setPower(FR);
     }
 
+    public void strafe(double pow, double direction){
+
+        final double FL = pow * Math.sin(direction - Math.PI/4);
+        final double FR = pow * Math.cos(direction - Math.PI/4);
+        final double BL = pow * Math.cos(direction - Math.PI/4);
+        final double BR = pow * Math.sin(direction - Math.PI/4);
+
+        motorFL.setPower(FL);
+        motorBL.setPower(BL);
+        motorBR.setPower(BR);
+        motorFR.setPower(FR);
+    }
+
     public void move(double pow, double rotation, double direction, int encoder) {
 
         while (getEncoderAvg() < encoder)
