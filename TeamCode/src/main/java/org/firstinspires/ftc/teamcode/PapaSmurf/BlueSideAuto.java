@@ -115,9 +115,9 @@ public class BlueSideAuto extends LinearOpMode{
 
             telemetry.update();
 
-            glyphScorer.liftUp();
-            Thread.sleep(200);
-            glyphScorer.liftStop();
+//            glyphScorer.liftUp();
+//            Thread.sleep(200);
+//            glyphScorer.liftStop();
 
 //            // 2. Extend arm
 //            arm.armOut();
@@ -154,8 +154,11 @@ public class BlueSideAuto extends LinearOpMode{
 //            // 6. Drive forward 24 inches towards cryptobox
             drivetrainM.movepid(.5, 1150,.1,.009,.06,.04,100,0,0);
             Thread.sleep(1000);
+            drivetrainM.strafe(1, 0);
+            Thread.sleep(500);
             glyphScorer.outputOut();
-            Thread.sleep(1000);
+            Thread.sleep(10000);
+
 ////
 //
             // 7. Move horizontally depending on VuMark value
