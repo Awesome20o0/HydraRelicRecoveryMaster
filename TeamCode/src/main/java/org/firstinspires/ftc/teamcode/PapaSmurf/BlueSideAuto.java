@@ -144,14 +144,15 @@ public class BlueSideAuto extends LinearOpMode{
 //                drivetrainM.pid(.5, 7, .1, .009, 0.045 , 0.02, 1);
 //            }
 
-            // 4. Drive 24 inches off of balancing stone
-            drivetrainM.movepid(.5, 600,.1,.012,.07,.02,100,0,0);
+//            // 4. Drive 24 inches off of balancing stone
+            drivetrainM.movepid(.5, 800,.1,.009,.06,.04,100,0,0);
             Thread.sleep(5000);
+
 //            // 5. Turn left in place
-//            drivetrainM.pid(1, -90, .1, 0.009, 0.045, 0.02, 3);
-//
+                drivetrainM.pid(1, 90, .1, 0.009, 0.045, 0.02, 3);
+                Thread.sleep(5000);
 //            // 6. Drive forward 24 inches towards cryptobox
-//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
+            drivetrainM.movepid(.5, 900,.1,.009,.06,.04,100,0,0);
 //
 //
 //            // 7. Move horizontally depending on VuMark value

@@ -147,6 +147,7 @@ public class Drivetrain_Mecanum{
 
     public void pid(double power, int angleTo, double floor, double kP, double kI, double kD, int accuracy) throws InterruptedException {
 
+        angleTo = angleTo/2;
         double error;
         double inte = 0;
         double der;
