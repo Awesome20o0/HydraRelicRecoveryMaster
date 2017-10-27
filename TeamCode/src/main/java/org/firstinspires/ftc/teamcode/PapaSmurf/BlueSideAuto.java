@@ -148,17 +148,21 @@ public class BlueSideAuto extends LinearOpMode{
 //            drivetrainM.movepid(.5, 800,.1,.009,.06,.04,100,0,0);
 //            Thread.sleep(5000);
 
-//            // 5. Turn left in place
-                drivetrainM.pid(1, 90, .1, 0.009, 0.045, 0.02, 3);
-                Thread.sleep(5000);
-//            // 6. Drive forward 24 inches towards cryptobox
-            drivetrainM.movepid(.5, 1150,.1,.009,.06,.04,100,0,0);
-            Thread.sleep(1000);
-            drivetrainM.strafe(1, 0);
-            Thread.sleep(500);
-            glyphScorer.outputOut();
-            Thread.sleep(10000);
+////            // 5. Turn left in place
+//                drivetrainM.pid(1, 90, .1, 0.009, 0.045, 0.02, 3);
+//                Thread.sleep(5000);
+////            // 6. Drive forward 24 inches towards cryptobox
+//            drivetrainM.movepid(.5, 1075,.1,.009,.06,.04,100,0,0);
 
+                drivetrainM.strafepid(.7, 1500, .1, .009, .06, .04, 100, Math.PI);
+//            Time based
+//            Thread.sleep(1000);
+//            drivetrainM.strafe(.75, 0);
+//            Thread.sleep(1000);
+//            glyphScorer.outputOut();
+//            Thread.sleep(1000);
+//            glyphScorer.stopOutput();
+//            drivetrainM.stopMotors();
 ////
 //
             // 7. Move horizontally depending on VuMark value
