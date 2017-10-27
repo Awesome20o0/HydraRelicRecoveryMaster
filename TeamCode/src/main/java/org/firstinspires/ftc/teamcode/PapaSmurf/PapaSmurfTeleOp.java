@@ -182,7 +182,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
 
             if (gamepad2.right_trigger > .1) {
-                liftUp(1);
+                liftUp(gamepad2.right_trigger);
             }
 
             if (!(gamepad2.right_trigger > .1 || gamepad2.left_trigger > .1) ){
@@ -191,7 +191,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
             if (gamepad2.left_trigger > .1) {
 
-                liftDown(.5);
+                liftDown(gamepad2.left_trigger/2);
             }
 
         } else {
