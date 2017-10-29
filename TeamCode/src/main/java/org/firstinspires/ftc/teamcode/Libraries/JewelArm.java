@@ -29,11 +29,18 @@ public class JewelArm {
     public void armOut() throws InterruptedException {
         //closer to -1 = ?
         //closer to 1 = closer to floor
-        minute.setPosition(.735);
-        Thread.sleep(200);
+
+        minute.setPosition(.55);
+
+        Thread.sleep(100);
         //closer to -1 = point up to sky
         //closer to 1 = ?
-        hour.setPosition(.7);
+        hour.setPosition(.8);
+
+        Thread.sleep(100);
+
+        minute.setPosition(.75);
+
     }
 
     public void armIn() throws InterruptedException {

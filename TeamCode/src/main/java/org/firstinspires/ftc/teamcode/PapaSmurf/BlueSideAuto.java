@@ -79,122 +79,124 @@ public class BlueSideAuto extends LinearOpMode{
 
         relicTrackables.activate();
 
-        while (opModeIsActive()) {
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        time.startTime();
+        while ((vuMark == RelicRecoveryVuMark.UNKNOWN) && (time.milliseconds() < 2000)) {
+        }
 
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            time.startTime();
-            while ((vuMark == RelicRecoveryVuMark.UNKNOWN) && (time.milliseconds() < 2000)) {
-            }
+        telemetry.addData("VuMark", "%s visible", vuMark);
 
-            telemetry.addData("VuMark", "%s visible", vuMark);
+        if (vuMark == RelicRecoveryVuMark.CENTER)
+            center = true;
+        else if (vuMark == RelicRecoveryVuMark.LEFT)
+            left = true;
+        else
+            right = true;
 
-            if(vuMark == RelicRecoveryVuMark.CENTER)
-                center = true;
-            else if(vuMark == RelicRecoveryVuMark.LEFT)
-                left = true;
-            else
-                right = true;
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
+//        telemetry.addData("Pose", format(pose));
 
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-            telemetry.addData("Pose", format(pose));
+        if (pose != null) {
+            VectorF trans = pose.getTranslation();
+            Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-            if (pose != null) {
-                VectorF trans = pose.getTranslation();
-                Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            double tX = trans.get(0);
+            double tY = trans.get(1);
+            double tZ = trans.get(2);
 
-                double tX = trans.get(0);
-                double tY = trans.get(1);
-                double tZ = trans.get(2);
-
-                double rX = rot.firstAngle;
-                double rY = rot.secondAngle;
-                double rZ = rot.thirdAngle;
-            } else {
+            double rX = rot.firstAngle;
+            double rY = rot.secondAngle;
+            double rZ = rot.thirdAngle;
+        } else {
             telemetry.addData("VuMark", "not visible");
-            }
+        }
 
-            telemetry.update();
 
-//            glyphScorer.liftUp();
-//            Thread.sleep(200);
-//            glyphScorer.liftStop();
+        telemetry.update();
 
-//            // 2. Extend arm
-//            arm.armOut();
-//
-//            int color = sensors.getColorValue();
-//
-//            Thread.sleep(1000);
-//
-//
-//            // 3. Knock ball off
-//            if (color < 0){
-//                //turn 15 degrees clockwise
-//                drivetrainM.pid(.5, 7, .1, .009, 0.045 , 0.02, 1);
-//                Thread.sleep(1000);
-//                arm.armIn();
-//                Thread.sleep(1000);
-//                drivetrainM.pid(.5, -7, .1, .009, 0.045 , 0.02, 1);
-//            }else{
-//                //turn 15 degrees counterclockwise
-//                drivetrainM.pid(.5, -7, .1, .009, 0.045 , 0.02, 1);
-//                Thread.sleep(1000);
-//                arm.armIn();
-//                Thread.sleep(1000);
-//                drivetrainM.pid(.5, 7, .1, .009, 0.045 , 0.02, 1);
-//            }
+        // 2. Extend arm
+        arm.armOut();
 
-////            // 4. Drive 24 inches off of balancing stone
-//            drivetrainM.movepid(.5, 800,.1,.009,.06,.04,100,0,0);
-//            Thread.sleep(5000);
+        Thread.sleep(1500);
 
-////            // 5. Turn left in place
-//                drivetrainM.pid(1, 90, .1, 0.009, 0.045, 0.02, 3);
-//                Thread.sleep(5000);
-////            // 6. Drive forward 24 inches towards cryptobox
-//            drivetrainM.movepid(.5, 1075,.1,.009,.06,.04,100,0,0);
+        int color = sensors.getColorValue();
 
-                drivetrainM.strafepid(.7, 1500, .1, .009, .06, .04, 100, Math.PI);
+        // 3. Knock ball off
+        if (color < 0) {
+            //turn 15 degrees clockwise
+            drivetrainM.pid(1, 15, .2, .015, 0.0003 , 0, 1);
+            Thread.sleep(500);
+            arm.armIn();
+
+//      4. Drive 24 inches off of balancing stone
+            drivetrainM.movepid(.5, 600, .1, .015, .00005, 0, 100, 0, Math.PI/2);
+        } else {
+            //turn 15 degrees counterclockwise
+            drivetrainM.pid(1, -15, .2, .015, 0.0003 , 0, 1);
+            Thread.sleep(500);
+            arm.armIn();
+
+//      4. Drive 24 inches off of balancing stone
+            drivetrainM.movepid(.5, 450, .1, .01, .00003, 0, 100, 0, Math.PI/2);
+        }
+
+        Thread.sleep(500);
+
+//      5. Turn left in place
+        drivetrainM.pid(1, -90, .1, 0.007, 0.00002, 0, 1);
+        Thread.sleep(500);
+
+        if (color < 0) {
+//       6. Drive forward 24 inches towards cryptobox
+            drivetrainM.movepid(.5, 1400, .1, .01, .0005, 0, 10, 0, Math.PI / 2);
+        } else {
+            drivetrainM.movepid(.5, 550, .1, .013, .0003, 0, 10, 0, Math.PI / 2);
+        }
+
+            drivetrainM.strafepid(.7, 700, .1, .009, .06, .04, 100, Math.PI);
+            glyphScorer.outputOut();
+            Thread.sleep(1000);
+            glyphScorer.stopOutput();
 //            Time based
-//            Thread.sleep(1000);
-//            drivetrainM.strafe(.75, 0);
-//            Thread.sleep(1000);
-//            glyphScorer.outputOut();
-//            Thread.sleep(1000);
-//            glyphScorer.stopOutput();
-//            drivetrainM.stopMotors();
+//        Thread.sleep(1000);
+//        drivetrainM.strafe(.75, 0);
+//        Thread.sleep(1000);
+//        glyphScorer.outputOut();
+//        Thread.sleep(1000);
+//        glyphScorer.stopOutput();
+//        drivetrainM.stopMotors();
 ////
 //
-            // 7. Move horizontally depending on VuMark value
-//            drivetrainM.strafe(1, Math.PI);
-//            if (left) {
-//                drivetrainM.strafepid(.5, 2000, .1, 0.009, 0.05, 0.3, 100, Math.PI);
-//                Thread.sleep(1500);
-//                drivetrainM.pid(1, 15, .1, 0.009, 0.045, 0.02, 1);
-//                Thread.sleep(5000);
-//
-//            } else if (center) {
-//                drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
-//
-//            } else {
-//                drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, Math.PI);
-//            }
-//
-//            // 8. Manipulator deposits the glyphs into the cryptobox
-//            glyphScorer.outputOut();
-//
-//            // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+////             7. Move horizontally depending on VuMark value
+//        drivetrainM.strafe(1, Math.PI);
+//        if (left) {
+//            drivetrainM.strafepid(.5, 2000, .1, 0.009, 0.05, 0.3, 100, Math.PI);
 //            Thread.sleep(1500);
+//            drivetrainM.pid(1, 15, .1, 0.009, 0.045, 0.02, 1);
+//            Thread.sleep(5000);
 //
-//            // 10. Stop the manipulator
-//            glyphScorer.stopOutput();
-    }
+//        } else if (center) {
+//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
+//
+//        } else {
+//            drivetrainM.movepid(1, 2000, .1, 0, 0, 0, 100, 0, Math.PI);
+//        }
+//
+//        // 8. Manipulator deposits the glyphs into the cryptobox
+//        glyphScorer.outputOut();
+//
+//        // 9. Wait for 1.5 seconds (while glyphs are being deposited)
+//        Thread.sleep(1500);
+//
+//        // 10. Stop the manipulator
+//        glyphScorer.stopOutput();
 
     }
 
-    String format(OpenGLMatrix transformationMatrix){
-        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
-    }
+
+//    String format(OpenGLMatrix transformationMatrix){
+//        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
+//    }
 
     private void composeTelemetry() {
         telemetry.addLine()

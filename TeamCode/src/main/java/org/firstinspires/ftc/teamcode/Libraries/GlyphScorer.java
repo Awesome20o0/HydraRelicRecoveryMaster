@@ -58,8 +58,8 @@ public class GlyphScorer {
 
 
     public void outputOut(){
-        outputL.setPower(.85);
-        outputR.setPower(-.85);
+        outputL.setPower(.8);
+        outputR.setPower(-.8);
     }
 
     public void outputIn(){
