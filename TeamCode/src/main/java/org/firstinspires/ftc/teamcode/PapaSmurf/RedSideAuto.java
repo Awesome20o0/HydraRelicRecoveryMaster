@@ -142,9 +142,9 @@ public class RedSideAuto extends LinearOpMode {
 
             if (color > 0) {
 //       6. Drive forward 24 inches towards cryptobox
-                drivetrainM.movepid(.5, 1400, .1, .01, .0005, 0, 10, 0, Math.PI / 2);
+                drivetrainM.movepid(.5, 550, .1, .01, .0005, 0, 10, 0, Math.PI / 2);
             } else {
-                drivetrainM.movepid(.5, 550, .1, .013, .0003, 0, 10, 0, Math.PI / 2);
+                drivetrainM.movepid(.5, 1400, .1, .013, .0003, 0, 10, 0, Math.PI / 2);
             }
 
             drivetrainM.strafepid(.7, 700, .1, .009, .06, .04, 100, 0);
