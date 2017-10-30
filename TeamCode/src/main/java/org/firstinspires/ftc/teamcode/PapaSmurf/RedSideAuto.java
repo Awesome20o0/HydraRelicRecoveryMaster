@@ -111,31 +111,47 @@ public class RedSideAuto extends LinearOpMode {
             // 2. Extend arm
             arm.armOut();
 
+            Thread.sleep(1500);
+
+            int color = sensors.getColorValue();
+
             // 3. Knock ball off
-            if (sensors.getColorValue() > 0){
+            if (color > 0) {
                 //turn 15 degrees clockwise
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
-
-                drivetrainM.pid(1,15,.1,.009,.045, .02, 1);
-
+                drivetrainM.pid(1, 15, .2, .015, 0.0003 , 0, 1);
+                Thread.sleep(500);
                 arm.armIn();
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
-            }else{
+
+//      4. Drive 24 inches off of balancing stone
+                drivetrainM.movepid(.5, 600, .1, .015, .00005, 0, 100, 0, Math.PI/2);
+            } else {
                 //turn 15 degrees counterclockwise
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, -15, .2, .015, 0.0003 , 0, 1);
+                Thread.sleep(500);
                 arm.armIn();
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+
+//      4. Drive 24 inches off of balancing stone
+                drivetrainM.movepid(.5, 450, .1, .01, .00003, 0, 100, 0, Math.PI/2);
             }
 
-//            // 4. Drive 24 inches off of balancing stone
-//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-//
-//            // 5. Turn right in place
-//            drivetrainM.pid(1, 90, .1, 0, 0, 0, 0);
-//
-//            // 6. Drive forward 24 inches towards cryptobox
-//            drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, 0);
-//
+            Thread.sleep(500);
+
+//      5. Turn right in place
+            drivetrainM.pid(1, 90, .1, 0.007, 0.00002, 0, 1);
+            Thread.sleep(500);
+
+            if (color > 0) {
+//       6. Drive forward 24 inches towards cryptobox
+                drivetrainM.movepid(.5, 1400, .1, .01, .0005, 0, 10, 0, Math.PI / 2);
+            } else {
+                drivetrainM.movepid(.5, 550, .1, .013, .0003, 0, 10, 0, Math.PI / 2);
+            }
+
+            drivetrainM.strafepid(.7, 700, .1, .009, .06, .04, 100, 0);
+            glyphScorer.outputOut();
+            Thread.sleep(1000);
+            glyphScorer.stopOutput();
+
 //            // 7. Move right depending on VuMark value
 //            if (left) {
 //                //rotate manipulator wheels
