@@ -196,6 +196,13 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
     }
 
+    public void hourUp() {
+        hour.setPosition(-1);
+    }
+
+    public void minuteUp() {
+        minute.setPosition(.5);
+    }
 
     public void move(double pow, double rotation, double direction) {
 

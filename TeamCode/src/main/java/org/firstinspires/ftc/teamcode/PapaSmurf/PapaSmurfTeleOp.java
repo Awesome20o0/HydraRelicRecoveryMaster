@@ -90,6 +90,15 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 stopMotors();
             }
         }
+
+        if(gamepad1.dpad_left){
+            hourUp();
+        }
+
+        if(gamepad1.dpad_right){
+            minuteUp();
+        }
+
         if (!reversed && tank) {
 
             if (Math.abs(gamepad1.right_stick_x) > .1 && (Math.abs(gamepad1.left_stick_x) > .1)) {
@@ -210,6 +219,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 }
             }
         }
+
 
 
 

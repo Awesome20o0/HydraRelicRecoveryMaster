@@ -163,6 +163,8 @@ public class BlueSideAuto extends LinearOpMode{
             drivetrainM.movepid(.35, 500, .1, .0004, .00003, 0, 25, 0, Math.PI/2);
         }
 
+
+
         Thread.sleep(500);
 
         drivetrainM.pid(1, -90, .15, 0.02, 0.0003, 0, 1);
