@@ -61,7 +61,51 @@ public class Drivetrain_Mecanum{
                 Math.abs(motorFL.getCurrentPosition())) / 4;
     }
 
+    public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double rotation, double direction, double timeout) throws InterruptedException {
 
+        double error;
+        double inte = 0;
+        double der;
+        double previousRunTime;
+
+        resetEncoders();
+
+        double previousError = distance - getEncoderAvg();
+
+
+
+        opMode.telemetry.addData("distance left", distance + "");
+        opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
+        opMode.telemetry.update();
+
+        opMode.resetStartTime();
+
+        while((getEncoderAvg() < (distance - accuracy)) && opMode.getRuntime() < timeout) {
+            error = Math.abs(distance) - Math.abs(getEncoderAvg());
+            previousRunTime = opMode.getRuntime();
+            power = (power * (error) * kP) + floor;
+            inte += ((opMode.getRuntime()) * error * kI);
+            der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
+
+            power = power + inte - der;
+
+            Range.clip(power, -1, 1);
+            move(-power, rotation, direction);
+
+            opMode.telemetry.addData("error", error);
+            opMode.telemetry.addData("PID", power);
+            opMode.telemetry.addData("integral", inte);
+            opMode.telemetry.addData("Encoder", getEncoderAvg());
+
+            opMode.telemetry.update();
+//            opMode.telemetry.addData("integral", inte);
+            previousError = error;
+            opMode.idle();
+        }
+
+        opMode.telemetry.update();
+        stopMotors();
+    }
 
     public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double rotation, double direction) throws InterruptedException {
 
@@ -138,7 +182,63 @@ public class Drivetrain_Mecanum{
             power = power + inte + der;
 
             Range.clip(power, -1, 1);
-            strafe(power, direction);
+            strafe(power, power, direction);
+
+            opMode.telemetry.addData("error", error);
+            opMode.telemetry.addData("PID", power);
+            opMode.telemetry.addData("integral", inte);
+            opMode.telemetry.addData("Encoder", getEncoderAvg());
+
+            opMode.telemetry.update();
+//            opMode.telemetry.addData("integral", inte);
+            previousError = error;
+            opMode.idle();
+        }
+
+        opMode.telemetry.update();
+        stopMotors();
+    }
+
+    public void strafepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double direction, double timeout) throws InterruptedException {
+
+        double error;
+        double inte = 0;
+        double der;
+        double previousRunTime;
+
+        double heading = sensor.getGyroYaw();
+
+        resetEncoders();
+
+        double previousError = distance - getEncoderAvg();
+
+
+
+        opMode.telemetry.addData("distance left", distance + "");
+        opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
+        opMode.telemetry.update();
+
+        opMode.resetStartTime();
+
+        while((getEncoderAvg() < (distance - accuracy)) && opMode.getRuntime() < timeout) {
+            error = Math.abs(distance) - Math.abs(getEncoderAvg());
+            previousRunTime = opMode.getRuntime();
+            power = (power * (error) * kP) + floor;
+            inte += ((opMode.getRuntime()) * error * kI);
+            der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
+
+            power = power + inte + der;
+
+
+            Range.clip(power, -1, 1);
+
+            if (sensor.getGyroYaw() > heading + 2)
+                strafe(power, power, direction);
+            else if (sensor.getGyroYaw() < heading - 2)
+                strafe(power, power, direction);
+            else
+                strafe(power, power, direction);
+
 
             opMode.telemetry.addData("error", error);
             opMode.telemetry.addData("PID", power);
@@ -180,12 +280,12 @@ public class Drivetrain_Mecanum{
 //        motorFR.setPower(FR);
     }
 
-    public void strafe(double pow, double direction){
+    public void strafe(double diag1, double diag2, double direction){
 
-        final double FL = pow * Math.sin(direction - Math.PI/4);
-        final double FR = pow * Math.sin(direction - Math.PI/4);
-        final double BL = pow * Math.cos(direction - Math.PI/4);
-        final double BR = pow * Math.cos(direction - Math.PI/4);
+        final double FL = diag1 * Math.sin(direction - Math.PI/4);
+        final double FR = diag2 * Math.sin(direction - Math.PI/4);
+        final double BL = diag2 * Math.cos(direction - Math.PI/4);
+        final double BR = diag1 * Math.cos(direction - Math.PI/4);
 
         motorFL.setPower(FL);
         motorBL.setPower(BL);

@@ -115,7 +115,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 motorBR.setPower(-((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
 
             } else if (Math.abs(gamepad1.right_stick_y) > .05 || (Math.abs(gamepad1.left_stick_y) > .05)) {
-                startMotors(-gamepad1.right_stick_y, -gamepad1.left_stick_y);
+                startMotors(-gamepad1.right_stick_y * slowingFactor, -gamepad1.left_stick_y * slowingFactor);
             } else {
                 stopMotors();
             }
@@ -141,7 +141,8 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             pushersOut();
         }
 
-        if (gamepad1.a) {
+        if (gamepad1.a && reversed) {
+
             reverse();
         }
 
