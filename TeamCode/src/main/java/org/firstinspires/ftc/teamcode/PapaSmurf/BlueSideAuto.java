@@ -114,6 +114,9 @@ public class BlueSideAuto extends LinearOpMode{
 
         telemetry.update();
 
+        glyphScorer.liftUp();
+        glyphScorer.liftStop();
+
         // 2. Extend arm
         arm.armOut();
 
@@ -132,7 +135,7 @@ public class BlueSideAuto extends LinearOpMode{
             drivetrainM.movepid(.2, 1200, .1, .0004, .00003, 0, 25, 0, Math.PI/2);
             Thread.sleep(1000);
 //            5. Turn left in place
-            drivetrainM.pid(1, -90, .15, 0.002, 0.00025, 0, 1);
+            drivetrainM.pid(1, -90, .15, 0.004, 0.00025, 0, 1);
             Thread.sleep(500);
 
 
@@ -148,7 +151,7 @@ public class BlueSideAuto extends LinearOpMode{
             Thread.sleep(1000);
 
 //            5. Turn left in place
-            drivetrainM.pid(1, -90, .15, 0.002, 0.00025, 0, 1);
+            drivetrainM.pid(1, -90, .18, 0.002, 0.00025, 0, 1);
             Thread.sleep(500);
         }
 
@@ -158,16 +161,16 @@ public class BlueSideAuto extends LinearOpMode{
 
         if (color < 0) {
 //       6. Drive forward 24 inches towards cryptobox
-            drivetrainM.movepid(.5, 2000, .1, .0002, .0005, 0, 10, 0, Math.PI / 2);
+            drivetrainM.movepid(.5, 2000, .1, .0004, .00003, 0, 10, 0, Math.PI / 2);
         } else {
-            drivetrainM.movepid(.35, 500, .1, .0004, .00003, 0, 25, 0, Math.PI/2);
+            drivetrainM.movepid(.35, 600, .1, .0004, .00003, 0, 25, 0, Math.PI/2);
         }
 
 
 
         Thread.sleep(500);
 
-        drivetrainM.pid(1, -90, .15, 0.02, 0.0003, 0, 1);
+        drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
         Thread.sleep(500);
 
 //
@@ -228,6 +231,8 @@ public class BlueSideAuto extends LinearOpMode{
 
         // 10. Stop the manipulator
         glyphScorer.stopOutput();
+
+        drivetrainM.movepid(.5, 100, .1, .001, .0005, 0, 10, 0, (Math.PI) * 3 / 2);
 
     }
 

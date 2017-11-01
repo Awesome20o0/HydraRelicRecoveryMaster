@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
  */
 
 @Autonomous(name = "GyroTest", group = "Testing")
+@Disabled
 public class Gyro extends LinearOpMode {
 
     public SensorRR gyro;

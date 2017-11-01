@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Lernaean;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Libraries.Shooter;
  * Created by Arib on 10/20/2016.
  */
 @Autonomous(name = "RedAutonomous", group = "LinearOpMode")
+@Disabled
 public class RedAutonomous extends LinearOpMode {
     //Create robot objects
     private Drivetrain drivetrain;

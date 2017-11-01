@@ -52,7 +52,7 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
 
     //For reversing which side is "forward" during the match
-    boolean reversed = true;
+//    boolean reversed = true;
 
     //To be accessed by the actual opMode
     double slowingFactor = 1;
@@ -196,8 +196,13 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
     }
 
-    public void hourUp() {
+//    public void hourUp() {
+//        hour.setPosition(-1);
+//    }
+
+    public void hourAndGate(){
         hour.setPosition(-1);
+        gate.setPosition(0);
     }
 
     public void minuteUp() {
@@ -217,37 +222,37 @@ public abstract class PapaSmurfOpMode extends OpMode {
         motorFR.setPower(FR);
     }
 
-    public void reverse() {
-        reversed = !reversed;
-    }
+//    public void reverse() {
+//        reversed = !reversed;
+//    }
 
     public void startMotors(double r, double l) {
-        if (reversed) {
-            motorFL.setPower(l * slowingFactor);
-            motorBL.setPower(l * slowingFactor);
-            motorFR.setPower(-r * slowingFactor);
-            motorBR.setPower(-r * slowingFactor);
-        } else {
+//        if (reversed) {
+//            motorFL.setPower(l * slowingFactor);
+//            motorBL.setPower(l * slowingFactor);
+//            motorFR.setPower(-r * slowingFactor);
+//            motorBR.setPower(-r * slowingFactor);
+//        } else {
             motorFL.setPower(-l * slowingFactor);
             motorBL.setPower(-l * slowingFactor);
             motorFR.setPower(r * slowingFactor);
             motorBR.setPower(r * slowingFactor);
         }
-    }
+//    }
 
     public void startMotorsHalf(double r, double l) {
-        if (reversed) {
-            motorFL.setPower(l * .5 * slowingFactor);
-            motorBL.setPower(l * .5 * slowingFactor);
-            motorFR.setPower(-r * .5 * slowingFactor);
-            motorBR.setPower(-r * .5 * slowingFactor);
-        } else {
+//        if (reversed) {
+//            motorFL.setPower(l * .5 * slowingFactor);
+//            motorBL.setPower(l * .5 * slowingFactor);
+//            motorFR.setPower(-r * .5 * slowingFactor);
+//            motorBR.setPower(-r * .5 * slowingFactor);
+//        } else {
             motorFL.setPower(-l * .5 * slowingFactor);
             motorBL.setPower(-l * .5 * slowingFactor);
             motorFR.setPower(r * .5 * slowingFactor);
             motorBR.setPower(r * .5 * slowingFactor);
         }
-    }
+//    }
 
     public void stopMotors() {
         motorBL.setPower(0);
@@ -367,9 +372,9 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
 
 
-    public void gate() {
-        gate.setPosition(0);
-    }
+//    public void gate() {
+//        gate.setPosition(0);
+//    }
 
     public void armOut() throws InterruptedException {
         hour.setPosition(.67);
@@ -384,13 +389,13 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
 
     public void pushersOut(){
-        pusherR.setPosition(1);
-        pusherL.setPosition(-1);
+        pusherR.setPosition(-1);
+        pusherL.setPosition(1);
     }
 
     public void pushersIn(){
-        pusherR.setPosition(-1);
-        pusherL.setPosition(1);
+        pusherR.setPosition(1);
+        pusherL.setPosition(-1);
     }
 
     public int getColorValue(){

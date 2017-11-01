@@ -33,17 +33,17 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         if (gamepad1.b)
             tank = !tank;
 
-        if (!reversed && !tank) {
+        if (!tank) {
             //Code for mecanum drive when not reversed
             if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
                     Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
                 double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
                 double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
                 double rightX = -gamepad1.right_stick_x;
-                double FL = r * Math.cos(robotAngle) + rightX;
-                double FR = r * Math.sin(robotAngle) - rightX;
-                double BL = r * Math.sin(robotAngle) + rightX;
-                double BR = r * Math.cos(robotAngle) - rightX;
+                double FL = 1.3 * (r * Math.cos(robotAngle) + rightX);
+                double FR = 1.3 * (r * Math.sin(robotAngle) - rightX);
+                double BL = 1.3 * (r * Math.sin(robotAngle) + rightX);
+                double BR = 1.3 * (r * Math.cos(robotAngle) - rightX);
 
 
                 if (((Math.abs(FL) > 1) || (Math.abs(BL) > 1)) || ((Math.abs(FR) > 1) || (Math.abs(BR) > 1))) {
@@ -61,45 +61,41 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 stopMotors();
             }
         }
-        if (reversed && !tank) {
-            //Code for mecanum drive when reversed
-            if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
-                    Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
-                double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-                double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-                double rightX = -gamepad1.right_stick_x;
-                double FL = r * Math.cos(robotAngle) + rightX;
-                double FR = r * Math.sin(robotAngle) - rightX;
-                double BL = r * Math.sin(robotAngle) + rightX;
-                double BR = r * Math.cos(robotAngle) - rightX;
-
-
-                if (((Math.abs(FL) > 1) || (Math.abs(BL) > 1)) || ((Math.abs(FR) > 1) || (Math.abs(BR) > 1))) {
-                    FL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
-                    BL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
-                    FR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
-                    BR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
-                }
-
-                motorFL.setPower(-FL * slowingFactor);
-                motorFR.setPower(FR * slowingFactor);
-                motorBL.setPower(-BL * slowingFactor);
-                motorBR.setPower(BR * slowingFactor);
-
-            } else {
-                stopMotors();
-            }
-        }
-
-        if(gamepad1.dpad_left){
-            hourUp();
-        }
+//        if (reversed && !tank) {
+//            //Code for mecanum drive when reversed
+//            if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
+//                    Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
+//                double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+//                double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
+//                double rightX = -gamepad1.right_stick_x;
+//                double FL = r * Math.cos(robotAngle) + rightX;
+//                double FR = r * Math.sin(robotAngle) - rightX;
+//                double BL = r * Math.sin(robotAngle) + rightX;
+//                double BR = r * Math.cos(robotAngle) - rightX;
+//
+//
+//                if (((Math.abs(FL) > 1) || (Math.abs(BL) > 1)) || ((Math.abs(FR) > 1) || (Math.abs(BR) > 1))) {
+//                    FL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                    BL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                    FR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                    BR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                }
+//
+//                motorFL.setPower(-FL * slowingFactor);
+//                motorFR.setPower(FR * slowingFactor);
+//                motorBL.setPower(-BL * slowingFactor);
+//                motorBR.setPower(BR * slowingFactor);
+//
+//            } else {
+//                stopMotors();
+//            }
+//        }
 
         if(gamepad1.dpad_right){
             minuteUp();
         }
 
-        if (!reversed && tank) {
+        if (tank) {
 
             if (Math.abs(gamepad1.right_stick_x) > .1 && (Math.abs(gamepad1.left_stick_x) > .1)) {
 
@@ -114,7 +110,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 stopMotors();
             }
         }
-        if (reversed && tank) {
+        if (tank) {
 
             if (Math.abs(gamepad1.right_stick_x) > .3 && (Math.abs(gamepad1.left_stick_x) > .3)) {
 
@@ -150,10 +146,10 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             pushersOut();
         }
 
-        if (gamepad1.a && reversed) {
-
-            reverse();
-        }
+//        if (gamepad1.a && reversed) {
+//
+//            reverse();
+//        }
 
         //Only run if not in endGame
         if (!endGame) {
@@ -166,7 +162,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             }
 
             if (gamepad2.dpad_down) {
-                gate();
+                hourAndGate();
             }
 
             if (gamepad1.left_trigger > .1 && gamepad1.right_trigger > .1) {
