@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-/**
+/**p0
  * Created by Arib on 9/11/2016.
  */
 public abstract class LernaeanOpMode extends OpMode {
