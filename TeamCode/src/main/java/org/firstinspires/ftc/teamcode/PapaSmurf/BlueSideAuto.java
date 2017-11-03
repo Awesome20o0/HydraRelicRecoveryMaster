@@ -126,56 +126,55 @@ public class BlueSideAuto extends LinearOpMode{
 
         // 3. Knock ball off
         if (color < 0) {
-            drivetrainM.strafepid(.5, 2000, .1, .0006, .00002, 0, 25, 0, 5000);
-            Thread.sleep(1000);
+            drivetrainM.strafepid(.5, 1000, .1, .0006, .00002, 0, 25, 0, 2000);
+            Thread.sleep(800);
             arm.armIn();
-            Thread.sleep(1000);
-            drivetrainM.strafepid(1, 1500, .1, .0002, .00006, 0, 25, 0, 5000);
             Thread.sleep(500);
             drivetrainM.movepid(-.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-            drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
+//            drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
             drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
             drivetrainM.movepid(.5, 800, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-            drivetrainM.strafepid(.7, 1500, .1, .0002, .00006, 0, 25, 0, 5000);
-            drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
-            drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-            Thread.sleep(500);
+//            drivetrainM.strafepid(.7, 1500, .1, .0002, .00006, 0, 25, 0, 5000);
+//            drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
+//            drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
+//            Thread.sleep(500);
             glyphScorer.outputOut();
-            Thread.sleep(500);
-            drivetrainM.startMotors(1 , 1);
-            Thread.sleep(2000);
+            Thread.sleep(2500);
+            drivetrainM.startMotors(.3 , .3);
+            Thread.sleep(600);
+            drivetrainM.stopMotors();
         } else {
             //turn 15 degrees counterclockwise
-            drivetrainM.pid(1, -15, .2, .008, 0.0003 , 0, 1);
+            drivetrainM.pid(1, -15, .2, .008, 0.0003 , 0, 1, 1500);
             Thread.sleep(500);
             arm.armIn();
 //      4. Drive 24 inches off of balancing stone
             drivetrainM.movepid(.2, 1200, .1, .0004, .00003, 0, 25, 0, Math.PI/2);
             Thread.sleep(1000);
 //            5. Turn left in place
-            drivetrainM.pid(1, -90, .18, 0.002, 0.00025, 0, 1);
+            drivetrainM.pid(1, -90, .18, 0.002, 0.00025, 0, 1, 1500);
             Thread.sleep(500);
             drivetrainM.movepid(.35, 600, .1, .0004, .00003, 0, 25, 0, Math.PI/2);
             Thread.sleep(500);
-            drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
+            drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1, 1500);
             Thread.sleep(500);
             if (left) {
                 drivetrainM.strafepid(.7, 2500, .1, .00015, .00006, 0, 25, 0, 5000);
                 Thread.sleep(500);
-                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1);
+                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
                 Thread.sleep(500);
                 drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
             } else if (center) {
                 drivetrainM.strafepid(.7, 2000, .1, .00018, .00006, 0, 25, 0, 5000);
                 Thread.sleep(500);
-                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1);
+                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
                 Thread.sleep(500);
                 drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
 
             } else {
                 drivetrainM.strafepid(.7, 1500, .1, .0002, .00006, 0, 25, 0, 5000);
                 Thread.sleep(500);
-                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1);
+                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
                 Thread.sleep(500);
                 drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
             }
@@ -185,7 +184,9 @@ public class BlueSideAuto extends LinearOpMode{
             Thread.sleep(1500);
             // 10. Stop the manipulator
             glyphScorer.stopOutput();
-            drivetrainM.startMotors(1, 1);
+            drivetrainM.startMotors(.3, .3);
+            Thread.sleep(600);
+            drivetrainM.stopMotors();
         }
     }
 

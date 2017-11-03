@@ -220,7 +220,7 @@ public class Drivetrain_Mecanum{
 
         opMode.resetStartTime();
 
-        while((getEncoderAvg() < (distance - accuracy)) && opMode.getRuntime() < timeout) {
+        while((getEncoderAvg() < (distance - accuracy)) && (opMode.getRuntime() < timeout)) {
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
             previousRunTime = opMode.getRuntime();
             power = (power * (error) * kP) + floor;
@@ -316,7 +316,7 @@ public class Drivetrain_Mecanum{
         nullValue = getEncoderAvg();
     }
 
-    public void pid(double power, int angleTo, double floor, double kP, double kI, double kD, int accuracy) throws InterruptedException {
+    public void pid(double power, int angleTo, double floor, double kP, double kI, double kD, int accuracy, double timeout) throws InterruptedException {
 
         double error;
         double inte = 0;
@@ -337,7 +337,7 @@ public class Drivetrain_Mecanum{
 
             previousError = angleTo - currentAngle;
 
-            while(currentAngle < angleTo - accuracy) {
+            while(currentAngle < angleTo - accuracy && (opMode.getRuntime() < timeout)) {
                 currentAngle = sensor.getGyroYaw();
                 error = Math.abs(angleTo) - Math.abs(currentAngle);
 

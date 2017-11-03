@@ -122,7 +122,6 @@ public abstract class PapaSmurfOpMode extends OpMode {
     }
     public void balance() throws InterruptedException {
 
-        double tangent = 0;
         double pitch = getGyroPitch();
         double roll = getGyroRoll();
 
@@ -157,7 +156,7 @@ public abstract class PapaSmurfOpMode extends OpMode {
             quadrant = 4;
         }
 
-        if (roll == 0){
+        if (Math.abs(roll) < 3){
             if (pitch > 0){
                 while (Math.abs(pitch) > 3){
                     startMotors(-.15, -.15);
@@ -169,7 +168,7 @@ public abstract class PapaSmurfOpMode extends OpMode {
             }
         }
 
-        if (pitch == 0){
+        if (Math.abs(pitch) < 3){
             if (roll > 0){
                 while (Math.abs(roll) > 3){
                     move(.15, 0, Math.PI/2);
@@ -182,16 +181,21 @@ public abstract class PapaSmurfOpMode extends OpMode {
         }
         while((Math.abs(pitch) > 7) && (Math.abs(roll)  > 7)) {
 
-            tangent = Math.atan(roll/pitch);
+            double tangent = Math.atan(roll/pitch);
+
             if(quadrant == 1) {
                 move(.15, 0, (tangent - Math.PI));
+
             } else if (quadrant == 2){
                 move(.15, 0, tangent);
+
             } else if (quadrant == 3){
                 move(.15, 0, tangent);
+
             } else if (quadrant == 4){
                 move(.15, 0, (tangent - Math.PI));
             }
+
         }
 
     }

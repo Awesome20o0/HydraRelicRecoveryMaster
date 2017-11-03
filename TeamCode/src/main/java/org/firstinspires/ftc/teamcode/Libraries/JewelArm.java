@@ -39,7 +39,7 @@ public class JewelArm {
 
         Thread.sleep(100);
 
-        minute.setPosition(.75);
+        minute.setPosition(.68);
 
     }
 
