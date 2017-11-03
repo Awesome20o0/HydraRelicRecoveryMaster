@@ -131,8 +131,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
         Thread.sleep(500);
 
         // Move forward
-        startMotors(.5, .5);
-        Thread.sleep(2000);
+        startMotors(-.5, -.5);
+        Thread.sleep(1000);
         pushersIn();
 
         int quadrant = 1;
@@ -160,11 +160,11 @@ public abstract class PapaSmurfOpMode extends OpMode {
         if (roll == 0){
             if (pitch > 0){
                 while (Math.abs(pitch) > 3){
-                    startMotors(-.3, -.3);
+                    startMotors(-.15, -.15);
                 }
             }else {
                 while (Math.abs(pitch) > 3){
-                    startMotors(.3, .3);
+                    startMotors(.15, .15);
                 }
             }
         }
@@ -172,11 +172,11 @@ public abstract class PapaSmurfOpMode extends OpMode {
         if (pitch == 0){
             if (roll > 0){
                 while (Math.abs(roll) > 3){
-                    move(.3, 0, Math.PI/2);
+                    move(.15, 0, Math.PI/2);
                 }
             }else {
                 while (Math.abs(roll) > 3){
-                    move(.3, 0, 0);
+                    move(.15, 0, 0);
                 }
             }
         }
@@ -184,13 +184,13 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
             tangent = Math.atan(roll/pitch);
             if(quadrant == 1) {
-                move(.4, 0, (tangent - Math.PI));
+                move(.15, 0, (tangent - Math.PI));
             } else if (quadrant == 2){
-                move(.4, 0, tangent);
+                move(.15, 0, tangent);
             } else if (quadrant == 3){
-                move(.4, 0, tangent);
+                move(.15, 0, tangent);
             } else if (quadrant == 4){
-                move(.4, 0, (tangent - Math.PI));
+                move(.15, 0, (tangent - Math.PI));
             }
         }
 
