@@ -110,21 +110,21 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 stopMotors();
             }
         }
-        if (tank) {
-
-            if (Math.abs(gamepad1.right_stick_x) > .3 && (Math.abs(gamepad1.left_stick_x) > .3)) {
-
-                motorFL.setPower(((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
-                motorFR.setPower(((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
-                motorBL.setPower(-((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
-                motorBR.setPower(-((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
-
-            } else if (Math.abs(gamepad1.right_stick_y) > .05 || (Math.abs(gamepad1.left_stick_y) > .05)) {
-                startMotors(-gamepad1.right_stick_y * slowingFactor, -gamepad1.left_stick_y * slowingFactor);
-            } else {
-                stopMotors();
-            }
-        }
+//        if (tank) {
+//
+//            if (Math.abs(gamepad1.right_stick_x) > .3 && (Math.abs(gamepad1.left_stick_x) > .3)) {
+//
+//                motorFL.setPower(((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//                motorFR.setPower(((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//                motorBL.setPower(-((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//                motorBR.setPower(-((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//
+//            } else if (Math.abs(gamepad1.right_stick_y) > .05 || (Math.abs(gamepad1.left_stick_y) > .05)) {
+//                startMotors(-gamepad1.right_stick_y * slowingFactor, -gamepad1.left_stick_y * slowingFactor);
+//            } else {
+//                stopMotors();
+//            }
+//        }
 
         if (gamepad2.right_bumper && gamepad2.left_bumper) {
             intakeOut();
