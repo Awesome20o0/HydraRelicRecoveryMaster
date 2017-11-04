@@ -220,8 +220,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
         final double BL = pow * Math.sin(direction - Math.PI/4) + rotation;
         final double BR = pow * Math.cos(direction - Math.PI/4) - rotation;
 
-        motorFL.setPower(FL);
-        motorBL.setPower(BL);
+        motorFL.setPower(-FL);
+        motorBL.setPower(-BL);
         motorBR.setPower(BR);
         motorFR.setPower(FR);
     }

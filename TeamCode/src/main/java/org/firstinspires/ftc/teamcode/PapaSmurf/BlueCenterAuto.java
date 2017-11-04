@@ -122,14 +122,14 @@ public class BlueCenterAuto extends LinearOpMode {
             // 3. Knock ball off
             if (sensors.getColorValue() > 0){
                 //turn 15 degrees clockwise
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0, 0);
                 arm.armIn();
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0, 0);
             }else{
                 //turn 15 degrees counterclockwise
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0, 0);
                 arm.armIn();
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0, 0);
             }
 
 //            // 4. Move right off the platform

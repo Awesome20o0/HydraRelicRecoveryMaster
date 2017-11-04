@@ -132,8 +132,10 @@ public class BlueSideAuto extends LinearOpMode{
             Thread.sleep(500);
             drivetrainM.movepid(-.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
 //            drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-            drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
-            drivetrainM.movepid(.5, 800, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
+
+            // Works without the timeout, added a large value so we don't have to change anything
+            drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1, 10000);
+            drivetrainM.movepid(.3, 800, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
 //            drivetrainM.strafepid(.7, 1500, .1, .0002, .00006, 0, 25, 0, 5000);
 //            drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
 //            drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
@@ -141,7 +143,7 @@ public class BlueSideAuto extends LinearOpMode{
             glyphScorer.outputOut();
             Thread.sleep(2500);
             drivetrainM.startMotors(.3 , .3);
-            Thread.sleep(600);
+            Thread.sleep(300);
             drivetrainM.stopMotors();
         } else {
             //turn 15 degrees counterclockwise
@@ -158,36 +160,43 @@ public class BlueSideAuto extends LinearOpMode{
             Thread.sleep(500);
             drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1, 1500);
             Thread.sleep(500);
-            if (left) {
-                drivetrainM.strafepid(.7, 2500, .1, .00015, .00006, 0, 25, 0, 5000);
-                Thread.sleep(500);
-                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
-                Thread.sleep(500);
-                drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-            } else if (center) {
-                drivetrainM.strafepid(.7, 2000, .1, .00018, .00006, 0, 25, 0, 5000);
-                Thread.sleep(500);
-                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
-                Thread.sleep(500);
-                drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-
-            } else {
-                drivetrainM.strafepid(.7, 1500, .1, .0002, .00006, 0, 25, 0, 5000);
-                Thread.sleep(500);
-                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
-                Thread.sleep(500);
-                drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-            }
+//            if (left) {
+//                drivetrainM.strafepid(.7, 2500, .1, .00015, .00006, 0, 25, 0, 2500);
+//                Thread.sleep(500);
+//                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
+//                Thread.sleep(500);
+//                drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
+//            } else if (center) {
+//                drivetrainM.strafepid(.7, 2000, .1, .00018, .00006, 0, 25, 0, 2500);
+//                Thread.sleep(500);
+//                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
+//                Thread.sleep(500);
+//                drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
+//
+//            } else {
+                drivetrainM.strafepid(.7, 1300, .1, .0002, .00006, 0, 25, 0, 2500);
+//                Thread.sleep(500);
+//                drivetrainM.pid(1, -90, .15, 0.015, 0.0005, 0, 1, 1500);
+//                Thread.sleep(500);
+                drivetrainM.movepid(.3, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
+//            }
             // 8. Manipulator deposits the glyphs into the cryptobox
             glyphScorer.outputOut();
             // 9. Wait for 1.5 seconds (while glyphs are being deposited)
             Thread.sleep(1500);
             // 10. Stop the manipulator
-            glyphScorer.stopOutput();
-            drivetrainM.startMotors(.3, .3);
+//            glyphScorer.stopOutput();
+            drivetrainM.startMotors(.2, .2);
             Thread.sleep(600);
             drivetrainM.stopMotors();
+
+            Thread.sleep(100);
+
+            glyphScorer.stopOutput();
+
         }
+
+//        drivetrainM.pid(.5, 0, .15, .015, .0005, 0, 10, 2000);
     }
 
 

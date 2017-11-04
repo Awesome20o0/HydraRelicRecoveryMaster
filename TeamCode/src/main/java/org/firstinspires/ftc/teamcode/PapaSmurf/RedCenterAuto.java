@@ -114,21 +114,21 @@ public class RedCenterAuto extends LinearOpMode {
             // 3. Knock ball off
             if (sensors.getColorValue() > 0){
                 //turn 15 degrees clockwise
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0, 0);
                 arm.armIn();
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0, 0);
             }else{
                 //turn 15 degrees counterclockwise
-                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, -15, .1, 0, 0, 0, 0, 0);
                 arm.armIn();
-                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0);
+                drivetrainM.pid(1, 15, .1, 0, 0, 0, 0, 0);
             }
 
             // 4. Move left off the platform
             drivetrainM.movepid(1, 3000, .1, 0, 0, 0, 100, 0, Math.PI);
 
             // 5. Turn 180 degress in place
-            drivetrainM.pid(1, 180, .1, 0, 0, 0, 0);
+            drivetrainM.pid(1, 180, .1, 0, 0, 0, 0, 0);
 
             // 6. Move forward 20 inches towards cryptobox
             drivetrainM.movepid(1, 2500, .1, 0, 0, 0, 100, 0, 0);

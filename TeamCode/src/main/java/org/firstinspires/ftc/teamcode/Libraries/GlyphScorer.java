@@ -80,14 +80,14 @@ public class GlyphScorer {
 
     public void liftUp() throws InterruptedException {
         lift.setPower(1);
-        Thread.sleep(200);
+        Thread.sleep(300);
         lift.setPower(0);
     }
 
 
     public void liftDown() throws InterruptedException {
         lift.setPower(-1);
-        Thread.sleep(100);
+        Thread.sleep(200);
         lift.setPower(0);
     }
 

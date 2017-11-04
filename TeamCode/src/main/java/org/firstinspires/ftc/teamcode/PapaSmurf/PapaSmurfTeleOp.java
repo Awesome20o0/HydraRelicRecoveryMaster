@@ -22,11 +22,9 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         if (gamepad2.back)
             endGame = !endGame;
 
-        if (gamepad1.dpad_up && slowingFactor == 1) {
+        if (gamepad1.left_stick_button) {
             slowingFactor = .5;
-        }
-
-        if (gamepad1.dpad_up && slowingFactor == .5) {
+        } else {
             slowingFactor = 1;
         }
 
@@ -91,9 +89,6 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 //            }
 //        }
 
-        if(gamepad1.dpad_right){
-            minuteUp();
-        }
 
         if (tank) {
 
@@ -154,11 +149,37 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         //Only run if not in endGame
         if (!endGame) {
 
-            if (gamepad1.dpad_down) {
+//            if (gamepad1.dpad_down) {
+//                try {
+//                    balance();
+//                } catch (InterruptedException e) {
+//                }
+//            }
+
+            if (gamepad1.dpad_left){
+                pushersOut();
+                move(.8, 0, 3*Math.PI/2);
                 try {
-                    balance();
+                    Thread.sleep(1650);
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    stopMotors();
                 }
+
+            }
+
+            if (gamepad1.dpad_right){
+                pushersOut();
+                move(.8, 0, 3*Math.PI/2);
+                try {
+                    Thread.sleep(1850);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    stopMotors();
+                }
+
             }
 
             if (gamepad2.dpad_down) {

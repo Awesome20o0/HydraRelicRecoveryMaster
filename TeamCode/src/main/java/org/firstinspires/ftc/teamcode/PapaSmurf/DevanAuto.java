@@ -151,13 +151,13 @@ public class DevanAuto extends LinearOpMode{
 
         drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
 
-        drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
+        drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1, 10000);
 
         drivetrainM.movepid(.5, 800, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
 
         drivetrainM.strafepid(.7, 1500, .1, .0002, .00006, 0, 25, 0, 5000);
 
-        drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1);
+        drivetrainM.pid(1, -90, .18, 0.002, 0.0003, 0, 1, 10000);
 
         drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
 
