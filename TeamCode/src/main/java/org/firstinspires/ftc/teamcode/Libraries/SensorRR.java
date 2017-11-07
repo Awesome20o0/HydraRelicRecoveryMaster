@@ -2,14 +2,20 @@ package org.firstinspires.ftc.teamcode.Libraries;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 
 import java.util.Locale;
+
+import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.MM;
 
 /**
  * Created by Varun on 09/25/2017.
@@ -23,11 +29,14 @@ public class SensorRR {
     BNO055IMU.Parameters parameters;
     ColorSensor jewelSensorLeft;
     ColorSensor jewelSensorRight;
+    ModernRoboticsI2cRangeSensor distanceSensorL;
+    ModernRoboticsI2cRangeSensor distanceSensorR;
 
     public SensorRR(LinearOpMode opMode) throws InterruptedException {
         this.opMode = opMode;
         jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
         jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
+        distanceSensorL = opMode.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "distanceL");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -43,6 +52,21 @@ public class SensorRR {
         gyro = opMode.hardwareMap.get(BNO055IMU.class, "imu");
         gyro.initialize(parameters);
 
+    }
+
+    public double getDistanceL(){
+        double dist = distanceSensorL.getDistance(DistanceUnit.CM);
+        while (dist > 1000 || Double.isNaN(dist))
+            dist = distanceSensorL.getDistance(DistanceUnit.CM);
+        return dist;
+    }
+
+    // Change to distance sensor R
+    public double getDistanceR(){
+        double dist = distanceSensorL.getDistance(DistanceUnit.CM);
+        while (dist > 1000 || Double.isNaN(dist))
+            dist = distanceSensorL.getDistance(DistanceUnit.CM);
+        return dist;
     }
 
 
