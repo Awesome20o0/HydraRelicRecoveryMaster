@@ -33,18 +33,14 @@ public class NewBlueAuto extends LinearOpMode {
     private String version;
     private SensorRR sensors;
     private JewelArm arm;
-    public static final String TAG = "Vuforia VuMark Sample";
-
-
+    public static final String TAG = "Vuforia VuMark Test";
     OpenGLMatrix lastLocation = null;
-
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
     VuforiaLocalizer vuforia;
+    int vu;
 
-    @Override public void runOpMode() throws InterruptedException {
+    @Override
+    public void runOpMode() throws InterruptedException {
+
         drivetrainM = new Drivetrain_Mecanum(this);
         glyphScorer = new GlyphScorer(this);
         sensors = new SensorRR(this);
@@ -52,157 +48,159 @@ public class NewBlueAuto extends LinearOpMode {
 
         composeTelemetry();
 
-//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-//        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-//
-//        parameters.vuforiaLicenseKey = "AYPVi+D/////AAAAGWcdhlXrGkdFvb06tBr5+AFjSDfw/YB3Am9Am/B21oh9Jy6CyrZzHhH1A7ssJo723Ha+8w0KNhmv38iW3hieiGS3ww/zbK7RgfMDhlAN5Ky/BZ2s2NUfKLIt32e9E6O23jOumaRs1Tw6BrIpfi0HnCjUwmkVi/Jd2FXUTvWOCPRiJ+Sm7J10sdb4612yzZnx/GpwnFsT9AtKamYqDzHs4CYDXlBJXetnon03SnnZjUxK/8NYbFRRIgKE+N/u3qCwSzus8GJkfwPbxMok9xIWwzrDnko2yiKqYb5wZlmZBYI722gR6IOmK8qlGJ+f+stBPQyseR7Q468By8u6WcucjveY3gVWh3uGbmzRE0BUTNkV";
-//
-//        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-//        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-//
-//        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-//        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-//        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
-//
-//        telemetry.addData(">", "Press Play to start");
-//        telemetry.update();
-//
-//        boolean right = false;
-//        boolean left = false;
-//        boolean center = false;
-//
-//        ElapsedTime time = new ElapsedTime();
-
-
+        // Start the actual process of looping
         waitForStart();
 
+        // Move omnipulator up to prevent it from hitting the balancing stone
+        glyphScorer.liftUp();
+        glyphScorer.liftStop();
 
-        telemetry.update();
+        // Knock off correct jewel ball
+        arm.armOut();
 
-//
-//        relicTrackables.activate();
-//
-//        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//        time.startTime();
-//        while ((vuMark == RelicRecoveryVuMark.UNKNOWN) && (time.milliseconds() < 2000)) {
-//        }
-//
-//        telemetry.addData("VuMark", "%s visible", vuMark);
-//
-//        if (vuMark == RelicRecoveryVuMark.CENTER)
-//            center = true;
-//        else if (vuMark == RelicRecoveryVuMark.LEFT)
-//            left = true;
-//        else
-//            right = true;
-//
-//        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-////        telemetry.addData("Pose", format(pose));
-//
-//        if (pose != null) {
-//            VectorF trans = pose.getTranslation();
-//            Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-//
-//            double tX = trans.get(0);
-//            double tY = trans.get(1);
-//            double tZ = trans.get(2);
-//
-//            double rX = rot.firstAngle;
-//            double rY = rot.secondAngle;
-//            double rZ = rot.thirdAngle;
-//        } else {
-//            telemetry.addData("VuMark", "not visible");
-//        }
-//
-//        //Drive backward off of balancing stone
-//        drivetrainM.movepid(.5, 1400, .1, .0009, 0, 0, 20, 0, Math.PI * 3/2 );
-//
-//        //Turn 90 degrees towards cryptobox
-//        drivetrainM.pid(.5, -90, .1, .0009, 0, 0, 1, 3000);
-//
-//        //Move forward towards cryptobox
-//        drivetrainM.movepid(.5, 1400, .1, .0009, 0, 0, 20, 0, Math.PI * 3/2);
+        Thread.sleep(500);
 
-        sensors.getDistanceL();
-        Thread.sleep(20000);
-//        //Strafe based on Vuforia reading until distance from side wall is a specified amount
-//        if (left) {
-//            if (sensors.getDistanceL() > 25) {
-//                while (sensors.getDistanceL() > 40) {
-//                    drivetrainM.move(.5, 0, Math.PI);
-//                }
-//                drivetrainM.stopMotors();
-//            }
-//        }
-//
-//        if (center) {
-//            if (sensors.getDistanceL() > 40) {
-//                while (sensors.getDistanceL() > 60) {
-//                    drivetrainM.move(.5, 0, Math.PI);
-//                }
-//                drivetrainM.stopMotors();
-//            }
-//        }
-//
-//        if (right) {
-//            if (sensors.getDistanceL() > 55) {
-//                while (sensors.getDistanceL() > 55) {
-//                    drivetrainM.move(.5, 0, Math.PI);
-//                }
-//                drivetrainM.stopMotors();
-//            }
-//        }
-//
-//        drivetrainM.movepid(.3, 500, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
-//
-//        glyphScorer.outputOut();
-//
-//        Thread.sleep(1000);
-//
-//        glyphScorer.stopOutput();
+        int color = sensors.getColorValue();
+        if (color < 0) {
+            // Move servo clockwise
+        } else {
+            // Move servo counter clockwise
+        }
+
+        Thread.sleep(500);
+
+        arm.armIn();
+
+        // Move off of the balancing stone
+        drivetrainM.movepid(.3, 1400, .1, .0009, .00025, 0, 25, 0, Math.PI * 3/2, 5000);
+
+        Thread.sleep(500);
+
+        // Turn 90 degrees towards cryptobox
+        drivetrainM.pid(.5, -90, .1, .0009, .00025, 0, 1, 5000);
+
+        Thread.sleep(500);
+
+        // Drive towards cryptobox
+        drivetrainM.movepid(.5, 1000, .1, .0009, .00025, 0, 25, Math.PI * 3/2, 5000);
+
+        Thread.sleep(500);
+
+        // Strafe depending on Vuforia reading
+        if (vu == 1) {
+            while(sensors.getDistanceL() > 55 ){
+                drivetrainM.strafe(.5, .5, Math.PI );
+            }
+            drivetrainM.stopMotors();
+        }
+        if (vu == 2) {
+            while(sensors.getDistanceL() > 40 ){
+                drivetrainM.strafe(.5, .5, Math.PI );
+            }
+            drivetrainM.stopMotors();
+        }
+        if (vu == 3) {
+            while(sensors.getDistanceL() > 25 ){
+                drivetrainM.strafe(.5, .5, Math.PI );
+            }
+            drivetrainM.stopMotors();
+        }
+
+        Thread.sleep(500);
+
+        // Move forward and deposit
+        drivetrainM.movepid(.5, 200, .1, .0009, .00025, 0, 10, Math.PI * 3/2, 3000);
+
+        glyphScorer.outputOut();
+
+        Thread.sleep(500);
+
+        // Back up to park
+        drivetrainM.movepid(.5, 200, .1, .0009, .00025, 0, 10, Math.PI/2, 3000);
+
+        glyphScorer.stopOutput();
     }
-
 
 
 
     private void composeTelemetry() {
-//        telemetry.addLine()
-//                .addData("Avg", new Func<String>() {
-//                    @Override public String value() {
-//                        return "avg: " + drivetrainM.getEncoderAvg();
-//                    }
-//                });
-//        telemetry.addLine()
-//                .addData("gyroYaw", new Func<String>() {
-//                    @Override public String value() {
-//                        return "gyro yaw: " + drivetrainM.sensor.getGyroYaw();
-//                    }
-//                });
-//        telemetry.addLine()
-//                .addData("Color", new Func<String>() {
-//                    @Override public String value() {
-//                        return "Color: " + sensors.getColorValue();
-//                    }
-//                });
-//        telemetry.addLine()
-//                .addData("gyroPitch", new Func<String>() {
-//                    @Override public String value() {
-//                        return "gyro pitch: " + drivetrainM.sensor.getGyroPitch();
-//                    }
-//                });
-//        telemetry.addLine()
-//                .addData("gyroRoll", new Func<String>() {
-//                    @Override public String value() {
-//                        return "gyro roll: " + drivetrainM.sensor.getGyroRoll();
-//                    }
-//                });
         telemetry.addLine()
-                .addData("distance", new Func<String>() {
+                .addData("Avg", new Func<String>() {
                     @Override public String value() {
-                        return "distance " + sensors.getDistanceL();
+                        return "avg: " + drivetrainM.getEncoderAvg();
                     }
                 });
+        telemetry.addLine()
+                .addData("gyroYaw", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro yaw: " + drivetrainM.sensor.getGyroYaw();
+                    }
+                });
+        telemetry.addLine()
+                .addData("Color", new Func<String>() {
+                    @Override public String value() {
+                        return "Color: " + sensors.getColorValue();
+                    }
+                });
+        telemetry.addLine()
+                .addData("gyroPitch", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro pitch: " + drivetrainM.sensor.getGyroPitch();
+                    }
+                });
+        telemetry.addLine()
+                .addData("gyroRoll", new Func<String>() {
+                    @Override public String value() {
+                        return "gyro roll: " + drivetrainM.sensor.getGyroRoll();
+                    }
+                });
+    }
+
+    public void getVuMark() {
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters.vuforiaLicenseKey = "AYPVi+D/////AAAAGWcdhlX" +
+                "rGkdFvb06tBr5+AFjSDfw/YB3Am9Am/B21oh9Jy6CyrZzHhH1A7s" +
+                "sJo723Ha+8w0KNhmv38iW3hieiGS3ww/zbK7RgfMDhlAN5Ky/BZ2" +
+                "s2NUfKLIt32e9E6O23jOumaRs1Tw6BrIpfi0HnCjUwmkVi/Jd2FXUT" +
+                "vWOCPRiJ+Sm7J10sdb4612yzZnx/GpwnFsT9AtKamYqDzHs4CYDXlBJXe" +
+                "tnon03SnnZjUxK/8NYbFRRIgKE+N/u3qCwSzus8GJkfwPbxMok9xIWwz" +
+                "rDnko2yiKqYb5wZlmZBYI722gR6IOmK8qlGJ+f+stBPQyseR7Q468By8u6" +
+                "WcucjveY3gVWh3uGbmzRE0BUTNkV";
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+
+        //telemetry.addData(">", "Press Play to start");
+        relicTrackables.activate();
+
+        // copy pasta from the ftc ppl
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+        ElapsedTime times = new ElapsedTime();
+        telemetry.addData("VuMark ", vuMark);
+        times.reset();
+
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN && times.seconds() < 2 && opModeIsActive()) {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        }
+        telemetry.addData("VuMark ", vuMark);
+
+        int vu = 1;
+
+        if (vuMark == RelicRecoveryVuMark.RIGHT) {
+            vu = 1;
+        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+            vu = 2;
+        } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+            vu = 3;
+        }
+    }
 
 
     }
-}
+
+
+

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Libraries;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
@@ -17,6 +18,7 @@ public class Drivetrain_Mecanum{
     public SensorRR sensor;
     int nullValue;
     LinearOpMode opMode;
+    BNO055IMU imu;
 
     public Drivetrain_Mecanum(LinearOpMode opMode)throws InterruptedException {
         this.opMode = opMode;
@@ -60,6 +62,7 @@ public class Drivetrain_Mecanum{
                 (Math.abs(motorFR.getCurrentPosition())) +
                 Math.abs(motorFL.getCurrentPosition())) / 4;
     }
+
 
     public void movepid(double power, int distance, double floor, double kP, double kI, double kD, int accuracy, double rotation, double direction, double timeout) throws InterruptedException {
 
