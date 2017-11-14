@@ -11,6 +11,7 @@ public class JewelArm {
     private final LinearOpMode opMode;
     Servo hour;
     Servo minute;
+    Servo second;
 
     public SensorRR jewelColor;
 
@@ -19,6 +20,7 @@ public class JewelArm {
         this.opMode = opMode;
         hour = this.opMode.hardwareMap.servo.get("hour");
         minute = this.opMode.hardwareMap.servo.get("minute");
+        second = this.opMode.hardwareMap.servo.get("second");
         this.opMode.telemetry.addData("init", "finished drivetrain init");
         this.opMode.telemetry.update();
         this.opMode.telemetry.addData("init", "init finished");
@@ -43,11 +45,19 @@ public class JewelArm {
 
     }
 
+    public void armKick(double position) throws InterruptedException {
+        second.setPosition(position);
+        Thread.sleep(200);
+        second.setPosition(0);
+    }
+
     public void armIn() throws InterruptedException {
 
         hour.setPosition(1);
         Thread.sleep(200);
         minute.setPosition(0);
+        Thread.sleep(200);
+        second.setPosition(0);
     }
 
     public void armUp() throws InterruptedException {
