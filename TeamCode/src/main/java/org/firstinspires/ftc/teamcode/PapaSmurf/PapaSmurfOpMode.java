@@ -46,6 +46,12 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
     Servo hour;
     Servo minute;
+    Servo second;
+
+    Servo shoulder1;
+    Servo shoulder2;
+    Servo wrist;
+    Servo hand;
 
     // To monitor current voltage
     double voltage = 0.0;
@@ -64,7 +70,6 @@ public abstract class PapaSmurfOpMode extends OpMode {
     BNO055IMU.Parameters parameters;
     ColorSensor jewelSensorLeft;
     ColorSensor jewelSensorRight;
-
 
 // Hardware map and update telemetry
     @Override
@@ -92,7 +97,15 @@ public abstract class PapaSmurfOpMode extends OpMode {
         relic = hardwareMap.dcMotor.get("relic");
         gate = hardwareMap.servo.get("gate");
         hour = hardwareMap.servo.get("hour");
+
+        second = hardwareMap.servo.get("second");
 //      minute = hardwareMap.servo.get("minute");
+
+        shoulder1 = hardwareMap.servo.get("shoulder1");
+        shoulder2 = hardwareMap.servo.get("shoulder2");
+        wrist = hardwareMap.servo.get("wrist");
+        hand = hardwareMap.servo.get("hand");
+
 
 //        pusherR = hardwareMap.servo.get("pushR");
 //        pusherL = hardwareMap.servo.get("pushL");
@@ -400,6 +413,15 @@ public abstract class PapaSmurfOpMode extends OpMode {
     public void pushersIn(){
         pusherR.setPosition(1);
         pusherL.setPosition(-1);
+    }
+
+    public void ShoulderOut(){
+        shoulder1.setPosition(1);
+        shoulder2.setPosition(-1);
+    }
+
+    public void wristOut(){
+        wrist.setPosition(1);
     }
 
     public int getColorValue(){
