@@ -94,8 +94,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
         hour = hardwareMap.servo.get("hour");
 //      minute = hardwareMap.servo.get("minute");
 
-        pusherR = hardwareMap.servo.get("pushR");
-        pusherL = hardwareMap.servo.get("pushL");
+//        pusherR = hardwareMap.servo.get("pushR");
+//        pusherL = hardwareMap.servo.get("pushL");
 
         // jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
         // jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");

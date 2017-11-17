@@ -141,7 +141,7 @@ public class RedSideAuto extends LinearOpMode{
 //            drivetrainM.movepid(.5, 1000, .1, .0001, .0005, 0, 10, 0, Math.PI / 2);
 //            Thread.sleep(500);
             Thread.sleep(1000);
-            drivetrainM.strafepid(.5, 300, .1, .0006, .00002, 0, 25, Math.PI, 3000);
+            drivetrainM.strafepid(.5, 300, .1, .0006, .00002, 0, 25, Math.PI, 3000 );
             glyphScorer.outputOut();
             Thread.sleep(2500);
             drivetrainM.startMotors(.3, .3);

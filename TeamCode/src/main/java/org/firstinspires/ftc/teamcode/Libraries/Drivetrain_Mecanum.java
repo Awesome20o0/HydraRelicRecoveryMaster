@@ -87,8 +87,8 @@ public class Drivetrain_Mecanum{
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
             previousRunTime = opMode.getRuntime();
             power = (power * (error) * kP) + floor;
-            inte += ((opMode.getRuntime()) * error * kI);
-            der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
+            inte += (((opMode.getRuntime() - previousRunTime)) * error * kI);
+            der = (((error - previousError) / (opMode.getRuntime() - previousRunTime)) * kD);
 
             power = power + inte - der;
 
@@ -133,7 +133,7 @@ public class Drivetrain_Mecanum{
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
             previousRunTime = opMode.getRuntime();
             power = (power * (error) * kP) + floor;
-            inte += ((opMode.getRuntime()) * error * kI);
+            inte += ((opMode.getRuntime() - previousRunTime) * error * kI);
             der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
 
             power = power + inte - der;
@@ -179,7 +179,7 @@ public class Drivetrain_Mecanum{
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
             previousRunTime = opMode.getRuntime();
             power = (power * (error) * kP) + floor;
-            inte += ((opMode.getRuntime()) * error * kI);
+            inte += ((opMode.getRuntime() - previousRunTime) * error * kI);
             der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
 
             power = power + inte + der;
@@ -227,7 +227,7 @@ public class Drivetrain_Mecanum{
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
             previousRunTime = opMode.getRuntime();
             power = (power * (error) * kP) + floor;
-            inte += ((opMode.getRuntime()) * error * kI);
+            inte += ((opMode.getRuntime() - previousRunTime) * error * kI);
             der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
 
             power = power + inte + der;
@@ -345,6 +345,7 @@ public class Drivetrain_Mecanum{
 
         double currentAngle = sensor.getGyroYaw();
         double previousError;
+        double startTime;
 
         opMode.telemetry.addData("Current Angle", currentAngle + "");
         opMode.telemetry.addData("Angle To", angleTo + "");
@@ -357,12 +358,13 @@ public class Drivetrain_Mecanum{
             previousError = angleTo - currentAngle;
 
             while(currentAngle < angleTo - accuracy && (opMode.getRuntime() < timeout)) {
+                startTime = opMode.getRuntime();
                 currentAngle = sensor.getGyroYaw();
                 error = Math.abs(angleTo) - Math.abs(currentAngle);
 
                 power = ( power * (error) * kP) + floor;
-                inte += ((opMode.getRuntime()) * error * kI);
-                der = (error - previousError) / opMode.getRuntime() * kD;
+                inte += (((opMode.getRuntime() - startTime)) * error * kI);
+                der = (((error - previousError) / (opMode.getRuntime() - startTime)) * kD);
 
                 power = power + inte - der;
 
@@ -372,8 +374,7 @@ public class Drivetrain_Mecanum{
 
                 opMode.telemetry.addData("error", error);
                 opMode.telemetry.addData("PID", power);
-//            opMode.telemetry.addData("integral", inte);
-                opMode.telemetry.addData("integral without error", inte);
+                opMode.telemetry.addData("integral", inte);
                 opMode.telemetry.addData("angle", currentAngle);
 
                 opMode.telemetry.update();
@@ -388,12 +389,13 @@ public class Drivetrain_Mecanum{
             previousError = currentAngle - angleTo;
 
             while(currentAngle > angleTo + accuracy) {
+                startTime = opMode.getRuntime();
                 currentAngle = sensor.getGyroYaw();
                 error = Math.abs(angleTo) - Math.abs(currentAngle);
 
                 power = ( power * (error) * kP) + floor;
-                inte += ((opMode.getRuntime()) * error * kI);
-                der = (error - previousError) / opMode.getRuntime() * kD;
+                inte += (((opMode.getRuntime() - startTime)) * error * kI);
+                der = (((error - previousError) / (opMode.getRuntime() - startTime)) * kD);
 
                 power = power + inte - der;
 
@@ -404,7 +406,7 @@ public class Drivetrain_Mecanum{
                 opMode.telemetry.addData("error", error);
                 opMode.telemetry.addData("PID", power);
 //            opMode.telemetry.addData("integral", inte);
-                opMode.telemetry.addData("integral without error", inte);
+                opMode.telemetry.addData("integral", inte);
                 opMode.telemetry.addData("angle", currentAngle);
 
                 opMode.telemetry.update();

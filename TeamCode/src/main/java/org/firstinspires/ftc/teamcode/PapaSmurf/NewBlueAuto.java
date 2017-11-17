@@ -2,22 +2,14 @@ package org.firstinspires.ftc.teamcode.PapaSmurf;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Libraries.Drivetrain_Mecanum;
 import org.firstinspires.ftc.teamcode.Libraries.GlyphScorer;
@@ -79,12 +71,12 @@ public class NewBlueAuto extends LinearOpMode {
 //        arm.armIn();
 
         // Move off of the balancing stone
-        drivetrainM.movepid(.3, 1000, .1, .0002, .0001, 0, 25, 0, Math.PI /2, 5000);
+        drivetrainM.movepid(.3, 1000, .1, .001, .0005, 0, 25, 0, Math.PI /2, 5000);
 
         Thread.sleep(500);
 
         // Turn 90 degrees towards cryptobox
-        drivetrainM.pid(.5, -90, .1, .0001, .0002, 0, 1, 10000);
+        drivetrainM.pid(.5, -90, .05, .001, .0002, 0, 1, 10000);
 
         Thread.sleep(500);
 
