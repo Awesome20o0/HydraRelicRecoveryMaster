@@ -5,17 +5,13 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 
 import java.util.Locale;
-
-import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.MM;
 
 /**
  * Created by Varun on 09/25/2017.
@@ -37,6 +33,7 @@ public class SensorRR {
         jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
         jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
         distanceSensorL = opMode.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "distanceL");
+        distanceSensorR = opMode.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "distanceR");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;

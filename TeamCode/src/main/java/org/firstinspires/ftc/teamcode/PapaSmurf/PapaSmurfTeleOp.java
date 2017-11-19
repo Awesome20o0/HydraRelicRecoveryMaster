@@ -9,18 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
     //Used to keep track of mode
-    boolean endGame = false;
-    boolean tank = false;
+    private boolean tank = false;
 
-    double slowingFactor = 1;
+    private double slowingFactor = 1;
 
 
     @Override
     public void loop() {
-
-        //Changes endGame boolean on button press
-        if (gamepad2.back)
-            endGame = !endGame;
 
         if (gamepad1.left_stick_button) {
             slowingFactor = .5;
@@ -121,18 +116,6 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 //            }
 //        }
 
-        if (gamepad2.right_bumper && gamepad2.left_bumper) {
-            intakeOut();
-        } else if (gamepad2.right_bumper) {
-            intakeIn();
-        } else if (gamepad2.left_bumper) {
-            intakeStop();
-        }
-
-        if (gamepad2.a) {
-            intakeSpin();
-        }
-
         if (gamepad1.left_bumper) {
             pushersIn();
         }
@@ -169,6 +152,10 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
             }
 
+            if (gamepad2.a) {
+                intakeSpin();
+            }
+
             if (gamepad1.dpad_right){
                 pushersOut();
                 move(.8, 0, 3*Math.PI/2);
@@ -200,7 +187,6 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
             }
 
             if (gamepad2.b) {
-
                 omnipDown();
             }
 
@@ -209,43 +195,74 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
 
 
             if (gamepad2.right_trigger > .1) {
-                liftUp(gamepad2.right_trigger);
+                liftUp(1);
             }
 
-            if (!(gamepad2.right_trigger > .1 || gamepad2.left_trigger > .1) ){
+            if (!(gamepad2.right_trigger > .1 || gamepad2.left_trigger > .1)){
                 liftStop();
             }
 
             if (gamepad2.left_trigger > .1) {
 
-                liftDown(gamepad2.left_trigger/2);
+                liftDown(gamepad2.left_trigger);
             }
 
-        } else {
-            if (gamepad2.right_trigger > 0.1) {
-                try {
-                    relicOut();
-                } catch (InterruptedException e) {
-                }
+            if (gamepad2.right_bumper && gamepad2.left_bumper) {
+                intakeOut();
+            } else if (gamepad2.right_bumper) {
+                intakeIn();
+            } else if (gamepad2.left_bumper) {
+                intakeStop();
             }
-
-            if (gamepad2.left_trigger > 0.1) {
-                try {
-                    relicIn();
-                } catch (InterruptedException e) {
-                }
-            }
-
 
         }
 
+        if(endGame){
 
+            if (gamepad2.right_trigger > .1) {
+                relicOut(gamepad2.right_trigger);
+            }
 
+            if (!(gamepad2.right_trigger > .1 || gamepad2.left_trigger > .1) ){
+                relicStop();
+            }
+
+            if (gamepad2.left_trigger > .1) {
+
+                relicIn(gamepad2.left_trigger);
+            }
+
+            if (gamepad2.a) {
+                shoulderDown();
+            }
+
+            if(gamepad2.x) {
+                shoulderMid();
+            }
+
+            if(gamepad2.b) {
+                shoulderUp();
+            }
+
+            if(gamepad2.left_bumper) {
+                openHand();
+            }
+
+            if(gamepad2.right_bumper) {
+                closeHand();
+            }
+
+        }
 
         //if none of our motors are running, get the voltage
         if (motorBL.getPower() == 0 && motorBR.getPower() == 0 && motorFL.getPower() == 0 &&
                 motorFR.getPower() == 0) {
             // voltage = getVoltage();
+        }
+
+        //Changes endGame boolean on button press
+        if (gamepad2.y) {
+            endGame = !endGame;
         }
 
         telemetry.update();

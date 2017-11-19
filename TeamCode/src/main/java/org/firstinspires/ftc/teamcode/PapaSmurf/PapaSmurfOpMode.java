@@ -53,6 +53,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
     Servo wrist;
     Servo hand;
 
+    public boolean endGame = false;
+
     // To monitor current voltage
     double voltage = 0.0;
 
@@ -102,8 +104,8 @@ public abstract class PapaSmurfOpMode extends OpMode {
 //      minute = hardwareMap.servo.get("minute");
 
         shoulder1 = hardwareMap.servo.get("shoulder1");
-        shoulder2 = hardwareMap.servo.get("shoulder2");
-        wrist = hardwareMap.servo.get("wrist");
+//        shoulder2 = hardwareMap.servo.get("shoulder2");
+////        wrist = hardwareMap.servo.get("wrist");
         hand = hardwareMap.servo.get("hand");
 
 
@@ -132,7 +134,12 @@ public abstract class PapaSmurfOpMode extends OpMode {
         motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        telemetry.update();
+
     }
+
+
     public void balance() throws InterruptedException {
 
         double pitch = getGyroPitch();
@@ -364,16 +371,36 @@ public abstract class PapaSmurfOpMode extends OpMode {
         omnipL.setPower(0);
     }
 
-    public void relicOut() throws InterruptedException {
-        relic.setPower(1);
-        Thread.sleep(2000);
+    public void relicOut(double power){
+        relic.setPower(power);
+    }
+
+    public void relicIn(double power){
+        relic.setPower(-power);
+    }
+
+    public void relicStop() {
         relic.setPower(0);
     }
 
-    public void relicIn() throws InterruptedException {
-        relic.setPower(-1);
-        Thread.sleep(2000);
-        relic.setPower(0);
+    public void shoulderDown(){
+        shoulder1.setPosition(0);
+    }
+
+    public void shoulderUp(){
+        shoulder1.setPosition(1);
+    }
+
+    public void shoulderMid() {
+        shoulder1.setPosition(.65);
+    }
+
+    public void closeHand(){
+        hand.setPosition(-1);
+    }
+
+    public void openHand(){
+        hand.setPosition(1);
     }
 
     public void liftUp(double power){
@@ -415,14 +442,6 @@ public abstract class PapaSmurfOpMode extends OpMode {
         pusherL.setPosition(-1);
     }
 
-    public void ShoulderOut(){
-        shoulder1.setPosition(1);
-        shoulder2.setPosition(-1);
-    }
-
-    public void wristOut(){
-        wrist.setPosition(1);
-    }
 
     public int getColorValue(){
         double colorVal = 0;
@@ -515,6 +534,11 @@ public abstract class PapaSmurfOpMode extends OpMode {
                         return "FR: " + motorFR.getCurrentPosition();
                     }
                 });
-
+        telemetry.addLine()
+                .addData("Mode", new Func<String>() {
+                    @Override public String value() {
+                        return ":" + endGame;
+                    }
+                });
     }
 }

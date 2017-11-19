@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 /**
  * Created by willi on 11/6/2017.
  */
-@Autonomous(name = "Blue Center Auto", group = "LinearOpMode")
-public class BlueCenterAuto extends LinearOpMode {
+@Autonomous(name = "New Blue Center Auto", group = "LinearOpMode")
+public class NewBlueCenterAuto extends LinearOpMode {
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
     private String version;
@@ -75,8 +75,8 @@ public class BlueCenterAuto extends LinearOpMode {
 
         Thread.sleep(500);
 
-        // Turn 90 degrees towards cryptobox
-        drivetrainM.pid(.5, -90, .05, .001, .0002, 0, 1, 10000);
+        // Turn 180 degrees towards cryptobox
+        drivetrainM.pid(.5, -180, .05, .001, .0002, 0, 1, 10000);
 
         Thread.sleep(500);
 
@@ -213,7 +213,7 @@ public class BlueCenterAuto extends LinearOpMode {
     }
 
 
-}
+    }
 
 
 

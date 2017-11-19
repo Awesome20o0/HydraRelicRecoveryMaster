@@ -364,7 +364,7 @@ public class Drivetrain_Mecanum{
 
                 power = ( power * (error) * kP) + floor;
                 inte += (((opMode.getRuntime() - startTime)) * error * kI);
-                der = (((error - previousError) / (opMode.getRuntime() - startTime)) * kD);
+                der = (((error - previousError) / (opMode.getRuntime() - startTime)));
 
                 power = power + inte - der;
 
