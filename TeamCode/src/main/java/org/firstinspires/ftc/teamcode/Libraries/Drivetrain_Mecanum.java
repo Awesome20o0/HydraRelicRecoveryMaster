@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Libraries;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -75,20 +76,20 @@ public class Drivetrain_Mecanum{
 
         double previousError = distance - getEncoderAvg();
 
-
+        ElapsedTime runtime = new ElapsedTime();
 
         opMode.telemetry.addData("distance left", distance + "");
         opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
         opMode.telemetry.update();
 
-        opMode.resetStartTime();
+        runtime.reset();
 
-        while((getEncoderAvg() < (distance - accuracy)) && opMode.getRuntime() < timeout) {
+        while((getEncoderAvg() < (distance - accuracy)) && runtime.seconds() < timeout) {
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
-            previousRunTime = opMode.getRuntime();
+            previousRunTime = runtime.seconds();
             power = (power * (error) * kP) + floor;
-            inte += (((opMode.getRuntime() - previousRunTime)) * error * kI);
-            der = (((error - previousError) / (opMode.getRuntime() - previousRunTime)) * kD);
+            inte += (((runtime.seconds() - previousRunTime)) * error * kI);
+            der = (((error - previousError) / (runtime.seconds() - previousRunTime)) * kD);
 
             power = power + inte - der;
 
@@ -121,20 +122,20 @@ public class Drivetrain_Mecanum{
 
         double previousError = distance - getEncoderAvg();
 
-
+        ElapsedTime runtime = new ElapsedTime();
 
         opMode.telemetry.addData("distance left", distance + "");
         opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
         opMode.telemetry.update();
 
-        opMode.resetStartTime();
+        runtime.reset();
 
         while(getEncoderAvg() < (distance - accuracy)) {
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
-            previousRunTime = opMode.getRuntime();
+            previousRunTime = runtime.seconds();
             power = (power * (error) * kP) + floor;
-            inte += ((opMode.getRuntime() - previousRunTime) * error * kI);
-            der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
+            inte += ((runtime.seconds() - previousRunTime) * error * kI);
+            der = (error - previousError) / (runtime.seconds() - previousRunTime) * kD;
 
             power = power + inte - der;
 
@@ -167,20 +168,20 @@ public class Drivetrain_Mecanum{
 
         double previousError = distance - getEncoderAvg();
 
-
+        ElapsedTime runtime = new ElapsedTime();
 
         opMode.telemetry.addData("distance left", distance + "");
         opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
         opMode.telemetry.update();
 
-        opMode.resetStartTime();
+        runtime.reset();
 
         while(getEncoderAvg() < (distance - accuracy)) {
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
-            previousRunTime = opMode.getRuntime();
+            previousRunTime = runtime.seconds();
             power = (power * (error) * kP) + floor;
-            inte += ((opMode.getRuntime() - previousRunTime) * error * kI);
-            der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
+            inte += ((runtime.seconds() - previousRunTime) * error * kI);
+            der = (error - previousError) / (runtime.seconds() - previousRunTime) * kD;
 
             power = power + inte + der;
 
@@ -215,20 +216,20 @@ public class Drivetrain_Mecanum{
 
         double previousError = distance - getEncoderAvg();
 
-
+        ElapsedTime runtime = new ElapsedTime();
 
         opMode.telemetry.addData("distance left", distance + "");
         opMode.telemetry.addData("current Encoder", getEncoderAvg() + "");
         opMode.telemetry.update();
 
-        opMode.resetStartTime();
+        runtime.reset();
 
-        while((getEncoderAvg() < (distance - accuracy)) && (opMode.getRuntime() < timeout)) {
+        while((getEncoderAvg() < (distance - accuracy)) && (runtime.seconds() < timeout)) {
             error = Math.abs(distance) - Math.abs(getEncoderAvg());
-            previousRunTime = opMode.getRuntime();
+            previousRunTime = runtime.seconds();
             power = (power * (error) * kP) + floor;
-            inte += ((opMode.getRuntime() - previousRunTime) * error * kI);
-            der = (error - previousError) / (opMode.getRuntime() - previousRunTime) * kD;
+            inte += ((runtime.seconds() - previousRunTime) * error * kI);
+            der = (error - previousError) / (runtime.seconds() - previousRunTime) * kD;
 
             power = power + inte + der;
 
@@ -283,27 +284,120 @@ public class Drivetrain_Mecanum{
 //        motorFR.setPower(FR);
     }
 
-    public void strafe(double diag1, double diag2, double direction){
-
-        double current = sensor.getGyroYaw();
+    public void strafe(double diag1, double diag2, double direction, double current){
 
         final double FL = diag1 * Math.sin(direction - Math.PI/4);
         final double FR = diag2 * Math.sin(direction - Math.PI/4);
         final double BL = diag2 * Math.cos(direction - Math.PI/4);
         final double BR = diag1 * Math.cos(direction - Math.PI/4);
 
-        if(sensor.getGyroYaw() < current - 2)
+        if(sensor.getGyroYaw() < current - 1)
+        {
+            motorFL.setPower(FL * 1.2);
+            motorBL.setPower(BL);
+            motorBR.setPower(BR * .833);
+            motorFR.setPower(FR);
+        } else if (sensor.getGyroYaw() > current + 1)
         {
             motorFL.setPower(FL);
-            motorBL.setPower(BL * 2);
+            motorBL.setPower(BL * 1.2);
             motorBR.setPower(BR);
-            motorFR.setPower(FR * 2);
-        } else if (sensor.getGyroYaw() > current + 2)
-        {
-            motorFL.setPower(FL * 2);
+            motorFR.setPower(FR * .833);
+        } else {
+            motorFL.setPower(FL);
             motorBL.setPower(BL);
-            motorBR.setPower(BR * 2);
+            motorBR.setPower(BR);
             motorFR.setPower(FR);
+        }
+    }
+
+    public void strafeRed(double diag1, double diag2, double direction, double current){
+
+        final double FL = diag1 * Math.sin(direction - Math.PI/4);
+        final double FR = diag2 * Math.sin(direction - Math.PI/4);
+        final double BL = diag2 * Math.cos(direction - Math.PI/4);
+        final double BR = diag1 * Math.cos(direction - Math.PI/4);
+
+        if(sensor.getGyroYaw() < current + 1)
+        {
+            motorFL.setPower(FL * 1.2);
+            motorBL.setPower(BL);
+            motorBR.setPower(BR * .833);
+            motorFR.setPower(FR);
+        } else if (sensor.getGyroYaw() > current - 1)
+        {
+            motorFL.setPower(FL);
+            motorBL.setPower(BL * 1.2);
+            motorBR.setPower(BR);
+            motorFR.setPower(FR * .833);
+        } else {
+            motorFL.setPower(FL);
+            motorBL.setPower(BL);
+            motorBR.setPower(BR);
+            motorFR.setPower(FR);
+        }
+    }
+
+    public void strafe(double diag1, double diag2, double direction){
+
+        final double FL = diag1 * Math.sin(direction - Math.PI/4);
+        final double FR = diag2 * Math.sin(direction - Math.PI/4);
+        final double BL = diag2 * Math.cos(direction - Math.PI/4);
+        final double BR = diag1 * Math.cos(direction - Math.PI/4);
+
+        motorFL.setPower(FL);
+        motorBL.setPower(BL);
+        motorBR.setPower(BR);
+        motorFR.setPower(FR);
+
+    }
+
+    public void strafeLeft(double diag1, double diag2, double direction, double current){
+
+        final double FL = diag1 * Math.sin(direction - Math.PI/4);
+        final double FR = diag2 * Math.sin(direction - Math.PI/4);
+        final double BL = diag2 * Math.cos(direction - Math.PI/4);
+        final double BR = diag1 * Math.cos(direction - Math.PI/4);
+
+        if(sensor.getGyroYaw() < current - 1)
+        {
+            motorFL.setPower(FL);
+            motorBL.setPower(BL * 1.2);
+            motorBR.setPower(BR );
+            motorFR.setPower(FR * .833);
+        } else if (sensor.getGyroYaw() > current + 1)
+        {
+            motorFL.setPower(FL * 1.2);
+            motorBL.setPower(BL );
+            motorBR.setPower(BR * .833);
+            motorFR.setPower(FR );
+        } else {
+            motorFL.setPower(FL);
+            motorBL.setPower(BL);
+            motorBR.setPower(BR);
+            motorFR.setPower(FR);
+        }
+    }
+
+    public void strafeLeftRed(double diag1, double diag2, double direction, double current){
+
+        final double FL = diag1 * Math.sin(direction - Math.PI/4);
+        final double FR = diag2 * Math.sin(direction - Math.PI/4);
+        final double BL = diag2 * Math.cos(direction - Math.PI/4);
+        final double BR = diag1 * Math.cos(direction - Math.PI/4);
+
+        if(sensor.getGyroYaw() < current + 1)
+        {
+            motorFL.setPower(FL);
+            motorBL.setPower(BL * 1.2);
+            motorBR.setPower(BR );
+            motorFR.setPower(FR * .833);
+        } else if (sensor.getGyroYaw() > current - 1)
+        {
+            motorFL.setPower(FL * 1.2);
+            motorBL.setPower(BL );
+            motorBR.setPower(BR * .833);
+            motorFR.setPower(FR );
         } else {
             motorFL.setPower(FL);
             motorBL.setPower(BL);
@@ -347,24 +441,27 @@ public class Drivetrain_Mecanum{
         double previousError;
         double startTime;
 
+        ElapsedTime runtime = new ElapsedTime();
+
         opMode.telemetry.addData("Current Angle", currentAngle + "");
         opMode.telemetry.addData("Angle To", angleTo + "");
         opMode.telemetry.update();
 
-        opMode.resetStartTime();
+        runtime.reset();
 
         if(currentAngle < angleTo) {
 
             previousError = angleTo - currentAngle;
 
-            while(currentAngle < angleTo - accuracy && (opMode.getRuntime() < timeout)) {
-                startTime = opMode.getRuntime();
+            while(currentAngle < angleTo - accuracy && (runtime.seconds() < timeout)) {
+                startTime = runtime.seconds();
                 currentAngle = sensor.getGyroYaw();
-                error = Math.abs(angleTo) - Math.abs(currentAngle);
+
+                error = angleTo - currentAngle;
 
                 power = ( power * (error) * kP) + floor;
-                inte += (((opMode.getRuntime() - startTime)) * error * kI);
-                der = (((error - previousError) / (opMode.getRuntime() - startTime)));
+                inte += (((runtime.seconds() - startTime)) * error * kI);
+                der = (((error - previousError) / (runtime.seconds() - startTime)) * kD);
 
                 power = power + inte - der;
 
@@ -381,21 +478,21 @@ public class Drivetrain_Mecanum{
                 previousError = error;
                 opMode.idle();
             }
-            opMode.telemetry.update();
             stopMotors();
         }
-        else if(currentAngle > angleTo){
+        else if(currentAngle > angleTo ){
 
             previousError = currentAngle - angleTo;
 
-            while(currentAngle > angleTo + accuracy) {
-                startTime = opMode.getRuntime();
+            while(currentAngle > angleTo + accuracy  && (runtime.seconds() < timeout)) {
+                startTime = runtime.seconds();
                 currentAngle = sensor.getGyroYaw();
-                error = Math.abs(angleTo) - Math.abs(currentAngle);
+
+                error = currentAngle - angleTo;
 
                 power = ( power * (error) * kP) + floor;
-                inte += (((opMode.getRuntime() - startTime)) * error * kI);
-                der = (((error - previousError) / (opMode.getRuntime() - startTime)) * kD);
+                inte += (((runtime.seconds() - startTime)) * error * kI);
+                der = (((error - previousError) / (runtime.seconds() - startTime)) * kD);
 
                 power = power + inte - der;
 
@@ -413,7 +510,6 @@ public class Drivetrain_Mecanum{
                 previousError = error;
                 opMode.idle();
             }
-            opMode.telemetry.update();
             stopMotors();
         }
 

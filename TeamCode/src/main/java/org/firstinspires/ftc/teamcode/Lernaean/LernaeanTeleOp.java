@@ -199,11 +199,6 @@ public class LernaeanTeleOp extends LernaeanOpMode {
             while(gamepad1.left_bumper);
         }
 
-        if (gamepad2.back){
-            shootMode = !shootMode;
-            while (gamepad2.back);
-        }
-
         telemetry.update();
     }
 }

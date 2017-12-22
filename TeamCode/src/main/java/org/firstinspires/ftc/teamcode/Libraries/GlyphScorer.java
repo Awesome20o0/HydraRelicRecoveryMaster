@@ -30,7 +30,8 @@ public class GlyphScorer {
         intakeR = this.opMode.hardwareMap.dcMotor.get("intakeR");
         lift = this.opMode.hardwareMap.dcMotor.get("lift");
         relic = this.opMode.hardwareMap.dcMotor.get("relic");
-        lift = this.opMode.hardwareMap.dcMotor.get("lift");
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        relic.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         gate = this.opMode.hardwareMap.servo.get("gate");
         this.opMode.telemetry.addData(LOG_TAG + "init", "finished drivetrain init");
         this.opMode.telemetry.update();
@@ -80,15 +81,19 @@ public class GlyphScorer {
 
     public void liftUp() throws InterruptedException {
         lift.setPower(1);
-        Thread.sleep(1000);
+        relic.setPower(-1);
+        Thread.sleep(300);
         lift.setPower(0);
+        relic.setPower(0);
     }
 
 
     public void liftDown() throws InterruptedException {
         lift.setPower(-1);
-        Thread.sleep(200);
+        relic.setPower(1);
+        Thread.sleep(300);
         lift.setPower(0);
+        relic.setPower(0);
     }
 
     public void liftStop() {
