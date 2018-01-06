@@ -73,13 +73,13 @@ android {
             // Disable debugging for release versions so it can be uploaded to Google Play.
             //debuggable true
             ndk {
-                abiFilters "armeabi-v7a"
+                abiFilters "armeabi-v7a" , "x86", "x86_64"
             }
         }
         debug {
             debuggable true
             ndk {
-                abiFilters "armeabi-v7a"
+                abiFilters "armeabi-v7a", "x86", "x86_64"
             }
         }
     }
@@ -90,8 +90,26 @@ android {
     }
 
     sourceSets.main {
-        jni.srcDirs = []
-        jniLibs.srcDir rootProject.file('libs')
+        jniLibs.srcDirs 'src/main/jni', 'src/main/jniLibs', rootProject.file('libs')
+        //jniLibs.srcDir rootProject.file('libs')
+    }
+
+   /*externalNativeBuild {
+
+        // Encapsulates your CMake build configurations.
+        ndkbuild {
+
+            // Provides a relative path to your CMake build script.
+            path "src/main/jni/Android.mk"
+        }
+    }*/
+    task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+        def ndkDir = "C:/Users/Varun/AppData/Local/Android/Sdk/ndk-bundle"
+        commandLine "$ndkDir/ndk-build",
+                'NDK_PROJECT_PATH=build/intermediates/ndk',
+                'NDK_LIBS_OUT=src/main/jniLibs',
+                'APP_BUILD_SCRIPT=src/main/jni/Android.mk',
+                'NDK_APPLICATION_MK=src/main/jni/Application.mk'
     }
 }
 

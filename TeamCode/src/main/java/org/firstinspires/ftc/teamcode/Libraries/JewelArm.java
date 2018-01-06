@@ -37,7 +37,7 @@ public class JewelArm {
 //        Thread.sleep(100);
         //closer to -1 = point up to sky
         //closer to 1 = ?
-        hour.setPosition(.75);
+        hour.setPosition(.83);
         Thread.sleep(400);
 
     }

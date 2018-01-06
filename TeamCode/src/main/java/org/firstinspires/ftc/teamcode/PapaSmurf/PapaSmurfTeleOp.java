@@ -201,6 +201,22 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 liftUp(1);
             }
 
+            if (gamepad1.left_bumper) {
+                hooksUp();
+            }
+
+            if (gamepad1.right_bumper) {
+                hooksDown();
+            }
+
+            if (gamepad1.dpad_left){
+                try {
+                    balance();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             if (!(gamepad2.right_trigger > .1 || gamepad2.left_trigger > .1)){
                 liftStop();
             }

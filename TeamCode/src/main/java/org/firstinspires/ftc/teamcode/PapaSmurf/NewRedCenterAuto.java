@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
+//Varun had a B in English, now he has a 90 so he's still trash. He's gonna lose to Ian.
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -19,8 +20,8 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 /**
  * Created by willi on 11/6/2017.
  */
-@Autonomous(name = "New Red Auto", group = "LinearOpMode")
-public class NewRedAuto extends LinearOpMode {
+@Autonomous(name = "New Red Center Auto", group = "LinearOpMode")
+public class NewRedCenterAuto extends LinearOpMode {
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
     private String version;
@@ -29,7 +30,7 @@ public class NewRedAuto extends LinearOpMode {
     public static final String TAG = "Vuforia VuMark Test";
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
-    int vu = 3;
+    int vu = 1;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -68,102 +69,93 @@ public class NewRedAuto extends LinearOpMode {
 
         arm.armIn();
 
+        Thread.sleep(800);
 
-        // Move off of the balancing stone
-        drivetrainM.movepid(.3, 850, .1, .0007, .0004, 0, 25, 0, Math.PI /2, 5);
+        drivetrainM.strafe(-.7, -.7, 0);
 
-        Thread.sleep(500);
+        Thread.sleep(1500);
 
-        // Turn 90 degrees towards cryptobox
-        drivetrainM.pid(.3, 90, .1, .01, .004, 0, 2, 5);
+        drivetrainM.stopMotors();
 
-        if (sensors.getGyroYaw() > 95) {
-            Thread.sleep(100);
+        Thread.sleep(150);
 
-            drivetrainM.pid(.3, 90, .1, .01, .004, 0, 1, 3);
-        }
-
-//        Thread.sleep(500);
-
-        telemetry.update();
-        // Drive towards cryptobox
-        drivetrainM.movepid(.3, 1900, .1, .00048, .0005, 0, 25, 0, Math.PI /2, 5);
+        drivetrainM.pid(.3, 175, .1, .0035, .0015, 0, 2, 10);
 
 //        Thread.sleep(500);
 
         runtime.reset();
 
-        while((sensors.getDistanceL() > 15) && (runtime.seconds() < 7)){
+        while((sensors.getDistanceL() > 55) && (runtime.seconds() < 7)){
             telemetry.update();
-            drivetrainM.strafeLeftRed(-.5, -.5, 0, 90 );
+            drivetrainM.strafeLeftRed(-.5, -.5, 0, 175 );
         }
+        while(sensors.getDistanceL() < 62){
 
-        while(sensors.getDistanceL() < 22){
             telemetry.update();
-            drivetrainM.strafeRed(.8, .8, 0, 90 );
+            drivetrainM.strafeRed(.8, .8, 0, 175 );
         }
 
         runtime.reset();
 
-        if (vu == 1) {
+        //vu == 1
+        if (true) {
 
-            while((sensors.getDistanceL()) < 38 && (runtime.seconds() < 5)){
+            while((sensors.getDistanceL()) < 119 && (runtime.seconds() < 7)){
                 telemetry.update();
-                drivetrainM.strafeRed(.5, .5, 0, 90 );
+                drivetrainM.strafeRed(.5, .5, 0, 175 );
             }
             drivetrainM.stopMotors();
         }
-        if (vu == 2) {
-
-            while((sensors.getDistanceL()) < 60 && (runtime.seconds() < 5)){
-                telemetry.update();
-                drivetrainM.strafeRed(.5, .5, 0, 90 );
-            }
-            drivetrainM.stopMotors();
-        }
-        if (vu == 3) {
-
-            while((sensors.getDistanceL()) < 79 && (runtime.seconds() < 5)){
-                telemetry.update();
-                drivetrainM.strafeRed(.5, .5, 0, 90);
-            }
-            drivetrainM.stopMotors();
-        }
-
-        Thread.sleep(500);
+//        if (vu == 2) {
 //
-//        // Move forward and deposit
-        drivetrainM.startMotors(-.3, -.3);
-
-        Thread.sleep(600);
+//            while((sensors.getDistanceL()) < 99.5 && (runtime.seconds() < 7)){
+//                telemetry.update();
+//                drivetrainM.strafeRed(-.5, -.5, 0, 175 );
+//            }
+//            drivetrainM.stopMotors();
+//        }
+//        if (vu == 3) {
 //
-        glyphScorer.outputOut();
+//            while((sensors.getDistanceL()) < 87 && (runtime.seconds() < 7)){
+//                telemetry.update();
+//                drivetrainM.strafeRed(-.5, -.5, 0, 175);
+//            }
+//            drivetrainM.stopMotors();
+//        }
 //
-        Thread.sleep(700);
+//        Thread.sleep(500);
+////
+////        // Move forward and deposit
+//        drivetrainM.startMotors(-.3, -.3);
 //
-//        // Back up to park
-        drivetrainM.startMotors(.3, .3);
-
-        Thread.sleep(500);
-
-        drivetrainM.stopMotors();
-
-        Thread.sleep(200);
-
-        drivetrainM.startMotors(-.5, -.5);
-
-        Thread.sleep(500);
-
-        drivetrainM.stopMotors();
-
-        Thread.sleep(200);
-
-        drivetrainM.startMotors(.25, .25);
-
-        Thread.sleep(250);
-
-        drivetrainM.stopMotors();
+//        Thread.sleep(600);
+////
+//        glyphScorer.outputOut();
+////
+//        Thread.sleep(700);
+////
+////        // Back up to park
+//        drivetrainM.startMotors(.3, .3);
 //
+//        Thread.sleep(500);
+//
+//        drivetrainM.stopMotors();
+//
+//        Thread.sleep(200);
+//
+//        drivetrainM.startMotors(-.5, -.5);
+//
+//        Thread.sleep(500);
+//
+//        drivetrainM.stopMotors();
+//
+//        Thread.sleep(200);
+//
+//        drivetrainM.startMotors(.25, .25);
+//
+//        Thread.sleep(250);
+//
+//        drivetrainM.stopMotors();
     }
 
 
@@ -218,6 +210,7 @@ public class NewRedAuto extends LinearOpMode {
                         return "distL:" + sensors.getDistanceL();
                     }
                 });
+
         telemetry.addLine()
                 .addData("distanceR", new Func<String>() {
                     @Override public String value() {
@@ -264,11 +257,10 @@ public class NewRedAuto extends LinearOpMode {
         } else {
             vu = 1;
         }
+
     }
 
-
-}            //Varun had a B in English, now he has a 90 so he's still trash. He's gonna lose to Ian.
-
+}
 
 
 

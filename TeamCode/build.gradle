@@ -10,7 +10,31 @@
 // Custom definitions may go here
 // Include common definitions from above.
 apply from: '../build.common.gradle'
+
+
 dependencies {
-    compile project(':openCVLibrary331')
     compile project(':FtcRobotController')
+    compile project(':openCVLibrary331')
+}
+
+/*android {
+
+   externalNativeBuild {
+
+        // Encapsulates your CMake build configurations.
+        ndkbuild {
+
+            // Provides a relative path to your CMake build script.
+            path "src/main/jni/Android.mk"
+        }
+    }
+} */
+
+
+android {
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/jni/Android.mk'
+        }
+    }
 }

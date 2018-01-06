@@ -53,6 +53,9 @@ public abstract class PapaSmurfOpMode extends OpMode {
     Servo wrist;
     Servo hand;
 
+    Servo hookL;
+    Servo hookR;
+
     public boolean endGame = false;
 
     // To monitor current voltage
@@ -106,6 +109,9 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
         second = hardwareMap.servo.get("second");
         minute = hardwareMap.servo.get("minute");
+
+        hookL = hardwareMap.servo.get("hookL");
+        hookR = hardwareMap.servo.get("hookR");
 
         shoulder1 = hardwareMap.servo.get("shoulder1");
 //        shoulder2 = hardwareMap.servo.get("shoulder2");
@@ -238,6 +244,25 @@ public abstract class PapaSmurfOpMode extends OpMode {
 
     public void minuteUp() {
         minute.setPosition(.5);
+    }
+
+    public void hooksDown() {
+        hookL.setPosition(-.75);
+        hookR.setPosition(.75);
+    }
+
+    public void hooksUp() {
+        hookL.setPosition(.5);
+        hookR.setPosition(-.1);
+    }
+
+    public void balance() throws InterruptedException {
+        startMotors(-1, -1);
+        Thread.sleep(800);
+        hooksDown();
+        Thread.sleep(400);
+        stopMotors();
+
     }
 
     public void move(double pow, double rotation, double direction) {
