@@ -130,7 +130,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                         FR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
                         BR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
                     }
-
+                    
                     motorFL.setPower(FL * slowingFactor);
                     motorFR.setPower(-FR * slowingFactor);
                     motorBL.setPower(BL * slowingFactor);

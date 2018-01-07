@@ -70,14 +70,14 @@ public class NewRedAuto extends LinearOpMode {
 
 
         // Move off of the balancing stone
-        drivetrainM.movepid(.3, 850, .1, .0007, .0004, 0, 25, 0, Math.PI /2, 5);
+        drivetrainM.movepid(.3, 900, .1, .0007, .0004, 0, 25, 0, Math.PI /2, 5);
 
         Thread.sleep(500);
 
         // Turn 90 degrees towards cryptobox
         drivetrainM.pid(.3, 90, .1, .01, .004, 0, 2, 5);
 
-        if (sensors.getGyroYaw() > 95) {
+        if (sensors.getGyroYaw() > 100) {
             Thread.sleep(100);
 
             drivetrainM.pid(.3, 90, .1, .01, .004, 0, 1, 3);
@@ -87,15 +87,15 @@ public class NewRedAuto extends LinearOpMode {
 
         telemetry.update();
         // Drive towards cryptobox
-        drivetrainM.movepid(.3, 1900, .1, .00048, .0005, 0, 25, 0, Math.PI /2, 5);
+        drivetrainM.movepid(.3, 2000, .1, .00048, .0005, 0, 25, 0, Math.PI /2, 4);
 
 //        Thread.sleep(500);
 
         runtime.reset();
 
-        while((sensors.getDistanceL() > 15) && (runtime.seconds() < 7)){
+        while((sensors.getDistanceL() > 15) && (runtime.seconds() < 10)){
             telemetry.update();
-            drivetrainM.strafeLeftRed(-.5, -.5, 0, 90 );
+            drivetrainM.strafeLeftRed(-.7, -.7, 0, 90 );
         }
 
         while(sensors.getDistanceL() < 22){
@@ -107,7 +107,7 @@ public class NewRedAuto extends LinearOpMode {
 
         if (vu == 1) {
 
-            while((sensors.getDistanceL()) < 38 && (runtime.seconds() < 5)){
+            while((sensors.getDistanceL()) < 79 && (runtime.seconds() < 5)){
                 telemetry.update();
                 drivetrainM.strafeRed(.5, .5, 0, 90 );
             }
@@ -123,7 +123,7 @@ public class NewRedAuto extends LinearOpMode {
         }
         if (vu == 3) {
 
-            while((sensors.getDistanceL()) < 79 && (runtime.seconds() < 5)){
+            while((sensors.getDistanceL()) < 38 && (runtime.seconds() < 5)){
                 telemetry.update();
                 drivetrainM.strafeRed(.5, .5, 0, 90);
             }
@@ -165,8 +165,6 @@ public class NewRedAuto extends LinearOpMode {
         drivetrainM.stopMotors();
 //
     }
-
-
 
     private void composeTelemetry() {
         telemetry.addLine()
@@ -265,9 +263,7 @@ public class NewRedAuto extends LinearOpMode {
             vu = 1;
         }
     }
-
-
-}            //Varun had a B in English, now he has a 90 so he's still trash. He's gonna lose to Ian.
+}
 
 
 

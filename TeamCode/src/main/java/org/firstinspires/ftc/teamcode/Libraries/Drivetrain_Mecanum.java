@@ -318,13 +318,13 @@ public class Drivetrain_Mecanum{
         final double BL = diag2 * Math.cos(direction - Math.PI/4);
         final double BR = diag1 * Math.cos(direction - Math.PI/4);
 
-        if(sensor.getGyroYaw() > current + 1)
+        if(sensor.getGyroYaw() < current - 1)
         {
             motorFL.setPower(FL * 1.2);
             motorBL.setPower(BL);
             motorBR.setPower(BR * .833);
             motorFR.setPower(FR);
-        } else if (sensor.getGyroYaw() < current - 1)
+        } else if (sensor.getGyroYaw() > current + 1)
         {
             motorFL.setPower(FL);
             motorBL.setPower(BL * 1.2);
@@ -336,6 +336,7 @@ public class Drivetrain_Mecanum{
             motorBR.setPower(BR);
             motorFR.setPower(FR);
         }
+
     }
 
     public void strafe(double diag1, double diag2, double direction){
@@ -386,13 +387,13 @@ public class Drivetrain_Mecanum{
         final double BL = diag2 * Math.cos(direction - Math.PI/4);
         final double BR = diag1 * Math.cos(direction - Math.PI/4);
 
-        if(sensor.getGyroYaw() > current + 1)
+        if(sensor.getGyroYaw() < current - 1)
         {
             motorFL.setPower(FL);
             motorBL.setPower(BL * 1.2);
             motorBR.setPower(BR );
             motorFR.setPower(FR * .833);
-        } else if (sensor.getGyroYaw() < current - 1) {
+        } else if (sensor.getGyroYaw() > current + 1) {
             motorFL.setPower(FL * 1.2);
             motorBL.setPower(BL );
             motorBR.setPower(BR * .833);

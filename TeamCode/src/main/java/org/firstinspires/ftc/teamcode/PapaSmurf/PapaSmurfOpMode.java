@@ -436,13 +436,13 @@ public abstract class PapaSmurfOpMode extends OpMode {
 //    }
 
     public void liftUp(double power){
-        lift.setPower(-power);
-        relic.setPower(power);
+        lift.setPower(power);
+        relic.setPower(-power);
     }
 
     public void liftDown(double power){
-        lift.setPower(power);
-        relic.setPower(-power);
+        lift.setPower(-power);
+        relic.setPower(power);
     }
 
     public void liftStop() {
