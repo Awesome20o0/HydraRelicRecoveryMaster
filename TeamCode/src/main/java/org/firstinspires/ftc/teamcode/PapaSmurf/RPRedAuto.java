@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 /**
  * Created by willi on 11/6/2017.
  */
-@Autonomous(name = "New Red Auto", group = "LinearOpMode")
-public class NewRedAuto extends LinearOpMode {
+@Autonomous(name = "RP Red Auto", group = "LinearOpMode")
+public class RPRedAuto extends LinearOpMode {
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
     private String version;
@@ -56,7 +56,7 @@ public class NewRedAuto extends LinearOpMode {
         Thread.sleep(900);
 
         int color = sensors.getColorValue();
-        if (color > 0) {
+        if (color < 0) {
             // Move servo clockwise
             arm.armKick(.27);
         } else {
@@ -264,6 +264,7 @@ public class NewRedAuto extends LinearOpMode {
         }
     }
 }
+
 
 
 

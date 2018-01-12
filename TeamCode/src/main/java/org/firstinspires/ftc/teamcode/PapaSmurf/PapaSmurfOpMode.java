@@ -235,11 +235,9 @@ public abstract class PapaSmurfOpMode extends OpMode {
 //    }
 
     public void hourAndGate() throws InterruptedException{
-        hour.setPosition(-.35);
+        armIn();
+        Thread.sleep(100);
         gate.setPosition(0);
-        Thread.sleep(300);
-        second.setPosition(.22);
-        minute.setPosition(.3);
     }
 
     public void minuteUp() {

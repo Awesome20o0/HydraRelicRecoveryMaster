@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
+//Varun had a B in English, now he has a 90 so he's still trash. He's gonna lose to Ian.
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -17,10 +18,10 @@ import org.firstinspires.ftc.teamcode.Libraries.JewelArm;
 import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 
 /**
- * Created by willi on 11/6/2017.
+ * Created by Varun on 1/11/2017.
  */
-@Autonomous(name = "New Red Auto", group = "LinearOpMode")
-public class NewRedAuto extends LinearOpMode {
+@Autonomous(name = "RP Blue", group = "LinearOpMode")
+public class RPBlueAuto extends LinearOpMode {
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
     private String version;
@@ -29,7 +30,7 @@ public class NewRedAuto extends LinearOpMode {
     public static final String TAG = "Vuforia VuMark Test";
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
-    int vu = 3;
+    int vu = 1;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -53,7 +54,7 @@ public class NewRedAuto extends LinearOpMode {
         // Knock off correct jewel ball
         arm.armOut();
 
-        Thread.sleep(900);
+        Thread.sleep(500);
 
         int color = sensors.getColorValue();
         if (color > 0) {
@@ -61,7 +62,7 @@ public class NewRedAuto extends LinearOpMode {
             arm.armKick(.27);
         } else {
             // Move servo counter clockwise
-            arm.armKick(.67);
+            arm.armKick(.65);
         }
 
         Thread.sleep(500);
@@ -70,62 +71,63 @@ public class NewRedAuto extends LinearOpMode {
 
 
         // Move off of the balancing stone
-        drivetrainM.movepid(.3, 900, .1, .0007, .0004, 0, 25, 0, Math.PI /2, 5);
+        drivetrainM.movepid(.3, 850, .1, .0007, .0004, 0, 25, 0, Math.PI /2, 5);
 
         Thread.sleep(500);
 
         // Turn 90 degrees towards cryptobox
-        drivetrainM.pid(.3, 90, .1, .01, .004, 0, 2, 5);
 
-        if (sensors.getGyroYaw() > 100) {
+        drivetrainM.pid(.3, -90, .1, .01, .004, 0, 2, 2);
+
+        if (sensors.getGyroYaw() < -95) {
             Thread.sleep(100);
 
-            drivetrainM.pid(.3, 90, .1, .01, .004, 0, 1, 3);
+            drivetrainM.pid(.3, -90, .1, .02, .02, 0, 1, 3);
         }
 
 //        Thread.sleep(500);
 
         telemetry.update();
         // Drive towards cryptobox
-        drivetrainM.movepid(.3, 2000, .1, .00048, .0005, 0, 25, 0, Math.PI /2, 4);
+        drivetrainM.movepid(.3, 2000, .1, .0005, .0005, 0, 25, 0, Math.PI /2, 5);
 
 //        Thread.sleep(500);
 
         runtime.reset();
 
-        while((sensors.getDistanceL() > 15) && (runtime.seconds() < 10)){
+        while((sensors.getDistanceR() > 15) && (runtime.seconds() < 7)){
             telemetry.update();
-            drivetrainM.strafeLeftRed(-.7, -.7, 0, 90 );
+            drivetrainM.strafe(.5, .5, 0, -90 );
         }
 
-        while(sensors.getDistanceL() < 22){
+        while(sensors.getDistanceR() < 22){
             telemetry.update();
-            drivetrainM.strafeRed(.8, .8, 0, 90 );
+            drivetrainM.strafeLeft(-.8, -.8, 0, -90 );
         }
 
         runtime.reset();
 
         if (vu == 1) {
 
-            while((sensors.getDistanceL()) < 79.5 && (runtime.seconds() < 5)){
+            while((sensors.getDistanceR()) < 37 && (runtime.seconds() < 7)){
                 telemetry.update();
-                drivetrainM.strafeRed(.5 , .5, 0, 90 );
+                drivetrainM.strafeLeft(-.5, -.5, 0, -90 );
             }
             drivetrainM.stopMotors();
         }
         if (vu == 2) {
 
-            while((sensors.getDistanceL()) < 59.5 && (runtime.seconds() < 5)){
+            while((sensors.getDistanceR()) < 59.5 && (runtime.seconds() < 7)){
                 telemetry.update();
-                drivetrainM.strafeRed(.5, .5, 0, 90 );
+                drivetrainM.strafeLeft(-.5, -.5, 0, -90 );
             }
             drivetrainM.stopMotors();
         }
         if (vu == 3) {
 
-            while((sensors.getDistanceL()) < 36 && (runtime.seconds() < 5)){
+            while((sensors.getDistanceR()) < 79 && (runtime.seconds() < 7)){
                 telemetry.update();
-                drivetrainM.strafeRed(.5, .5, 0, 90);
+                drivetrainM.strafeLeft(-.5, -.5, 0, -90);
             }
             drivetrainM.stopMotors();
         }
@@ -135,7 +137,7 @@ public class NewRedAuto extends LinearOpMode {
 //        // Move forward and deposit
         drivetrainM.startMotors(-.3, -.3);
 
-        Thread.sleep(500);
+        Thread.sleep(600);
 //
         glyphScorer.outputOut();
 //
@@ -163,8 +165,9 @@ public class NewRedAuto extends LinearOpMode {
         Thread.sleep(250);
 
         drivetrainM.stopMotors();
-//
     }
+
+
 
     private void composeTelemetry() {
         telemetry.addLine()
@@ -216,6 +219,7 @@ public class NewRedAuto extends LinearOpMode {
                         return "distL:" + sensors.getDistanceL();
                     }
                 });
+
         telemetry.addLine()
                 .addData("distanceR", new Func<String>() {
                     @Override public String value() {
@@ -262,9 +266,10 @@ public class NewRedAuto extends LinearOpMode {
         } else {
             vu = 1;
         }
-    }
-}
 
+    }
+
+}
 
 
 

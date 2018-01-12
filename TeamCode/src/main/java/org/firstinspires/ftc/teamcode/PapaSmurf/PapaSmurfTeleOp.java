@@ -115,7 +115,7 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 //Code for mecanum drive when not reversed
                 if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
                         Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
-                    double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+                    double r = ((Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) * ((Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y)));
                     double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
                     double rightX = -gamepad1.right_stick_x;
                     double FL = 1.3 * (r * Math.cos(robotAngle) + rightX);
@@ -130,11 +130,12 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                         FR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
                         BR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
                     }
-                    
+
                     motorFL.setPower(FL * slowingFactor);
                     motorFR.setPower(-FR * slowingFactor);
                     motorBL.setPower(BL * slowingFactor);
                     motorBR.setPower(-BR * slowingFactor);
+
                 } else {
                     stopMotors();
                 }
@@ -317,8 +318,8 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         //Changes endGame boolean on button press
         if (gamepad2.y) {
             while(gamepad2.y) {
-                endGame = !endGame;
             }
+            endGame = !endGame;
         }
 
         telemetry.update();
