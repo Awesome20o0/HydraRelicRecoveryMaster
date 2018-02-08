@@ -26,6 +26,37 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
         if (gamepad1.b)
             tank = !tank;
 
+//        if (reversed && !tank) {
+//            //Code for mecanum drive when reversed
+//            if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
+//                    Math.abs(Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4) > .1) {
+//                double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+//                double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
+//                double rightX = -gamepad1.right_stick_x;
+//                double FL = r * Math.cos(robotAngle) + rightX;
+//                double FR = r * Math.sin(robotAngle) - rightX;
+//                double BL = r * Math.sin(robotAngle) + rightX;
+//                double BR = r * Math.cos(robotAngle) - rightX;
+//
+//
+//                if (((Math.abs(FL) > 1) || (Math.abs(BL) > 1)) || ((Math.abs(FR) > 1) || (Math.abs(BR) > 1))) {
+//                    FL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                    BL /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                    FR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                    BR /= Math.max(Math.max(Math.abs(FL), Math.abs(FR)), Math.max(Math.abs(BL), Math.abs(BR)));
+//                }
+//
+//                motorFL.setPower(-FL * slowingFactor);
+//                motorFR.setPower(FR * slowingFactor);
+//                motorBL.setPower(-BL * slowingFactor);
+//                motorBR.setPower(BR * slowingFactor);
+//
+//            } else {
+//                stopMotors();
+//            }
+//        }
+
+
         if (tank) {
 
             if (Math.abs(gamepad1.right_stick_x) > .1 && (Math.abs(gamepad1.left_stick_x) > .1)) {
@@ -41,10 +72,45 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 stopMotors();
             }
         }
+//        if (tank) {
+//
+//            if (Math.abs(gamepad1.right_stick_x) > .3 && (Math.abs(gamepad1.left_stick_x) > .3)) {
+//
+//                motorFL.setPower(((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//                motorFR.setPower(((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//                motorBL.setPower(-((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//                motorBR.setPower(-((gamepad1.right_stick_x + gamepad1.left_stick_x) / 2.0) * slowingFactor);
+//
+//            } else if (Math.abs(gamepad1.right_stick_y) > .05 || (Math.abs(gamepad1.left_stick_y) > .05)) {
+//                startMotors(-gamepad1.right_stick_y * slowingFactor, -gamepad1.left_stick_y * slowingFactor);
+//            } else {
+//                stopMotors();
+//            }
+//        }
+//
+//        if (gamepad1.left_bumper) {
+//            pushersIn();
+//        }
+//
+//        if (gamepad1.right_bumper) {
+//            pushersOut();
+//        }
+
+//        if (gamepad1.a && reversed) {
+//
+//            reverse();
+//        }
 
         //Only run if not in endGame
         if (!endGame) {
-            
+
+//            if (gamepad1.dpad_down) {
+//                try {
+//                    balance();
+//                } catch (InterruptedException e) {
+//                }
+//            }
+
             if (!tank) {
                 //Code for mecanum drive when not reversed
                 if (((Math.abs(Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y))) > .1) ||
@@ -75,9 +141,35 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                 }
             }
 
+//            if (gamepad1.dpad_left){
+//                pushersOut();
+//                move(.8, 0, 3*Math.PI/2);
+//                try {
+//                    Thread.sleep(1650);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    stopMotors();
+//                }
+//
+//            }
+
             if (gamepad2.a) {
                 intakeSpin();
             }
+
+//            if (gamepad1.dpad_right){
+//                pushersOut();
+//                move(.8, 0, 3*Math.PI/2);
+//                try {
+//                    Thread.sleep(1850);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    stopMotors();
+//                }
+//
+//            }
 
             if (gamepad2.dpad_down) {
                 try {
@@ -175,6 +267,39 @@ public class PapaSmurfTeleOp extends PapaSmurfOpMode {
                     stopMotors();
                 }
             }
+
+//            if (gamepad2.right_trigger > .1) {
+//                relicOut(gamepad2.right_trigger);
+//            }
+//
+//            if (!(gamepad2.right_trigger > .1 || gamepad2.left_trigger > .1)) {
+//                relicStop();
+//            }
+//
+//            if (gamepad2.left_trigger > .1) {
+//
+//                relicIn(gamepad2.left_trigger);
+//            }
+//
+//            if (gamepad2.a) {
+//                shoulderDown();
+//            }
+//
+//            if (gamepad2.x) {
+//                shoulderMid();
+//            }
+//
+//            if (gamepad2.b) {
+//                shoulderUp();
+//            }
+//
+//            if (gamepad2.left_bumper) {
+//                openHand();
+//            }
+//
+//            if (gamepad2.right_bumper) {
+//                closeHand();
+//            }
 
             if (gamepad2.dpad_down) {
                 try {
