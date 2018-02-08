@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
+//Varun had a B in English, now he has a 90 so he's still trash. He's gonna lose to Ian.
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -17,12 +18,10 @@ import org.firstinspires.ftc.teamcode.Libraries.JewelArm;
 import org.firstinspires.ftc.teamcode.Libraries.SensorRR;
 
 /**
- * Created by Varun on 11/6/2017.
+ * Created by willi on 11/6/2017.
  */
 @Autonomous(name = "New Blue Auto", group = "LinearOpMode")
-
 public class NewBlueAuto extends LinearOpMode {
-    
     private GlyphScorer glyphScorer;
     private Drivetrain_Mecanum drivetrainM;
     private String version;
@@ -77,6 +76,7 @@ public class NewBlueAuto extends LinearOpMode {
         Thread.sleep(500);
 
         // Turn 90 degrees towards cryptobox
+
         drivetrainM.pid(.3, -90, .1, .01, .004, 0, 2, 2);
 
         if (sensors.getGyroYaw() < -95) {
@@ -85,9 +85,13 @@ public class NewBlueAuto extends LinearOpMode {
             drivetrainM.pid(.3, -90, .1, .02, .02, 0, 1, 3);
         }
 
+//        Thread.sleep(500);
+
         telemetry.update();
         // Drive towards cryptobox
         drivetrainM.movepid(.3, 2000, .1, .0005, .0005, 0, 25, 0, Math.PI /2, 5);
+
+//        Thread.sleep(500);
 
         runtime.reset();
 
@@ -103,7 +107,6 @@ public class NewBlueAuto extends LinearOpMode {
 
         runtime.reset();
 
-        // Strafe depending on pictograph reading
         if (vu == 1) {
 
             while((sensors.getDistanceR()) < 37 && (runtime.seconds() < 7)){
@@ -130,13 +133,17 @@ public class NewBlueAuto extends LinearOpMode {
         }
 
         Thread.sleep(500);
-
-       // Move forward and deposit
+//
+//        // Move forward and deposit
         drivetrainM.startMotors(-.3, -.3);
 
-        Thread.sleep(1300);
-
-       // Back up to park
+        Thread.sleep(600);
+//
+        glyphScorer.outputOut();
+//
+        Thread.sleep(700);
+//
+//        // Back up to park
         drivetrainM.startMotors(.3, .3);
 
         Thread.sleep(500);
@@ -159,6 +166,8 @@ public class NewBlueAuto extends LinearOpMode {
 
         drivetrainM.stopMotors();
     }
+
+
 
     private void composeTelemetry() {
         telemetry.addLine()
@@ -184,6 +193,20 @@ public class NewBlueAuto extends LinearOpMode {
                     @Override public String value() {
                         return "Time " + runtime.seconds();
                     }
+                });
+//
+//        telemetry.addLine()
+//                .addData("gyroPitch", new Func<String>() {
+//                    @Override public String value() {
+//                        return "gyro pitch: " + drivetrainM.sensor.getGyroPitch();
+//                    }
+////                });
+//        telemetry.addLine()
+//                .addData("gyroRoll", new Func<String>() {
+//                    @Override public String value() {
+//                        return "gyro roll: " + drivetrainM.sensor.getGyroRoll();
+//                    }
+//                });
         telemetry.addLine()
                 .addData("vuMark", new Func<String>() {
                     @Override public String value() {
@@ -224,7 +247,8 @@ public class NewBlueAuto extends LinearOpMode {
 
         //telemetry.addData(">", "Press Play to start");
         relicTrackables.activate();
-        
+
+        // copy pasta from the ftc ppl
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         ElapsedTime times = new ElapsedTime();
