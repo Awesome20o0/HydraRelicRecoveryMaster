@@ -61,6 +61,10 @@ public abstract class PapaSmurfOpMode extends OpMode {
     // To monitor current voltage
     double voltage = 0.0;
 
+
+    //For reversing which side is "forward" during the match
+//    boolean reversed = true;
+
     //To be accessed by the actual opMode
     double slowingFactor = 1;
     double powerL;
@@ -110,8 +114,16 @@ public abstract class PapaSmurfOpMode extends OpMode {
         hookR = hardwareMap.servo.get("hookR");
 
         shoulder1 = hardwareMap.servo.get("shoulder1");
-
+//        shoulder2 = hardwareMap.servo.get("shoulder2");
+////        wrist = hardwareMap.servo.get("wrist");
         hand = hardwareMap.servo.get("hand");
+
+
+//        pusherR = hardwareMap.servo.get("pushR");
+//        pusherL = hardwareMap.servo.get("pushL");
+
+        // jewelSensorLeft = opMode.hardwareMap.colorSensor.get("jewelSensorL");
+        // jewelSensorRight = opMode.hardwareMap.colorSensor.get("jewelSensorR");
 
         //REV Expansion Hub Gyro Code
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -136,6 +148,91 @@ public abstract class PapaSmurfOpMode extends OpMode {
         telemetry.update();
 
     }
+
+
+//    public void balance() throws InterruptedException {
+//
+//        double pitch = getGyroPitch();
+//        double roll = getGyroRoll();
+//
+//        //Push downwards on balancing stone
+//        pushersOut();
+//        Thread.sleep(500);
+//
+//        // Move forward
+//        startMotors(-.5, -.5);
+//        Thread.sleep(1000);
+//        pushersIn();
+//
+//        int quadrant = 1;
+//
+//        if(roll > 0 && pitch > 0) {
+//
+//            quadrant = 1;
+//        }
+//
+//        if(roll < 0 && pitch > 0) {
+//
+//            quadrant = 2;
+//        }
+//
+//        if(roll < 0 && pitch < 0) {
+//
+//            quadrant = 3;
+//        }
+//
+//        if(roll > 0 && pitch < 0) {
+//
+//            quadrant = 4;
+//        }
+//
+//        if (Math.abs(roll) < 3){
+//            if (pitch > 0){
+//                while (Math.abs(pitch) > 3){
+//                    startMotors(-.15, -.15);
+//                }
+//            }else {
+//                while (Math.abs(pitch) > 3){
+//                    startMotors(.15, .15);
+//                }
+//            }
+//        }
+//
+//        if (Math.abs(pitch) < 3){
+//            if (roll > 0){
+//                while (Math.abs(roll) > 3){
+//                    move(.15, 0, Math.PI/2);
+//                }
+//            }else {
+//                while (Math.abs(roll) > 3){
+//                    move(.15, 0, 0);
+//                }
+//            }
+//        }
+//        while((Math.abs(pitch) > 7) && (Math.abs(roll)  > 7)) {
+//
+//            double tangent = Math.atan(roll/pitch);
+//
+//            if(quadrant == 1) {
+//                move(.15, 0, (tangent - Math.PI));
+//
+//            } else if (quadrant == 2){
+//                move(.15, 0, tangent);
+//
+//            } else if (quadrant == 3){
+//                move(.15, 0, tangent);
+//
+//            } else if (quadrant == 4){
+//                move(.15, 0, (tangent - Math.PI));
+//            }
+//
+//        }
+//
+//    }
+
+//    public void hourUp() {
+//        hour.setPosition(-1);
+//    }
 
     public void hourAndGate() throws InterruptedException{
         armIn();
@@ -179,20 +276,37 @@ public abstract class PapaSmurfOpMode extends OpMode {
         motorFR.setPower(FR);
     }
 
+//    public void reverse() {
+//        reversed = !reversed;
+//    }
+
     public void startMotors(double r, double l) {
+//        if (reversed) {
+//            motorFL.setPower(l * slowingFactor);
+//            motorBL.setPower(l * slowingFactor);
+//            motorFR.setPower(-r * slowingFactor);
+//            motorBR.setPower(-r * slowingFactor);
+//        } else {
             motorFL.setPower(-l * slowingFactor);
             motorBL.setPower(-l * slowingFactor);
             motorFR.setPower(r * slowingFactor);
             motorBR.setPower(r * slowingFactor);
         }
-
+//    }
 
     public void startMotorsHalf(double r, double l) {
+//        if (reversed) {
+//            motorFL.setPower(l * .5 * slowingFactor);
+//            motorBL.setPower(l * .5 * slowingFactor);
+//            motorFR.setPower(-r * .5 * slowingFactor);
+//            motorBR.setPower(-r * .5 * slowingFactor);
+//        } else {
             motorFL.setPower(-l * .5 * slowingFactor);
             motorBL.setPower(-l * .5 * slowingFactor);
             motorFR.setPower(r * .5 * slowingFactor);
             motorBR.setPower(r * .5 * slowingFactor);
         }
+//    }
 
     public void stopMotors() {
         motorBL.setPower(0);
@@ -286,6 +400,38 @@ public abstract class PapaSmurfOpMode extends OpMode {
         omnipR.setPower(0);
         omnipL.setPower(0);
     }
+//
+//    public void relicOut(double power){
+////        relic.setPower(power);
+//    }
+//
+//    public void relicIn(double power){
+////        relic.setPower(-power);
+//    }
+//
+//    public void relicStop() {
+////        relic.setPower(0);
+//    }
+//
+//    public void shoulderDown(){
+//        shoulder1.setPosition(0);
+//    }
+//
+//    public void shoulderUp(){
+//        shoulder1.setPosition(1);
+//    }
+//
+//    public void shoulderMid() {
+//        shoulder1.setPosition(.65);
+//    }
+//
+//    public void closeHand(){
+//        hand.setPosition(-.5);
+//    }
+//
+//    public void openHand(){
+//        hand.setPosition(.5);
+//    }
 
     public void liftUp(double power){
         lift.setPower(power);
@@ -318,6 +464,17 @@ public abstract class PapaSmurfOpMode extends OpMode {
         Thread.sleep(100);
         hour.setPosition(0);
     }
+
+//    public void pushersOut(){
+//        pusherR.setPosition(-1);
+//        pusherL.setPosition(1);
+//    }
+//
+//    public void pushersIn(){
+//        pusherR.setPosition(1);
+//        pusherL.setPosition(-1);
+//    }
+
 
     public int getColorValue(){
         double colorVal = 0;
